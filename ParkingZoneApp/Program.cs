@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Parking_Zone.Data;
+using ParkingZoneApp.Data;
 
-namespace Parking_Zone
+namespace ParkingZoneApp
 {
     public class Program
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Parking_Zone.Data
+namespace ParkingZoneApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

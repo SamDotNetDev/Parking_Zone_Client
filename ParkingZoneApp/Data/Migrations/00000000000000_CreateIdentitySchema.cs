@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Parking_Zone.Data.Migrations
+namespace ParkingZoneApp.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

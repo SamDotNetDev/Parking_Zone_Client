@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-Parking_Zone-be55ee40-6ffb-4865-9169-9c4af3c5c1e3</UserSecretsId>
+    <UserSecretsId>aspnet-ParkingZoneApp-b35b26e2-d4f8-4889-982b-489d8ab874ee</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

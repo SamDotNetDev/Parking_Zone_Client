@@ -1,4 +1,4 @@
-namespace Parking_Zone.Models
+namespace ParkingZoneApp.Models
 {
     public class ErrorViewModel
     {
