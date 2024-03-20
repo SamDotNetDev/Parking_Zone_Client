@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ParkingZoneApp.Models;
 
 namespace ParkingZoneApp.Data
 {
@@ -9,5 +10,7 @@ namespace ParkingZoneApp.Data
             : base(options)
         {
         }
+
+        public DbSet<ParkingZoneModel> Parkin_Zone { get; set; }
     }
 }

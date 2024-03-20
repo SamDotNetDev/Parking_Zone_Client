@@ -1,0 +1,45 @@
+﻿@model ParkingZoneApp.Models.ParkingZoneModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ParkingZoneModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ParkingZoneId" />
+            <div class="form-group">
+                <label asp-for="ParkingZoneName" class="control-label">Name</label>
+                <input asp-for="ParkingZoneName" class="form-control" />
+                <span asp-validation-for="ParkingZoneName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adress" class="control-label">Address</label>
+                <input asp-for="Adress" class="form-control" />
+                <span asp-validation-for="Adress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkingZoneDateOfEstablishment" class="control-label">Creation time</label>
+                <input asp-for="ParkingZoneDateOfEstablishment" class="form-control" />
+                <span asp-validation-for="ParkingZoneDateOfEstablishment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
