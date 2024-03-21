@@ -12,7 +12,7 @@ using ParkingZoneApp.Data;
 namespace ParkingZoneApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320121009_ParkingZone")]
+    [Migration("20240321084845_ParkingZone")]
     partial class ParkingZone
     {
         /// <inheritdoc />
@@ -227,28 +227,28 @@ namespace ParkingZoneApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ParkingZoneApp.Models.ParkingZoneModel", b =>
+            modelBuilder.Entity("ParkingZoneApp.Models.ParkingZone", b =>
                 {
-                    b.Property<int>("ParkingZoneId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingZoneId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ParkingZoneDateOfEstablishment")
+                    b.Property<DateTime>("DateOfEstablishment")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ParkingZoneName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ParkingZoneId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Parkin_Zone");
+                    b.ToTable("ParkingZone");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

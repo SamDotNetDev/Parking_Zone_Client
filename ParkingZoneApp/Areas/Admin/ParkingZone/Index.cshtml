@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ParkingZoneApp.Models.ParkingZoneModel>
+﻿@model IEnumerable<ParkingZoneApp.Models.ParkingZone>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @using ParkingZoneApp.Areas.Admin.Controllers
@@ -37,21 +37,21 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ParkingZoneId)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ParkingZoneName)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Adress)
+                        @Html.DisplayFor(modelItem => item.Address)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ParkingZoneDateOfEstablishment)
+                        @Html.DisplayFor(modelItem => item.DateOfEstablishment)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ParkingZoneId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ParkingZoneId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ParkingZoneId">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

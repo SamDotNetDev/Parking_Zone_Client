@@ -22,7 +22,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         // GET: ParkingZone
         public async Task<IActionResult> Index()
         {
-            return View("~/Areas/Admin/ParkingZone/Index.cshtml", await _context.Parkin_Zone.ToListAsync());
+            return View("~/Areas/Admin/ParkingZone/Index.cshtml", await _context.ParkingZone.ToListAsync());
         }
 
         // GET: ParkingZone/Details/5
@@ -33,8 +33,8 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var parkingZoneModel = await _context.Parkin_Zone
-                .FirstOrDefaultAsync(m => m.ParkingZoneId == id);
+            var parkingZoneModel = await _context.ParkingZone
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (parkingZoneModel == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParkingZoneId,ParkingZoneName,Adress,ParkingZoneDateOfEstablishment")] ParkingZoneModel parkingZoneModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,DateOfEstablishment")] ParkingZone parkingZoneModel)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var parkingZoneModel = await _context.Parkin_Zone.FindAsync(id);
+            var parkingZoneModel = await _context.ParkingZone.FindAsync(id);
             if (parkingZoneModel == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParkingZoneId,ParkingZoneName,Adress,ParkingZoneDateOfEstablishment")] ParkingZoneModel parkingZoneModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,DateOfEstablishment")] ParkingZone parkingZoneModel)
         {
-            if (id != parkingZoneModel.ParkingZoneId)
+            if (id != parkingZoneModel.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ParkingZoneModelExists(parkingZoneModel.ParkingZoneId))
+                    if (!ParkingZoneModelExists(parkingZoneModel.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var parkingZoneModel = await _context.Parkin_Zone
-                .FirstOrDefaultAsync(m => m.ParkingZoneId == id);
+            var parkingZoneModel = await _context.ParkingZone
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (parkingZoneModel == null)
             {
                 return NotFound();
@@ -139,10 +139,10 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parkingZoneModel = await _context.Parkin_Zone.FindAsync(id);
+            var parkingZoneModel = await _context.ParkingZone.FindAsync(id);
             if (parkingZoneModel != null)
             {
-                _context.Parkin_Zone.Remove(parkingZoneModel);
+                _context.ParkingZone.Remove(parkingZoneModel);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
 
         private bool ParkingZoneModelExists(int id)
         {
-            return _context.Parkin_Zone.Any(e => e.ParkingZoneId == id);
+            return _context.ParkingZone.Any(e => e.Id == id);
         }
     }
 }

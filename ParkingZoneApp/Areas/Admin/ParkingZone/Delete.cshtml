@@ -1,4 +1,4 @@
-﻿@model ParkingZoneApp.Models.ParkingZoneModel
+﻿@model ParkingZoneApp.Models.ParkingZone
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
@@ -19,24 +19,24 @@
                 <label>Name</label>
             </dt>
             <dd class="col-sm-12">
-                @Html.DisplayFor(model => model.ParkingZoneName)
+                @Html.DisplayFor(model => model.Name)
             </dd>
             <dt class="col-sm-12">
                 <label>Address</label>
             </dt>
             <dd class="col-sm-12">
-                @Html.DisplayFor(model => model.Adress)
+                @Html.DisplayFor(model => model.Address)
             </dd>
             <dt class="col-sm-12">
                 <label>Creation time</label>
             </dt>
             <dd class="col-sm-12">
-                @Html.DisplayFor(model => model.ParkingZoneDateOfEstablishment)
+                @Html.DisplayFor(model => model.DateOfEstablishment)
             </dd>
         </dl>
 
         <form asp-action="Delete">
-            <input type="hidden" asp-for="ParkingZoneId" />
+            <input type="hidden" asp-for="Id" />
             <input type="submit" value="Delete" class="btn btn-danger" /> |
             <a asp-action="Index">Back to List</a>
         </form>

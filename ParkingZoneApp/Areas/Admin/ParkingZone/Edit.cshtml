@@ -1,4 +1,4 @@
-﻿@model ParkingZoneApp.Models.ParkingZoneModel
+﻿@model ParkingZoneApp.Models.ParkingZone
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @{
@@ -16,21 +16,21 @@
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ParkingZoneId" />
+                <input type="hidden" asp-for="Id" />
                 <div class="form-group">
-                    <label asp-for="ParkingZoneName" class="control-label">Name</label>
-                    <input asp-for="ParkingZoneName" class="form-control" />
-                    <span asp-validation-for="ParkingZoneName" class="text-danger"></span>
+                    <label asp-for="Name" class="control-label">Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Adress" class="control-label">Address</label>
-                    <input asp-for="Adress" class="form-control" />
-                    <span asp-validation-for="Adress" class="text-danger"></span>
+                    <label asp-for="Address" class="control-label">Address</label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ParkingZoneDateOfEstablishment" class="control-label">Creation time</label>
-                    <input asp-for="ParkingZoneDateOfEstablishment" class="form-control" />
-                    <span asp-validation-for="ParkingZoneDateOfEstablishment" class="text-danger"></span>
+                    <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
+                    <input asp-for="DateOfEstablishment" class="form-control" />
+                    <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />

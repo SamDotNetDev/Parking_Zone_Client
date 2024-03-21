@@ -12,18 +12,18 @@ namespace ParkingZoneApp.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Parkin_Zone",
+                name: "ParkingZone",
                 columns: table => new
                 {
-                    ParkingZoneId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParkingZoneName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParkingZoneDateOfEstablishment = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfEstablishment = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parkin_Zone", x => x.ParkingZoneId);
+                    table.PrimaryKey("PK_ParkingZone", x => x.Id);
                 });
         }
 
@@ -31,7 +31,7 @@ namespace ParkingZoneApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Parkin_Zone");
+                name: "ParkingZone");
         }
     }
 }

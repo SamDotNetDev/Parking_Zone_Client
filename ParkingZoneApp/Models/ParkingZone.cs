@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParkingZoneApp.Models
 {
-    public class ParkingZoneModel
+    [Table("ParkingZone")]
+    public class ParkingZone
     {
         [Key]
         [Required]
-        public int ParkingZoneId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string ParkingZoneName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public string Address { get; set; }
