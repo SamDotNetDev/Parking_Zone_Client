@@ -1,0 +1,45 @@
+﻿@model ParkingZoneApp.Models.ParkingZoneModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>Details</h1>
+
+    <div>
+        <h4>ParkingZoneModel</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-12">
+                <label>Name</label>
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.ParkingZoneName)
+            </dd>
+            <dt class="col-sm-12">
+                <label>Address</label>
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.Adress)
+            </dd>
+            <dt class="col-sm-12">
+                <label>Creation time</label>
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.ParkingZoneDateOfEstablishment)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.ParkingZoneId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <h1>User not signed in</h1>
+}

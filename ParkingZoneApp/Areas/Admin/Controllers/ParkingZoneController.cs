@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
 
-namespace ParkingZoneApp.Controllers
+namespace ParkingZoneApp.Areas.Admin.Controllers
 {
     public class ParkingZoneController : Controller
     {
@@ -22,7 +22,7 @@ namespace ParkingZoneApp.Controllers
         // GET: ParkingZone
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parkin_Zone.ToListAsync());
+            return View("~/Areas/Admin/ParkingZone/Index.cshtml", await _context.Parkin_Zone.ToListAsync());
         }
 
         // GET: ParkingZone/Details/5
@@ -40,13 +40,13 @@ namespace ParkingZoneApp.Controllers
                 return NotFound();
             }
 
-            return View(parkingZoneModel);
+            return View("~/Areas/Admin/ParkingZone/Details.cshtml", parkingZoneModel);
         }
 
         // GET: ParkingZone/Create
         public IActionResult Create()
         {
-            return View();
+            return View("~/Areas/Admin/ParkingZone/Create.cshtml");
         }
 
         // POST: ParkingZone/Create
@@ -62,7 +62,7 @@ namespace ParkingZoneApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(parkingZoneModel);
+            return View("~/Areas/Admin/ParkingZone/Create.cshtml", parkingZoneModel);
         }
 
         // GET: ParkingZone/Edit/5
@@ -78,7 +78,7 @@ namespace ParkingZoneApp.Controllers
             {
                 return NotFound();
             }
-            return View(parkingZoneModel);
+            return View("~/Areas/Admin/ParkingZone/Edit.cshtml", parkingZoneModel);
         }
 
         // POST: ParkingZone/Edit/5
@@ -113,7 +113,7 @@ namespace ParkingZoneApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(parkingZoneModel);
+            return View("~/Areas/Admin/ParkingZone/Edit.cshtml", parkingZoneModel);
         }
 
         // GET: ParkingZone/Delete/5
@@ -131,7 +131,7 @@ namespace ParkingZoneApp.Controllers
                 return NotFound();
             }
 
-            return View(parkingZoneModel);
+            return View("~/Areas/Admin/ParkingZone/Delete.cshtml", parkingZoneModel);
         }
 
         // POST: ParkingZone/Delete/5

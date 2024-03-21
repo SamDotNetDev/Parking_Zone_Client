@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<ParkingZoneApp.Models.ParkingZoneModel>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using ParkingZoneApp.Areas.Admin.Controllers
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
