@@ -12,10 +12,10 @@ namespace ParkingZoneApp.Models
         public string ParkingZoneName { get; set; }
 
         [Required]
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
         [Required]
-        public DateTime ParkingZoneDateOfEstablishment { get; set; }
+        public DateTime DateOfEstablishment { get; set; }
 
     }
 }
