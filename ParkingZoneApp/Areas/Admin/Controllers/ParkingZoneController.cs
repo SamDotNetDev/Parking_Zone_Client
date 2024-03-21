@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
 
 namespace ParkingZoneApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ParkingZoneController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +24,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         // GET: ParkingZone
         public async Task<IActionResult> Index()
         {
-            return View("~/Areas/Admin/ParkingZone/Index.cshtml", await _context.ParkingZone.ToListAsync());
+            return View(await _context.ParkingZone.ToListAsync());
         }
 
         // GET: ParkingZone/Details/5
@@ -40,13 +42,13 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View("~/Areas/Admin/ParkingZone/Details.cshtml", parkingZoneModel);
+            return View(parkingZoneModel);
         }
 
         // GET: ParkingZone/Create
         public IActionResult Create()
         {
-            return View("~/Areas/Admin/ParkingZone/Create.cshtml");
+            return View();
         }
 
         // POST: ParkingZone/Create
@@ -62,7 +64,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View("~/Areas/Admin/ParkingZone/Create.cshtml", parkingZoneModel);
+            return View(parkingZoneModel);
         }
 
         // GET: ParkingZone/Edit/5
@@ -78,7 +80,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View("~/Areas/Admin/ParkingZone/Edit.cshtml", parkingZoneModel);
+            return View(parkingZoneModel);
         }
 
         // POST: ParkingZone/Edit/5
@@ -113,7 +115,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View("~/Areas/Admin/ParkingZone/Edit.cshtml", parkingZoneModel);
+            return View(parkingZoneModel);
         }
 
         // GET: ParkingZone/Delete/5
@@ -131,7 +133,7 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View("~/Areas/Admin/ParkingZone/Delete.cshtml", parkingZoneModel);
+            return View(parkingZoneModel);
         }
 
         // POST: ParkingZone/Delete/5
