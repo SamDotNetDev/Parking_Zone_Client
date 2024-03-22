@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
+using ParkingZoneApp.Repositories;
 
 namespace ParkingZoneApp
 {
@@ -19,6 +20,8 @@ namespace ParkingZoneApp
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddTransient<IParkingZoneRepository, ParkingZoneRepository>();
 
             var app = builder.Build();
 

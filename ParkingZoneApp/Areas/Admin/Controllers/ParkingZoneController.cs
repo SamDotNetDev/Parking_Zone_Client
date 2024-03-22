@@ -33,6 +33,8 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Details/5
         public IActionResult Details(int id)
         {
+            if (id == 0) return NotFound();
+
             var ParkingZoneById = _repository.GetById(id);
             if (ParkingZoneById is not null)
             {
@@ -64,6 +66,8 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Edit/5
         public IActionResult Edit(int id)
         {
+            if (id == 0) return NotFound();
+
             var ParkingZoneById = _repository.GetById(id);
             if (ParkingZoneById is not null)
             {
@@ -77,6 +81,9 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, ParkingZone parkingZone)
         {
+            if (id != parkingZone.Id || !ParkingZoneExists(id)) 
+                return NotFound();
+
             if (ModelState.IsValid)
             {
                 _repository.Update(parkingZone);
@@ -103,6 +110,10 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!ParkingZoneExists(id)||id == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             _repository.Delete(id);
             _repository.Save();
             return RedirectToAction(nameof(Index));

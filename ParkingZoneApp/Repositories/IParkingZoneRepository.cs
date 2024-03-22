@@ -7,9 +7,7 @@ namespace ParkingZoneApp.Repositories
     {
         IEnumerable<ParkingZone> GetAll();
         ParkingZone GetById(int id);
-
         void Insert(ParkingZone parkingZone);
-
         void Update(ParkingZone parkingZone);
         void Delete(int id);
         void Save();
