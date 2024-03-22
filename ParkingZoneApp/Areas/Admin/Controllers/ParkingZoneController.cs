@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using ParkingZoneApp.Models;
 
 namespace ParkingZoneApp.Areas.Admin.Controllers
 {
+    [Authorize]
     [Area("Admin")]
     public class ParkingZoneController : Controller
     {
@@ -20,8 +22,8 @@ namespace ParkingZoneApp.Areas.Admin.Controllers
         {
             _context = context;
         }
-
         // GET: ParkingZone
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.ParkingZone.ToListAsync());
