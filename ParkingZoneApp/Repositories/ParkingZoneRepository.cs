@@ -7,14 +7,14 @@ using System.Data;
 
 namespace ParkingZoneApp.Repositories
 {
-    public class ParkingZoneRepository : IParkingZoneRepository
+    public class ParkingZoneRepository : IGenericParkingZoneRepository<ParkingZone>
     {
         private readonly ApplicationDbContext context;
         public ParkingZoneRepository(ApplicationDbContext _context)
         {
             context = _context;
         }
-        void IParkingZoneRepository.Delete(int id)
+        void IGenericParkingZoneRepository<ParkingZone>.Delete(int id)
         {
             var ParkingZoneInDb = context.ParkingZone.Find(id);
             if (ParkingZoneInDb != null)
@@ -23,34 +23,41 @@ namespace ParkingZoneApp.Repositories
             }
         }
 
-        IEnumerable<ParkingZone> IParkingZoneRepository.GetAll()
+        IEnumerable<ParkingZone> IGenericParkingZoneRepository<ParkingZone>.GetAll()
         {
             return context.ParkingZone;
         }
 
-        ParkingZone IParkingZoneRepository.GetById(int id)
+        ParkingZone IGenericParkingZoneRepository<ParkingZone>.GetById(int id)
         {
             return context.ParkingZone.Find(id);
         }
 
-        void IParkingZoneRepository.Insert(ParkingZone parkingZone)
+        void IGenericParkingZoneRepository<ParkingZone>.Insert(ParkingZone parkingZone)
         {
             parkingZone.DateOfEstablishment = DateTime.Now;
             context.Add(parkingZone);
         }
 
-        void IParkingZoneRepository.Save()
+        void IGenericParkingZoneRepository<ParkingZone>.Save()
         {
             context.SaveChangesAsync();
         }
 
-        void IParkingZoneRepository.Update(ParkingZone parkingZone)
+        void IGenericParkingZoneRepository<ParkingZone>.Update(ParkingZone parkingZone)
         {
             if (parkingZone.DateOfEstablishment > DateTime.Now)
             {
                 parkingZone.DateOfEstablishment = DateTime.Now;
             }
-            context.Entry(parkingZone).State = EntityState.Modified;
+            var res = context.ParkingZone.Find(parkingZone.Id);
+            if (res != null)
+            {
+                res.Name = parkingZone.Name;
+                res.Address = parkingZone.Address;
+                res.DateOfEstablishment = parkingZone.DateOfEstablishment;
+                context.Update(res);
+            }
         }
     }
 }

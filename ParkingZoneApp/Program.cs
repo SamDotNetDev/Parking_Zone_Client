@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
+using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 
 namespace ParkingZoneApp
@@ -21,7 +22,7 @@ namespace ParkingZoneApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddTransient<IParkingZoneRepository, ParkingZoneRepository>();
+            builder.Services.AddTransient<IGenericParkingZoneRepository<ParkingZone>, ParkingZoneRepository>();
 
             var app = builder.Build();
 
