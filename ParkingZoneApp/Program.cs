@@ -22,7 +22,7 @@ namespace ParkingZoneApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddTransient<IGenericParkingZoneRepository<ParkingZone>, ParkingZoneRepository>();
+            builder.Services.AddTransient<IGenericParkingZoneRepository<ParkingZone>, GenericParkingZoneRepository>();
 
             var app = builder.Build();
 

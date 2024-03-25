@@ -7,19 +7,20 @@ using System.Data;
 
 namespace ParkingZoneApp.Repositories
 {
-    public class ParkingZoneRepository : IGenericParkingZoneRepository<ParkingZone>
+    public class GenericParkingZoneRepository : IGenericParkingZoneRepository<ParkingZone>
     {
         private readonly ApplicationDbContext context;
-        public ParkingZoneRepository(ApplicationDbContext _context)
+        public GenericParkingZoneRepository(ApplicationDbContext _context)
         {
             context = _context;
         }
-        void IGenericParkingZoneRepository<ParkingZone>.Delete(int id)
+        void IGenericParkingZoneRepository<ParkingZone>.Delete(int? id)
         {
             var ParkingZoneInDb = context.ParkingZone.Find(id);
             if (ParkingZoneInDb != null)
             {
                 context.Remove(ParkingZoneInDb);
+                context.SaveChanges();
             }
         }
 
@@ -28,20 +29,17 @@ namespace ParkingZoneApp.Repositories
             return context.ParkingZone;
         }
 
-        ParkingZone IGenericParkingZoneRepository<ParkingZone>.GetById(int id)
+        ParkingZone IGenericParkingZoneRepository<ParkingZone>.GetById(int? id)
         {
+
             return context.ParkingZone.Find(id);
         }
 
         void IGenericParkingZoneRepository<ParkingZone>.Insert(ParkingZone parkingZone)
         {
             parkingZone.DateOfEstablishment = DateTime.Now;
-            context.Add(parkingZone);
-        }
-
-        void IGenericParkingZoneRepository<ParkingZone>.Save()
-        {
-            context.SaveChangesAsync();
+            context.AddAsync(parkingZone);
+            context.SaveChanges();
         }
 
         void IGenericParkingZoneRepository<ParkingZone>.Update(ParkingZone parkingZone)
@@ -50,6 +48,7 @@ namespace ParkingZoneApp.Repositories
             {
                 parkingZone.DateOfEstablishment = DateTime.Now;
             }
+
             var res = context.ParkingZone.Find(parkingZone.Id);
             if (res != null)
             {
@@ -57,6 +56,7 @@ namespace ParkingZoneApp.Repositories
                 res.Address = parkingZone.Address;
                 res.DateOfEstablishment = parkingZone.DateOfEstablishment;
                 context.Update(res);
+                context.SaveChanges();
             }
         }
     }

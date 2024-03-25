@@ -6,10 +6,9 @@ namespace ParkingZoneApp.Repositories
     public interface IGenericParkingZoneRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        T GetById(int id);
+        T GetById(int? id);
         void Insert(T parkingZone);
         void Update(T parkingZone);
-        void Delete(int id);
-        void Save();
+        void Delete(int? id);
     }
 }

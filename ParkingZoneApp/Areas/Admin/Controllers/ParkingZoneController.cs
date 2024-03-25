@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
@@ -31,17 +32,20 @@ namespace ParkingZoneApp.Areas.Admin
         }
 
         // GET: Admin/ParkingZone/Details/5
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-            if (id == 0) return NotFound();
-
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is not null)
+            if (id == null)
             {
-                return View(ParkingZoneById);
+                return NotFound();
             }
 
-            return NotFound();
+            var ParkingZoneById = _repository.GetById(id);
+            if (ParkingZoneById is null)
+            {
+                return NotFound();
+            }
+
+            return View(ParkingZoneById);
         }
 
         // GET: Admin/ParkingZone/Create
@@ -52,57 +56,69 @@ namespace ParkingZoneApp.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ParkingZone parkingZone)
+        async public Task<IActionResult> Create(ParkingZone parkingZone)
         {
             if (ModelState.IsValid)
             {
                 _repository.Insert(parkingZone);
-                _repository.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(parkingZone);
         }
 
         // GET: Admin/ParkingZone/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
-            if (id == 0) return NotFound();
-
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is not null)
+            if (id == null)
             {
-                return View(ParkingZoneById);
+                return NotFound();
             }
 
-            return NotFound();
+            var ParkingZoneById = _repository.GetById(id);
+            if (ParkingZoneById is null)
+            {
+                return NotFound();
+            }
+
+            return View(ParkingZoneById);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, ParkingZone parkingZone)
         {
-            if (id != parkingZone.Id || !ParkingZoneExists(id)) 
+            if (id != parkingZone.Id)
                 return NotFound();
 
             if (ModelState.IsValid)
             {
-                _repository.Update(parkingZone);
-                _repository.Save();
+                try
+                {
+                    _repository.Update(parkingZone);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ParkingZoneExists(parkingZone.Id))
+                        return NotFound();
+
+                    else throw;
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(parkingZone);
         }
 
         // GET: Admin/ParkingZone/Delete/5
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int? id)
         {
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is not null)
-            {
-                return View(ParkingZoneById);
-            }
+            if (id == null)
+                return NotFound();
 
-            return NotFound();
+            var ParkingZoneById = _repository.GetById(id);
+            if (ParkingZoneById is null)
+                return NotFound();
+
+            return View(ParkingZoneById);
         }
 
         // POST: Admin/ParkingZone/Delete/5
@@ -110,12 +126,7 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            if (!ParkingZoneExists(id)||id == 0)
-            {
-                return RedirectToAction(nameof(Index));
-            }
             _repository.Delete(id);
-            _repository.Save();
             return RedirectToAction(nameof(Index));
         }
 

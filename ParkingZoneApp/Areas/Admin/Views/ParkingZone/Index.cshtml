@@ -7,26 +7,76 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    }
+
+    .table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .table th,
+    .table td {
+        padding: 12px 15px;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3
+    }
+
+    .table tbody tr:last-of-type {
+        border-bottom: #009879;
+    }
+
+    .button-34 {
+        background: #006879;
+        border-radius: 999px;
+        box-shadow: #009879 0 10px 20px -10px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        opacity: 1;
+        outline: 0 solid transparent;
+        padding: 8px 18px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: fit-content;
+        word-break: break-word;
+        border: 0;
+    }
+</style>
+
 <h1>Admin Control Panel</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<button class="button-34" onclick="location.href='@Url.Action("Create","ParkingZone")'">Create New</button>
+
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                <h5><b>Id</b></h5>
-            </th>
-            <th>
-                <h5><b>Name</b></h5>
-            </th>
-            <th>
-                <h5><b>Address</b></h5>
-            </th>
-            <th>
-                <h5><b>Creation time</b></h5>
-            </th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Creation time</th>
             <th></th>
         </tr>
     </thead>
@@ -48,7 +98,7 @@
                     @Html.DisplayFor(modelItem => item.DateOfEstablishment)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>|
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
