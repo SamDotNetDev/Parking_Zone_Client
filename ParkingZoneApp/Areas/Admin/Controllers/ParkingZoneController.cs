@@ -56,7 +56,7 @@ namespace ParkingZoneApp.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        async public Task<IActionResult> Create(ParkingZone parkingZone)
+        public async Task<IActionResult> Create(ParkingZone parkingZone)
         {
             if (ModelState.IsValid)
             {
