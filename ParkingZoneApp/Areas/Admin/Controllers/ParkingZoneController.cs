@@ -17,9 +17,9 @@ namespace ParkingZoneApp.Areas.Admin
     [Area("Admin")]
     public class ParkingZoneController : Controller
     {
-        private readonly IGenericParkingZoneRepository<ParkingZone> _repository;
+        private readonly IParkingZoneRepository<ParkingZone> _repository;
 
-        public ParkingZoneController(IGenericParkingZoneRepository<ParkingZone> repository)
+        public ParkingZoneController(IParkingZoneRepository<ParkingZone> repository)
         {
             _repository = repository;
         }

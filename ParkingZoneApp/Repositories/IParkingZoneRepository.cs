@@ -3,12 +3,12 @@ using ParkingZoneApp.Models;
 
 namespace ParkingZoneApp.Repositories
 {
-    public interface IGenericParkingZoneRepository<T> where T : class
+    public interface IParkingZoneRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         T GetById(int? id);
-        void Insert(T parkingZone);
-        void Update(T parkingZone);
+        void Insert(T entity);
+        void Update(T entity);
         void Delete(int? id);
     }
 }
