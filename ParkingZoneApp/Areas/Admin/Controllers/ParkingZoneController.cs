@@ -134,6 +134,11 @@ namespace ParkingZoneApp.Areas.Admin
             if (id == null)
                 return NotFound();
 
+            if (id != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             _repository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
