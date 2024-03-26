@@ -17,9 +17,9 @@ namespace ParkingZoneApp.Areas.Admin
     [Area("Admin")]
     public class ParkingZoneController : Controller
     {
-        private readonly IRepository<ParkingZone> _repository;
+        private readonly IParkingZoneRepository _repository;
 
-        public ParkingZoneController(IRepository<ParkingZone> repository)
+        public ParkingZoneController(IParkingZoneRepository repository)
         {
             _repository = repository;
         }
@@ -129,8 +129,11 @@ namespace ParkingZoneApp.Areas.Admin
         // POST: Admin/ParkingZone/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int? id)
         {
+            if (id == null)
+                return NotFound();
+
             _repository.Delete(id);
             return RedirectToAction(nameof(Index));
         }

@@ -22,7 +22,7 @@ namespace ParkingZoneApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IRepository<ParkingZone>, ParkingZoneRepository>();
+            builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
 
             var app = builder.Build();
 
