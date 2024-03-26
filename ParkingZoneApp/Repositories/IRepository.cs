@@ -3,7 +3,7 @@ using ParkingZoneApp.Models;
 
 namespace ParkingZoneApp.Repositories
 {
-    public interface IParkingZoneRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         T GetById(int? id);

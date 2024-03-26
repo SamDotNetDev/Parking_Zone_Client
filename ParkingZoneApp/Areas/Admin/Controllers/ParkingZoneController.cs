@@ -17,9 +17,9 @@ namespace ParkingZoneApp.Areas.Admin
     [Area("Admin")]
     public class ParkingZoneController : Controller
     {
-        private readonly IParkingZoneRepository<ParkingZone> _repository;
+        private readonly IRepository<ParkingZone> _repository;
 
-        public ParkingZoneController(IParkingZoneRepository<ParkingZone> repository)
+        public ParkingZoneController(IRepository<ParkingZone> repository)
         {
             _repository = repository;
         }
@@ -60,6 +60,7 @@ namespace ParkingZoneApp.Areas.Admin
         {
             if (ModelState.IsValid)
             {
+                parkingZone.DateOfEstablishment = DateTime.Now;
                 _repository.Insert(parkingZone);
                 return RedirectToAction(nameof(Index));
             }
@@ -94,6 +95,10 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
+                    if(parkingZone.DateOfEstablishment > DateTime.Now)
+                    {
+                        parkingZone.DateOfEstablishment = DateTime.Now;
+                    }
                     _repository.Update(parkingZone);
                 }
                 catch (DbUpdateConcurrencyException)

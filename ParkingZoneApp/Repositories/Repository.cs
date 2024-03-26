@@ -5,7 +5,7 @@ using System;
 
 namespace ParkingZoneApp.Repositories
 {
-    public class Repository<T> : IParkingZoneRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _dbSet;
