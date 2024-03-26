@@ -7,7 +7,7 @@ using System.Data;
 
 namespace ParkingZoneApp.Repositories
 {
-    public class GenericParkingZoneRepository : Repository<ParkingZone>
+    public class GenericParkingZoneRepository : Repository<ParkingZone>,IParkingZoneRepository
     {
         public GenericParkingZoneRepository(ApplicationDbContext options)
             : base(options) { }
