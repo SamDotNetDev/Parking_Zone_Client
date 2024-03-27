@@ -15,16 +15,11 @@ namespace ParkingZoneApp.Repositories
             this._context = context;
             this._dbSet = _context.Set<T>();
         }
-        public void Delete(int? id)
+        public void Delete(T Entity)
         {
-            var entity = _dbSet.Find(id);
-            if (entity != null)
-            {
-                _dbSet.Remove(entity);
-                _context.SaveChanges();
-            }
+            _dbSet.Remove(Entity);
+            _context.SaveChanges();
         }
-
         public IEnumerable<T> GetAll()
         {
             return _dbSet;
