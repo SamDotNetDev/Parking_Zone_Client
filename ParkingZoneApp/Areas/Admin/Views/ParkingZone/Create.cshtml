@@ -24,19 +24,17 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateOfEstablishment" class="control-label"></label>
-                <input asp-for="DateOfEstablishment" class="form-control" />
+                <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
+                <input asp-for="DateOfEstablishment" class="form-control"/>
                 <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts 

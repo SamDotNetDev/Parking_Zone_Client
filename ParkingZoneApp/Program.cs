@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
+using ParkingZoneApp.Models;
+using ParkingZoneApp.Repositories;
 
 namespace ParkingZoneApp
 {
@@ -9,6 +11,8 @@ namespace ParkingZoneApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // luuk at results
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -19,6 +23,8 @@ namespace ParkingZoneApp
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
 
             var app = builder.Build();
 
