@@ -27,8 +27,8 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone
         public IActionResult Index()
         {
-            var AllParkingZone = _repository.GetAll().ToList();
-            return View(AllParkingZone);
+            var ParkingZone = _repository.GetAll().ToList();
+            return View(ParkingZone);
         }
 
         // GET: Admin/ParkingZone/Details/5
@@ -39,13 +39,13 @@ namespace ParkingZoneApp.Areas.Admin
                 return NotFound();
             }
 
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is null)
+            var ParkingZone = _repository.GetById(id);
+            if (ParkingZone is null)
             {
                 return NotFound();
             }
 
-            return View(ParkingZoneById);
+            return View(ParkingZone);
         }
 
         // GET: Admin/ParkingZone/Create
@@ -75,13 +75,13 @@ namespace ParkingZoneApp.Areas.Admin
                 return NotFound();
             }
 
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is null)
+            var ParkingZone = _repository.GetById(id);
+            if (ParkingZone is null)
             {
                 return NotFound();
             }
 
-            return View(ParkingZoneById);
+            return View(ParkingZone);
         }
 
         [HttpPost]
@@ -95,10 +95,6 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
-                    if(parkingZone.DateOfEstablishment > DateTime.Now)
-                    {
-                        parkingZone.DateOfEstablishment = DateTime.Now;
-                    }
                     _repository.Update(parkingZone);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -119,11 +115,11 @@ namespace ParkingZoneApp.Areas.Admin
             if (id == null)
                 return NotFound();
 
-            var ParkingZoneById = _repository.GetById(id);
-            if (ParkingZoneById is null)
+            var ParkingZone = _repository.GetById(id);
+            if (ParkingZone is null)
                 return NotFound();
 
-            return View(ParkingZoneById);
+            return View(ParkingZone);
         }
 
         // POST: Admin/ParkingZone/Delete/5
@@ -134,15 +130,15 @@ namespace ParkingZoneApp.Areas.Admin
             if (id == null)
                 return NotFound();
 
-            var ParkingZoneById = _repository.GetById(id);
-            _repository.Delete(ParkingZoneById);
+            var ParkingZone = _repository.GetById(id);
+            _repository.Delete(ParkingZone);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ParkingZoneExists(int id)
         {
-            var ParkingZoneById = _repository.GetById(id);
-            return true ? ParkingZoneById != null : false;
+            var ParkingZone = _repository.GetById(id);
+            return true ? ParkingZone != null : false;
         }
     }
 }
