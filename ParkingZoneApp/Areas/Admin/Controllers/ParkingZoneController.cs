@@ -96,7 +96,7 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
-                    _service.Update(id,parkingZone);
+                    _service.Update(parkingZone);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -132,7 +132,7 @@ namespace ParkingZoneApp.Areas.Admin
                 return NotFound();
 
             var ParkingZone = _service.GetById(id);
-            _service.Delete(ParkingZone.Id);
+            _service.Delete(ParkingZone);
             return RedirectToAction(nameof(Index));
         }
 
