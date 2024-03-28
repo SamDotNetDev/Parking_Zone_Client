@@ -1,65 +1,41 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
+using ParkingZoneApp.Repositories;
 using SQLitePCL;
 
 namespace ParkingZoneApp.Services
 {
     public class Service<T> : IService<T> where T : class
     {
-        protected readonly ApplicationDbContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly IRepository<T> _repository;
 
-        public Service(ApplicationDbContext context)
+        public Service(IRepository<T> repository)
         {
-            this._context = context;
-            this._dbSet = _context.Set<T>();
+            this._repository = repository;
         }
         public void Delete(T entity)
         {
-            _dbSet.Remove(entity);
-            _context.SaveChanges();
+            _repository.Delete(entity);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _dbSet;
+            return _repository.GetAll();
         }
 
         public T GetById(int? id)
         {
-            return _dbSet.Find(id);
+            return _repository.GetById(id);
         }
 
         public void Insert(T entity)
         {
-            _dbSet.AddAsync(entity);
-            _context.SaveChanges();
+            _repository.Insert(entity);
         }
 
         public void Update(T entity)
         {
-            _context.Update(entity);
-            _context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _repository.Update(entity);
         }
     }
 }

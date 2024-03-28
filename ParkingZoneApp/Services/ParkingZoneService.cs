@@ -6,7 +6,7 @@ namespace ParkingZoneApp.Services
 {
     public class ParkingZoneService : Service<ParkingZone>, IParkingZoneService
     {
-        public ParkingZoneService(ApplicationDbContext options)
+        public ParkingZoneService(IRepository<ParkingZone> options)
             :base(options) { }
     }
 }
