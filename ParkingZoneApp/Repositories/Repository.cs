@@ -1,7 +1,5 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
-using System;
 
 namespace ParkingZoneApp.Repositories
 {
@@ -12,14 +10,16 @@ namespace ParkingZoneApp.Repositories
 
         public Repository(ApplicationDbContext context)
         {
-            this._context = context;
-            this._dbSet = _context.Set<T>();
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
+
         public void Delete(T Entity)
         {
             _dbSet.Remove(Entity);
             _context.SaveChanges();
         }
+
         public IEnumerable<T> GetAll()
         {
             return _dbSet;
@@ -32,7 +32,7 @@ namespace ParkingZoneApp.Repositories
 
         public void Insert(T entity)
         {
-            _dbSet.AddAsync(entity);
+            _dbSet.Add(entity);
             _context.SaveChanges();
         }
 
@@ -40,24 +40,6 @@ namespace ParkingZoneApp.Repositories
         {
             _context.Update(entity);
             _context.SaveChanges();
-        }
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }
