@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
+using ParkingZoneApp.Services;
 
 namespace ParkingZoneApp
 {
@@ -24,7 +25,11 @@ namespace ParkingZoneApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
             builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
+
+            builder.Services.AddScoped<IParkingZoneService, ParkingZoneService>();
 
             var app = builder.Build();
 
