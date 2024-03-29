@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
-using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
-using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
 
 namespace ParkingZoneApp.Areas.Admin

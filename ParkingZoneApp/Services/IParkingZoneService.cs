@@ -2,8 +2,7 @@
 
 namespace ParkingZoneApp.Services
 {
-    public interface IParkingZoneService
-        :IService<ParkingZone>
+    public interface IParkingZoneService : IService<ParkingZone>
     {
     }
 }

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ParkingZoneApp.Data;
-using ParkingZoneApp.Repositories;
-using SQLitePCL;
+﻿using ParkingZoneApp.Repositories;
 
 namespace ParkingZoneApp.Services
 {
@@ -11,7 +8,7 @@ namespace ParkingZoneApp.Services
 
         public Service(IRepository<T> repository)
         {
-            this._repository = repository;
+            _repository = repository;
         }
         public void Delete(T entity)
         {
