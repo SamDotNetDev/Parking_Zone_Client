@@ -1,7 +1,4 @@
-﻿using ParkingZoneApp.Data;
-using ParkingZoneApp.Models;
-
-namespace ParkingZoneApp.Repositories
+﻿namespace ParkingZoneApp.Repositories
 {
     public interface IRepository<T> where T : class
     {

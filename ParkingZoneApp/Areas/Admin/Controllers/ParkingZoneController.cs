@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
-using ParkingZoneApp.Data;
 using ParkingZoneApp.Models;
-using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
 
 namespace ParkingZoneApp.Areas.Admin
@@ -28,25 +20,20 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone
         public IActionResult Index()
         {
-            var ParkingZone = _service.GetAll().ToList();
-            return View(ParkingZone);
+            var parkingZones = _service.GetAll();
+            return View(parkingZones);
         }
 
         // GET: Admin/ParkingZone/Details/5
         public IActionResult Details(int? id)
         {
-            if (id == null)
+            var parkingZone = _service.GetById(id);
+            if (parkingZone is null)
             {
                 return NotFound();
             }
 
-            var ParkingZone = _service.GetById(id);
-            if (ParkingZone is null)
-            {
-                return NotFound();
-            }
-
-            return View(ParkingZone);
+            return View(parkingZone);
         }
 
         // GET: Admin/ParkingZone/Create
@@ -57,7 +44,7 @@ namespace ParkingZoneApp.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ParkingZone parkingZone)
+        public IActionResult Create(ParkingZone parkingZone)
         {
             if (ModelState.IsValid)
             {
@@ -71,18 +58,13 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
+            var parkingZone = _service.GetById(id);
+            if (parkingZone is null)
             {
                 return NotFound();
             }
 
-            var ParkingZone = _service.GetById(id);
-            if (ParkingZone is null)
-            {
-                return NotFound();
-            }
-
-            return View(ParkingZone);
+            return View(parkingZone);
         }
 
         [HttpPost]
@@ -90,7 +72,9 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Edit(int id, ParkingZone parkingZone)
         {
             if (id != parkingZone.Id)
+            {
                 return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -113,14 +97,13 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Delete/5
         public IActionResult Delete(int? id)
         {
-            if (id == null)
+            var parkingZone = _service.GetById(id);
+            if (parkingZone is null)
+            {
                 return NotFound();
+            }
 
-            var ParkingZone = _service.GetById(id);
-            if (ParkingZone is null)
-                return NotFound();
-
-            return View(ParkingZone);
+            return View(parkingZone);
         }
 
         // POST: Admin/ParkingZone/Delete/5
@@ -128,11 +111,13 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int? id)
         {
-            if (id == null)
+            var existingParkingZone = _service.GetById(id);
+            if (existingParkingZone is null)
+            {
                 return NotFound();
+            }
 
-            var ParkingZone = _service.GetById(id);
-            _service.Delete(ParkingZone);
+            _service.Delete(existingParkingZone);
             return RedirectToAction(nameof(Index));
         }
 
