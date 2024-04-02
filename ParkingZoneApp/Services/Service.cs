@@ -10,7 +10,7 @@ namespace ParkingZoneApp.Services
         {
             _repository = repository;
         }
-        public virtual void Delete(T entity)
+        public void Delete(T entity)
         {
             _repository.Delete(entity);
         }
@@ -20,7 +20,7 @@ namespace ParkingZoneApp.Services
             return _repository.GetAll();
         }
 
-        public virtual T GetById(int? id)
+        public T GetById(int? id)
         {
             return _repository.GetById(id);
         }
@@ -30,7 +30,7 @@ namespace ParkingZoneApp.Services
             _repository.Insert(entity);
         }
 
-        public virtual void Update(T entity)
+        public void Update(T entity)
         {
             _repository.Update(entity);
         }
