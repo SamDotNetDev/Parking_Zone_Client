@@ -12,7 +12,7 @@ namespace ParkingZoneApp.ViewModels
             return new Models.ParkingZone
             {
                 Name = this.Name,
-                Address = this.Address,
+                Address = this.Address
             };
         }
     }

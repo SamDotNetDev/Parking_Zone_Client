@@ -1,4 +1,4 @@
-﻿@model ParkingZoneApp.Models.ParkingZone
+﻿@model ParkingZoneApp.ViewModels.DetailsVM
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @{
@@ -24,12 +24,12 @@
         <dd class="col-sm-12">
             @Html.DisplayFor(model => model.Address)
         </dd>
-        <dt class="col-sm-12">
+        @* <dt class="col-sm-12">
             <label>Creation time</label>
         </dt>
         <dd class="col-sm-12">
             @Html.DisplayFor(model => model.DateOfEstablishment)
-        </dd>
+        </dd> *@
     </dl>
 </div>
 <div>

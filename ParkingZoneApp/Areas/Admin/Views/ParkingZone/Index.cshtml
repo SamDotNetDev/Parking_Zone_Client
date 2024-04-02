@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ParkingZoneApp.Models.ParkingZone>
+﻿@model ParkingZoneApp.ViewModels.IndexVM
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
@@ -80,7 +80,7 @@
     </thead>
 
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.ParkingZones)
         {
             <tr>
                 <td>

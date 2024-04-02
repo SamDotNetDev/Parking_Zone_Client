@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels;
@@ -23,7 +22,7 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index()
         {
             var parkingZones = _service.GetAll();
-            return View(parkingZones);
+            return View(new IndexVM().MapToModel(parkingZones));
         }
 
         // GET: Admin/ParkingZone/Details/5
@@ -34,8 +33,8 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-
-            return View(parkingZone);
+            
+            return View(new DetailsVM().MapToModel(parkingZone));
         }
 
         // GET: Admin/ParkingZone/Create
@@ -65,8 +64,7 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-
-            return View(parkingZone);
+            return View(new EditVM().MapToModel(parkingZone));
         }
 
         [HttpPost]
@@ -93,7 +91,7 @@ namespace ParkingZoneApp.Areas.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(parkingZone);
+            return View(new EditVM().MapToModel(parkingZone));
         }
 
         // GET: Admin/ParkingZone/Delete/5
@@ -104,8 +102,7 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-
-            return View(parkingZone);
+            return View(new DeleteVM().MapToModel(parkingZone));
         }
 
         // POST: Admin/ParkingZone/Delete/5
