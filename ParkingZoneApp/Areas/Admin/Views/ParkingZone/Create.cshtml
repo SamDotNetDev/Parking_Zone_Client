@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-@model ParkingZoneApp.Models.ParkingZone
+@model ParkingZoneApp.ViewModels.CreateVM
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,11 +23,11 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
                 <input asp-for="DateOfEstablishment" class="form-control"/>
                 <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
-            </div>
+            </div> *@
             <br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

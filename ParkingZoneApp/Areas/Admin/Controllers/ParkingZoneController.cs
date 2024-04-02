@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
+using ParkingZoneApp.ViewModels;
 
 namespace ParkingZoneApp.Areas.Admin
 {
@@ -44,15 +46,15 @@ namespace ParkingZoneApp.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ParkingZone parkingZone)
+        public IActionResult Create(CreateVM VM)
         {
             if (ModelState.IsValid)
             {
-                parkingZone.DateOfEstablishment = DateTime.Now;
+                var parkingZone = VM.MapToModel();
                 _service.Insert(parkingZone);
                 return RedirectToAction(nameof(Index));
             }
-            return View(parkingZone);
+            return View(VM);
         }
 
         // GET: Admin/ParkingZone/Edit/5

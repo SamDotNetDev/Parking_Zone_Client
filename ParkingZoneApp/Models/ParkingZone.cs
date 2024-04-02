@@ -17,7 +17,7 @@ namespace ParkingZoneApp.Models
         public string Address { get; set; }
 
         [Required]
-        public DateTime DateOfEstablishment { get; set; } = DateTime.Now;
+        public DateTime DateOfEstablishment { get; set; }
 
     }
 }
