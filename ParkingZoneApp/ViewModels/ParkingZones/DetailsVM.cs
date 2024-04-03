@@ -1,7 +1,6 @@
-﻿
-using ParkingZoneApp.Models;
+﻿using ParkingZoneApp.Models;
 
-namespace ParkingZoneApp.ViewModels
+namespace ParkingZoneApp.ViewModels.ParkingZones
 {
     public class DetailsVM
     {
@@ -9,7 +8,7 @@ namespace ParkingZoneApp.ViewModels
         public string Name { get; set; }
         public string Address { get; set; }
 
-        public DetailsVM MapToModel(ParkingZone parkingZone)
+        public DetailsVM MapToVM(ParkingZone parkingZone)
         {
             return new DetailsVM
             {

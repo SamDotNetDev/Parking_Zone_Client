@@ -1,14 +1,14 @@
 ﻿using ParkingZoneApp.Models;
 
-namespace ParkingZoneApp.ViewModels
+namespace ParkingZoneApp.ViewModels.ParkingZones
 {
-    public class IndexVM
+    public class ListItemVM
     {
         public IEnumerable<ParkingZone> ParkingZones { get; set; }
 
-        public IndexVM MapToModel(IEnumerable<ParkingZone> parkingZones)
+        public ListItemVM MapToVM(IEnumerable<ParkingZone> parkingZones)
         {
-            return new IndexVM
+            return new ListItemVM
             {
                 ParkingZones = parkingZones
             };

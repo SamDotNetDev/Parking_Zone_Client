@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
-using ParkingZoneApp.ViewModels;
+using ParkingZoneApp.ViewModels.ParkingZones;
 
 namespace ParkingZoneApp.Areas.Admin
 {
@@ -22,7 +21,8 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index()
         {
             var parkingZones = _service.GetAll();
-            return View(new IndexVM().MapToModel(parkingZones));
+            var VM = new ListItemVM().MapToVM(parkingZones);
+            return View(VM);
         }
 
         // GET: Admin/ParkingZone/Details/5
@@ -33,8 +33,8 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-            
-            return View(new DetailsVM().MapToModel(parkingZone));
+            var VM = new DetailsVM().MapToVM(parkingZone);
+            return View(VM);
         }
 
         // GET: Admin/ParkingZone/Create
@@ -64,14 +64,15 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-            return View(new EditVM().MapToModel(parkingZone));
+            var VM = new EditVM().MapToVM(parkingZone);
+            return View(VM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, ParkingZone parkingZone)
+        public IActionResult Edit(int id, EditVM VM)
         {
-            if (id != parkingZone.Id)
+            if (id != VM.Id)
             {
                 return NotFound();
             }
@@ -80,18 +81,19 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
-                    _service.Update(parkingZone);
+                    var ParkingZone = VM.MapToModel(VM);
+                    _service.Update(ParkingZone);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ParkingZoneExists(parkingZone.Id))
+                    if (!ParkingZoneExists(VM.Id))
                         return NotFound();
 
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(new EditVM().MapToModel(parkingZone));
+            return View();
         }
 
         // GET: Admin/ParkingZone/Delete/5
@@ -102,7 +104,7 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-            return View(new DeleteVM().MapToModel(parkingZone));
+            return View(parkingZone);
         }
 
         // POST: Admin/ParkingZone/Delete/5
