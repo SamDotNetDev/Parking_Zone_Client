@@ -33,7 +33,7 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 return NotFound();
             }
-            var VM = new DetailsVM().MapToVM(parkingZone);
+            var VM = new DetailsVM(parkingZone);
             return View(VM);
         }
 
