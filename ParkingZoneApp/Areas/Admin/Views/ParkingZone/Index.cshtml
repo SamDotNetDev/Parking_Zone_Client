@@ -1,4 +1,4 @@
-﻿@model ParkingZoneApp.ViewModels.ParkingZones.ListItemVM
+﻿@model IEnumerable<ParkingZoneApp.ViewModels.ParkingZones.ListItemVM>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
@@ -71,16 +71,16 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Creation time</th>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Address)</th>
+            <th>@Html.DisplayNameFor(model => model.DateOfEstablishment)</th>
             <th></th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var item in Model.ParkingZones)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>

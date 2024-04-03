@@ -4,13 +4,19 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
 {
     public class ListItemVM
     {
-        public IEnumerable<ParkingZone> ParkingZones { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public DateTime DateOfEstablishment { get; set; }
 
-        public ListItemVM MapToVM(IEnumerable<ParkingZone> parkingZones)
+        public ListItemVM MapToVM(ParkingZone parkingZone)
         {
             return new ListItemVM
             {
-                ParkingZones = parkingZones
+                Id = parkingZone.Id,
+                Name = parkingZone.Name,
+                Address = parkingZone.Address,
+                DateOfEstablishment = parkingZone.DateOfEstablishment
             };
         }
     }
