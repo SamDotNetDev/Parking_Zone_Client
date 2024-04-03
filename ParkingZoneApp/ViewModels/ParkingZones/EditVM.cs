@@ -4,6 +4,17 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
 {
     public class EditVM
     {
+        public EditVM()
+        {
+            
+        }
+        public EditVM(ParkingZone parkingZone)
+        {
+            Id = parkingZone.Id;
+            Name = parkingZone.Name;
+            Address = parkingZone.Address;
+            DateOfEstablishment = parkingZone.DateOfEstablishment;   
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
@@ -17,16 +28,6 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
                 Name = VM.Name,
                 Address = VM.Address,
                 DateOfEstablishment = VM.DateOfEstablishment
-            };
-        }
-        public EditVM MapToVM(ParkingZone parkingZone)
-        {
-            return new EditVM
-            {
-                Id = parkingZone.Id,
-                Name = parkingZone.Name,
-                Address = parkingZone.Address,
-                DateOfEstablishment = parkingZone.DateOfEstablishment
             };
         }
     }
