@@ -25,7 +25,7 @@ namespace ParkingZoneApp.Services
             return _repository.GetById(id);
         }
 
-        public void Insert(T entity)
+        public virtual void Insert(T entity)
         {
             _repository.Insert(entity);
         }

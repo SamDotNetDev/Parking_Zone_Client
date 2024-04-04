@@ -1,4 +1,4 @@
-﻿@model ParkingZoneApp.Models.ParkingZone
+﻿@model ParkingZoneApp.ViewModels.ParkingZones.EditVM
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @{
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
-                <input asp-for="DateOfEstablishment" class="form-control" />
+                <input asp-for="DateOfEstablishment" class="form-control"/>
                 <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
             </div>
             <br>

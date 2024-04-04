@@ -1,6 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@model ParkingZoneApp.ViewModels.ParkingZones.CreateVM
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-@model ParkingZoneApp.Models.ParkingZone
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,11 +22,6 @@
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
-                <input asp-for="DateOfEstablishment" class="form-control"/>
-                <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group">
