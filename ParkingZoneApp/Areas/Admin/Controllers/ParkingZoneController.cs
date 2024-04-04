@@ -21,7 +21,7 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index()
         {
             var parkingZones = _service.GetAll();
-            var Vms = new ListItemVM().VMs(parkingZones);
+            var Vms = parkingZones.Select(x => new ListItemVM(x));
             return View(Vms);
         }
 
