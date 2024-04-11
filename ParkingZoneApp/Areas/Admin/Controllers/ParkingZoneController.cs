@@ -125,7 +125,7 @@ namespace ParkingZoneApp.Areas.Admin
         private bool ParkingZoneExists(int id)
         {
             var ParkingZone = _service.GetById(id);
-            return true ? ParkingZone != null : false;
+            return ParkingZone != null;
         }
     }
 }
