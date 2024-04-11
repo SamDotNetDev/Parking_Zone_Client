@@ -6,17 +6,18 @@ using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using System.Text.Json;
 
 namespace ParkingZoneTest.Services
 {
-    public class ParkingZoneTests
+    public class ParkingZoneServiceTests
     {
         private readonly Mock<IParkingZoneRepository> _repository;
         private readonly IParkingZoneService _service;
         private readonly ParkingZone _ParkingZoneTest;
         private readonly int Id = 1;
 
-        public ParkingZoneTests()
+        public ParkingZoneServiceTests()
         {
             _repository = new Mock<IParkingZoneRepository>();
             _service = new ParkingZoneService(_repository.Object);
@@ -78,8 +79,8 @@ namespace ParkingZoneTest.Services
         [Fact]
         public void GivenNothing_WhenGetAllIsCalled_ThenRepositoryGetAllIsCalled()
         {
-            var parkingZones = new List<ParkingZone>();
             // Arrange
+            var parkingZones = new List<ParkingZone>();
             _repository.Setup(repo => repo.GetAll()).Returns(parkingZones);
 
             // Act
@@ -103,8 +104,9 @@ namespace ParkingZoneTest.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<ParkingZone>(result);
+            var model = Assert.IsType<ParkingZone>(result);
             _repository.Verify(x => x.GetById(Id), Times.Once());
+            Assert.Equal(JsonSerializer.Serialize(_ParkingZoneTest), JsonSerializer.Serialize(model));
         }
         #endregion
     }

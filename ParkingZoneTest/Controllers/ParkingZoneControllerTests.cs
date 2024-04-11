@@ -15,14 +15,14 @@ using System.Xml.Serialization;
 
 namespace ParkingZoneTest.Controllers
 {
-    public class ParkingZoneTests
+    public class ParkingZoneControllerTests
     {
         private readonly Mock<IParkingZoneService> _service;
         private readonly ParkingZoneController _controller;
         private readonly ParkingZone _parkingZoneTest;
         private readonly int Id = 1;
 
-        public ParkingZoneTests()
+        public ParkingZoneControllerTests()
         {
             _service = new Mock<IParkingZoneService>();
             _controller = new ParkingZoneController(_service.Object);
@@ -39,6 +39,7 @@ namespace ParkingZoneTest.Controllers
         public void GivenNothing_WhenIndexIsCalled_ThenReturnsViewResult()
         {
             //Arrange
+            var expectedVMs = new List<ListItemVM>() {new (_parkingZoneTest) };
             var expectedParkingZones = new List<ParkingZone>() { _parkingZoneTest };
 
             _service.Setup(x => x.GetAll()).Returns(expectedParkingZones);
@@ -48,9 +49,8 @@ namespace ParkingZoneTest.Controllers
 
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
-            Assert.IsType<ViewResult>(result);
             _service.Verify(x => x.GetAll(), Times.Once);
-            Assert.Equal(JsonSerializer.Serialize(expectedParkingZones), JsonSerializer.Serialize(model));
+            Assert.Equal(JsonSerializer.Serialize(expectedVMs), JsonSerializer.Serialize(model));
             Assert.NotNull(result);
         }
         #endregion
@@ -75,7 +75,6 @@ namespace ParkingZoneTest.Controllers
             var model = Assert.IsType<ViewResult>(viewresult).Model;
             Assert.NotNull(viewresult);
             Assert.IsType<DetailsVM>(model);
-            Assert.IsAssignableFrom<DetailsVM>(model);
             _service.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(ExpectedVM), JsonSerializer.Serialize(model));
         }
@@ -109,13 +108,14 @@ namespace ParkingZoneTest.Controllers
             Assert.IsType<ViewResult>(viewresult);
         }
 
-        [Fact]
-        public void GivenViewModel_WhenCreateIsCalledToPost_ThenModelStateIsFalseReturnsVM()
+        [Theory]
+        [InlineData("Name","Required")]
+        [InlineData("Address","Required")]
+        public void GivenCreateViewModel_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM(string key,string errorMessage)
         {
             //Arrange
             CreateVM createVM = new();
-            _controller.ModelState.AddModelError("Name", "Required");
-            _controller.ModelState.AddModelError("Address", "Required");
+            _controller.ModelState.AddModelError(key, errorMessage);
 
             //Act
             var result = _controller.Create(createVM);
@@ -128,7 +128,7 @@ namespace ParkingZoneTest.Controllers
         }
 
         [Fact]
-        public void GivenViewModel_WhenCreateIsCalled_ThenModelStateIsTrueReturnsRedirectToAction()
+        public void GivenCreateVM_WhenCreateIsCalled_ThenModelStateIsTrueAndReturnsRedirectToAction()
         {
             //Arrange
             CreateVM createVM = new();
@@ -140,7 +140,7 @@ namespace ParkingZoneTest.Controllers
             //Assert
             var result = Assert.IsType<RedirectToActionResult>(redirectResult);
             Assert.True(_controller.ModelState.IsValid);
-            _service.Verify(x=>x.Insert(It.IsAny<ParkingZone>()), Times.Once);
+            _service.Verify(x=> x.Insert(It.IsAny<ParkingZone>()), Times.Once);
         }
         #endregion
 
@@ -169,7 +169,7 @@ namespace ParkingZoneTest.Controllers
                 Name = "Test",
                 Address = "Test Address"
             };
-            _service.Setup(x=>x.GetById(Id)).Returns(_parkingZoneTest);
+            _service.Setup(x=> x.GetById(Id)).Returns(_parkingZoneTest);
 
             //Act
             var result = _controller.Edit(Id);
@@ -178,7 +178,7 @@ namespace ParkingZoneTest.Controllers
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(ExpectedVM), JsonSerializer.Serialize(model));
-            _service.Verify(x=>x.GetById(Id), Times.Once);
+            _service.Verify(x=> x.GetById(Id), Times.Once);
         }
 
         [Fact]
@@ -195,10 +195,10 @@ namespace ParkingZoneTest.Controllers
         }
 
         [Fact]
-        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsTrueReturnsRedirectToAction()
+        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsTrueAndReturnsRedirectToAction()
         {
             //Arrange
-            EditVM editVM = new() { Id = Id};
+            EditVM editVM = new() { Id = Id };
 
             //Act
             var result = _controller.Edit(Id, editVM);
@@ -208,14 +208,15 @@ namespace ParkingZoneTest.Controllers
             Assert.True(_controller.ModelState.IsValid);
         }
 
-        [Fact]
-        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseReturnsView()
+        [Theory]
+        [InlineData("Name","Required")]
+        [InlineData("Address","Required")]
+        [InlineData("DateOfEstablishment", "Required")]
+        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsView(string key, string errorMessage)
         {
             //Arrange
-            EditVM editVM = new() { Id=Id};
-            _controller.ModelState.AddModelError("Name", "Required");
-            _controller.ModelState.AddModelError("Address", "Required");
-            _controller.ModelState.AddModelError("DateOfEstablishment", "Required");
+            EditVM editVM = new() { Id=Id };
+            _controller.ModelState.AddModelError(key, errorMessage);
 
             //Act
             var result = _controller.Edit(Id, editVM);
