@@ -8,6 +8,7 @@ using ParkingZoneApp.ViewModels.ParkingZones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -215,7 +216,7 @@ namespace ParkingZoneTest.Controllers
         public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsView(string key, string errorMessage)
         {
             //Arrange
-            EditVM editVM = new() { Id=Id };
+            EditVM editVM = new() { Id = Id };
             _controller.ModelState.AddModelError(key, errorMessage);
 
             //Act
@@ -284,7 +285,7 @@ namespace ParkingZoneTest.Controllers
             //Assert
             Assert.IsType<RedirectToActionResult>(result);
             _service.Verify(x => x.GetById(Id), Times.Once);
-            _service.Verify(x=>x.Delete(_parkingZoneTest), Times.Once);
+            _service.Verify(x => x.Delete(_parkingZoneTest), Times.Once);
         }
         #endregion
     }
