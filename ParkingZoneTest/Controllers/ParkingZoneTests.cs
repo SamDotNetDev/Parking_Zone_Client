@@ -275,6 +275,7 @@ namespace ParkingZoneTest.Controllers
         {
             //Arrange
             _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _service.Setup(x => x.Delete(_parkingZoneTest));
 
             //Act
             var result = _controller.DeleteConfirmed(Id);
@@ -282,6 +283,7 @@ namespace ParkingZoneTest.Controllers
             //Assert
             Assert.IsType<RedirectToActionResult>(result);
             _service.Verify(x => x.GetById(Id), Times.Once);
+            _service.Verify(x=>x.Delete(_parkingZoneTest), Times.Once);
         }
         #endregion
     }
