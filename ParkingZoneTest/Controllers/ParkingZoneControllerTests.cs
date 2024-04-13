@@ -112,7 +112,7 @@ namespace ParkingZoneTest.Controllers
         [Theory]
         [InlineData("Name","Required")]
         [InlineData("Address","Required")]
-        public void GivenCreateViewModel_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM(string key,string errorMessage)
+        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM(string key,string errorMessage)
         {
             //Arrange
             CreateVM createVM = new();
