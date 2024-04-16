@@ -2,17 +2,9 @@
 using Moq;
 using ParkingZoneApp.Areas.Admin;
 using ParkingZoneApp.Models;
-using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingZones;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace ParkingZoneTest.Controllers
 {
@@ -40,7 +32,7 @@ namespace ParkingZoneTest.Controllers
         public void GivenNothing_WhenIndexIsCalled_ThenReturnsViewResult()
         {
             //Arrange
-            var expectedVMs = new List<ListItemVM>() {new (_parkingZoneTest) };
+            var expectedVMs = new List<ListItemVM>() { new (_parkingZoneTest) };
             var expectedParkingZones = new List<ParkingZone>() { _parkingZoneTest };
 
             _service.Setup(x => x.GetAll()).Returns(expectedParkingZones);
@@ -109,14 +101,12 @@ namespace ParkingZoneTest.Controllers
             Assert.IsType<ViewResult>(viewresult);
         }
 
-        [Theory]
-        [InlineData("Name","Required")]
-        [InlineData("Address","Required")]
-        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM(string key,string errorMessage)
+        [Fact]
+        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM()
         {
             //Arrange
             CreateVM createVM = new();
-            _controller.ModelState.AddModelError(key, errorMessage);
+            _controller.ModelState.AddModelError("field","property is required");
 
             //Act
             var result = _controller.Create(createVM);
@@ -209,15 +199,12 @@ namespace ParkingZoneTest.Controllers
             Assert.True(_controller.ModelState.IsValid);
         }
 
-        [Theory]
-        [InlineData("Name","Required")]
-        [InlineData("Address","Required")]
-        [InlineData("DateOfEstablishment", "Required")]
-        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsView(string key, string errorMessage)
+        [Fact]
+        public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsView()
         {
             //Arrange
             EditVM editVM = new() { Id = Id };
-            _controller.ModelState.AddModelError(key, errorMessage);
+            _controller.ModelState.AddModelError("field", "property is required");
 
             //Act
             var result = _controller.Edit(Id, editVM);

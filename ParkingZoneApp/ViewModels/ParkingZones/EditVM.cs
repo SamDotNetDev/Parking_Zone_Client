@@ -25,7 +25,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
-            DateOfEstablishment = parkingZone.DateOfEstablishment;   
+            DateOfEstablishment = parkingZone.DateOfEstablishment;
         }
 
         public ParkingZone MapToModel(EditVM VM)
