@@ -8,7 +8,7 @@ namespace ParkingZoneApp.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace ParkingZoneApp.Models
         public string Address { get; set; }
 
         [Required]
-        public DateTime DateOfEstablishment { get; set; }
+        public DateTime? DateOfEstablishment { get; set; }
 
     }
 }

@@ -15,6 +15,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="DateOfEstablishment"/>
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Name</label>
                 <input asp-for="Name" class="form-control" />
@@ -24,11 +25,6 @@
                 <label asp-for="Address" class="control-label">Address</label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfEstablishment" class="control-label">Creation time</label>
-                <input asp-for="DateOfEstablishment" class="form-control"/>
-                <span asp-validation-for="DateOfEstablishment" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group">
