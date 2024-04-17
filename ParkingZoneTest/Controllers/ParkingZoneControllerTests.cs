@@ -57,7 +57,7 @@ namespace ParkingZoneTest.Controllers
             {
                 Id = Id,
                 Name = "Test",
-                Address = "Test Address"
+                Address = "Test Address",
             };
             _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
 

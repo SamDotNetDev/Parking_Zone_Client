@@ -8,21 +8,23 @@ namespace ParkingZoneTest.ModelTests
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
-                new object[] {null, "TestName", "TestAddress"},
-                new object[] {2, null, "2TestAddress"},
-                new object[] {3, "3TestName", null }
+                new object[] { null, "TestName", "TestAddress", DateTime.Now },
+                new object[] { 2, null, "2TestAddress", DateTime.Now },
+                new object[] { 3, "3TestName", null, DateTime.Now },
+                new object[] { 4, "4TestName", "4TestAddress", null }
             };
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenInvalidData_WhenCreatingDetailsVM_ThenValidationIsFalse(int? Id, string Name, string Address)
+        public void GivenInvalidData_WhenCreatingDetailsVM_ThenValidationIsFalse(int? Id, string Name, string Address, DateTime? Date)
         {
             //Arrange
             DetailsVM detailsVM = new()
             {
                 Id = Id,
                 Name = Name,
-                Address = Address
+                Address = Address,
+                DateOfEstablishment = Date
             };
 
             var validationContext = new ValidationContext(detailsVM, null, null);
