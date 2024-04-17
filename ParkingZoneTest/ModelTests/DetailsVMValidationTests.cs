@@ -24,7 +24,7 @@ namespace ParkingZoneTest.ModelTests
                 Id = Id,
                 Name = Name,
                 Address = Address,
-                CreatedDate = Date
+                DateOfEstablishment = Date
             };
 
             var validationContext = new ValidationContext(detailsVM, null, null);
