@@ -15,6 +15,9 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
         [Required]
         public string Address { get; set; }
 
+        [Required]
+        public DateTime? CreatedDate { get; set; }
+
         public DetailsVM() { }
 
         public DetailsVM (ParkingZone parkingZone)
@@ -22,6 +25,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
+            CreatedDate = parkingZone.DateOfEstablishment;
         }
     }
 }
