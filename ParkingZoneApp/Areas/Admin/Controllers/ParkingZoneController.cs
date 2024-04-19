@@ -81,8 +81,9 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
-                    var ParkingZone = VM.MapToModel(VM);
-                    _service.Update(ParkingZone);
+                    var parkingZone = _service.GetById(id);
+                    parkingZone = VM.MapToModel(parkingZone);
+                    _service.Update(parkingZone);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

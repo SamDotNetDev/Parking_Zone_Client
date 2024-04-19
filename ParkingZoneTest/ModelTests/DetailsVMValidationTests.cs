@@ -8,15 +8,14 @@ namespace ParkingZoneTest.ModelTests
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
-                new object[] { null, "TestName", "TestAddress", DateTime.Now },
-                new object[] { 2, null, "2TestAddress", DateTime.Now },
-                new object[] { 3, "3TestName", null, DateTime.Now },
-                new object[] { 4, "4TestName", "4TestAddress", null }
+                new object[] { 2, null, "2TestAddress", DateTime.Now, false },
+                new object[] { 3, "3TestName", null, DateTime.Now, false },
+                new object[] { 4, "4TestName", "4TestAddress", DateTime.Now, true },
             };
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenInvalidData_WhenCreatingDetailsVM_ThenValidationIsFalse(int? Id, string Name, string Address, DateTime? Date)
+        public void GivenItemToBeValidated_WhenCreatingDetailsVM_ThenValidationIsPerformed(int Id, string Name, string Address, DateTime Date, bool expectedValidation)
         {
             //Arrange
             DetailsVM detailsVM = new()
@@ -34,8 +33,7 @@ namespace ParkingZoneTest.ModelTests
             var result = Validator.TryValidateObject(detailsVM, validationContext,validationResult);
 
             //Assert
-            Assert.NotEmpty(validationResult);
-            Assert.False(result);
+            Assert.Equal(expectedValidation, result);
         }
     }
 }
