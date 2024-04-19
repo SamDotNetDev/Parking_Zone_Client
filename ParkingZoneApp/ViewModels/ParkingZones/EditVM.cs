@@ -7,16 +7,13 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
     {
 
         [Required]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Address { get; set; }
-
-        [Required]
-        public DateTime? DateOfEstablishment { get; set; }
 
         public EditVM(){ }
 
@@ -25,18 +22,13 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
-            DateOfEstablishment = parkingZone.DateOfEstablishment;
         }
 
-        public ParkingZone MapToModel(EditVM VM)
+        public ParkingZone MapToModel(ParkingZone parkingZone)
         {
-            return new ParkingZone
-            {
-                Id = VM.Id,
-                Name = VM.Name,
-                Address = VM.Address,
-                DateOfEstablishment = VM.DateOfEstablishment
-            };
+            parkingZone.Name = Name;
+            parkingZone.Address = Address;
+            return parkingZone;
         }
     }
 }

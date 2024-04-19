@@ -189,7 +189,14 @@ namespace ParkingZoneTest.Controllers
         public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsTrueAndReturnsRedirectToAction()
         {
             //Arrange
-            EditVM editVM = new() { Id = Id };
+            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+
+            EditVM editVM = new()
+            {
+                Id = Id,
+                Name = "Test",
+                Address = "Test Address"
+            };
 
             //Act
             var result = _controller.Edit(Id, editVM);
@@ -197,6 +204,7 @@ namespace ParkingZoneTest.Controllers
             //Assert
             Assert.IsType<RedirectToActionResult>(result);
             Assert.True(_controller.ModelState.IsValid);
+            _service.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]

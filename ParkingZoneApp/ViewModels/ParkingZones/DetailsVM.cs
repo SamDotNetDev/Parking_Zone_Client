@@ -7,7 +7,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
     {
 
         [Required]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -16,7 +16,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
         public string Address { get; set; }
 
         [Required]
-        public DateTime? DateOfEstablishment { get; set; }
+        public DateTime DateOfEstablishment { get; set; }
 
         public DetailsVM() { }
 

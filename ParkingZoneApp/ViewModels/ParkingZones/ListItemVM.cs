@@ -6,16 +6,13 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
     public class ListItemVM
     {
         [Required]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Address { get; set; }
-
-        [Required]
-        public DateTime? DateOfEstablishment { get; set; }
 
         public ListItemVM() { }
 
@@ -24,7 +21,6 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
-            DateOfEstablishment = parkingZone.DateOfEstablishment;
         }
     }
 }
