@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ParkingZoneApp.ViewModels.ParkingZonesVMs.ListItemVM>
+﻿@model IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotsVMs.ListItemVM>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
@@ -67,13 +67,16 @@
 
 <h1>Admin Control Panel</h1>
 
-<button class="button-34" onclick="location.href='@Url.Action("Create","ParkingZone")'">Create New</button>
+<button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
+<button class="button-34" onclick="location.href='@Url.Action("Create","ParkingSlots")'">Create New</button>
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Address)</th>
+            <th>Id</th>
+            <th>Number</th>
+            <th>Available</th>
+            <th>Category</th>
+            <th>Fee per hour</th>
             <th></th>
         </tr>
     </thead>
@@ -86,17 +89,22 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Number)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Address)
+                    @Html.DisplayFor(modelItem => item.IsAvilableForBooking)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FeePerHour)
                 </td>
                 <td>
                     <div>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"> Edit </a>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a> 
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                        <a href="@Url.Action("Index", "ParkingSlots", new { parkingZoneId = item.Id })" class="btn btn-secondary">Slots</a>
                     </div>
                 </td>
             </tr>

@@ -1,7 +1,7 @@
 ﻿using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneApp.ViewModels.ParkingZones
+namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
 {
     public class CreateVM
     {

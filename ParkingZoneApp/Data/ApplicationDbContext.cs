@@ -12,5 +12,6 @@ namespace ParkingZoneApp.Data
         }
 
         public DbSet<ParkingZone> ParkingZone { get; set; }
+        public DbSet<ParkingSlots> ParkingSlots { get; set; }
     }
 }

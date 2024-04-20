@@ -3,7 +3,7 @@ using Moq;
 using ParkingZoneApp.Areas.Admin;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
-using ParkingZoneApp.ViewModels.ParkingZones;
+using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 using System.Text.Json;
 
 namespace ParkingZoneTest.Controllers
