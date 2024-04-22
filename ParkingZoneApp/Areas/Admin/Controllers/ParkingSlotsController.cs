@@ -17,7 +17,7 @@ namespace ParkingZoneApp.Areas.Admin
         {
             _slotService = slotService;
             _zoneService = zoneService;
-            
+
         }
 
         public IActionResult Index(int ParkingZoneId)

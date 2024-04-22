@@ -11,15 +11,17 @@ namespace ParkingSlotsTest.Controllers
 {
     public class ParkingSlotsControllerTests
     {
-        private readonly Mock<IParkingSlotsService> _service;
+        private readonly Mock<IParkingZoneService> _zoneService;
+        private readonly Mock<IParkingSlotsService> _slotService;
         private readonly ParkingSlotsController _controller;
         private readonly ParkingSlots _parkingSlotsTest;
         private readonly int Id = 1;
 
         public ParkingSlotsControllerTests()
         {
-            _service = new Mock<IParkingSlotsService>();
-            _controller = new ParkingSlotsController(_service.Object);
+            _zoneService = new Mock<IParkingZoneService>();
+            _slotService = new Mock<IParkingSlotsService>();
+            _controller = new ParkingSlotsController(_slotService.Object, _zoneService.Object);
             _parkingSlotsTest = new()
             {
                 Id = Id,
@@ -37,14 +39,17 @@ namespace ParkingSlotsTest.Controllers
             var expectedVMs = new List<ListItemVM>() { new(_parkingSlotsTest) };
             var expectedParkingSlots = new List<ParkingSlots>() { _parkingSlotsTest };
 
-            _service.Setup(x => x.GetByParkingZoneId(Id)).Returns(expectedParkingSlots);
+            _slotService.Setup(x => x.GetByParkingZoneId(Id)).Returns(expectedParkingSlots);
+            _zoneService.Setup(x=>x.GetById(Id)).Returns(new ParkingZone());
 
             //Act
             var result = _controller.Index(Id);
 
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
-            _service.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
+
+            _slotService.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(expectedVMs), JsonSerializer.Serialize(model));
             Assert.NotNull(result);
         }

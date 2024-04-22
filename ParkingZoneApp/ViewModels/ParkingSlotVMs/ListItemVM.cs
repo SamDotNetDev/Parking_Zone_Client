@@ -18,9 +18,6 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
         [Required]
         public SlotCategoryEnum Category { get; set; }
 
-        [Required]
-        public ParkingZone ParkingZone { get; set; }
-
         public ListItemVM() { }
 
         public ListItemVM(ParkingSlots parkingSlots)
@@ -29,7 +26,6 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
             Number = parkingSlots.Number;
             IsAvilableForBooking = parkingSlots.IsAvilableForBooking;
             Category = parkingSlots.Category;
-            ParkingZone = parkingSlots.ParkingZone;
         }
     }
 }
