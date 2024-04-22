@@ -9,19 +9,19 @@ using System.Text.Json;
 
 namespace ParkingSlotsTest.Controllers
 {
-    public class ParkingSlotsControllerTests
+    public class ParkingSlotControllerTests
     {
         private readonly Mock<IParkingZoneService> _zoneService;
-        private readonly Mock<IParkingSlotsService> _slotService;
-        private readonly ParkingSlotsController _controller;
-        private readonly ParkingSlots _parkingSlotsTest;
+        private readonly Mock<IParkingSlotService> _slotService;
+        private readonly ParkingSlotController _controller;
+        private readonly ParkingSlot _parkingSlotsTest;
         private readonly int Id = 1;
 
-        public ParkingSlotsControllerTests()
+        public ParkingSlotControllerTests()
         {
             _zoneService = new Mock<IParkingZoneService>();
-            _slotService = new Mock<IParkingSlotsService>();
-            _controller = new ParkingSlotsController(_slotService.Object, _zoneService.Object);
+            _slotService = new Mock<IParkingSlotService>();
+            _controller = new ParkingSlotController(_slotService.Object, _zoneService.Object);
             _parkingSlotsTest = new()
             {
                 Id = Id,
@@ -37,10 +37,10 @@ namespace ParkingSlotsTest.Controllers
         {
             //Arrange
             var expectedVMs = new List<ListItemVM>() { new(_parkingSlotsTest) };
-            var expectedParkingSlots = new List<ParkingSlots>() { _parkingSlotsTest };
+            var expectedParkingSlots = new List<ParkingSlot>() { _parkingSlotsTest };
 
             _slotService.Setup(x => x.GetByParkingZoneId(Id)).Returns(expectedParkingSlots);
-            _zoneService.Setup(x=>x.GetById(Id)).Returns(new ParkingZone());
+            _zoneService.Setup(x => x.GetById(Id)).Returns(new ParkingZone());
 
             //Act
             var result = _controller.Index(Id);

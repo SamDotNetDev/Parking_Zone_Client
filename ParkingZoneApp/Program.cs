@@ -26,7 +26,7 @@ namespace ParkingZoneApp
             builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
             builder.Services.AddScoped<IParkingSlotsRepository, ParkingSlotsRepository>();
             builder.Services.AddScoped<IParkingZoneService, ParkingZoneService>();
-            builder.Services.AddScoped<IParkingSlotsService, ParkingSlotsService>();
+            builder.Services.AddScoped<IParkingSlotService, ParkingSlotService>();
 
             var app = builder.Build();
 

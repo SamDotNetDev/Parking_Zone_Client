@@ -7,17 +7,17 @@ using System.Text.Json;
 
 namespace ParkingSlotsTest.Services
 {
-    public class ParkingSlotsServiceTests
+    public class ParkingSlotServiceTests
     {
         private readonly Mock<IParkingSlotsRepository> _repository;
-        private readonly IParkingSlotsService _service;
-        private readonly ParkingSlots _ParkingSlotsTest;
+        private readonly IParkingSlotService _service;
+        private readonly ParkingSlot _ParkingSlotsTest;
         private readonly int Id = 1;
 
-        public ParkingSlotsServiceTests()
+        public ParkingSlotServiceTests()
         {
             _repository = new Mock<IParkingSlotsRepository>();
-            _service = new ParkingSlotsService(_repository.Object);
+            _service = new ParkingSlotService(_repository.Object);
             _ParkingSlotsTest = new()
             {
                 Id = 1,
@@ -71,14 +71,14 @@ namespace ParkingSlotsTest.Services
         public void GivenNothing_WhenGetAllIsCalled_ThenRepositoryGetAllIsCalled()
         {
             //Arrange
-            var parkingSlots = new List<ParkingSlots>();
+            var parkingSlots = new List<ParkingSlot>();
             _repository.Setup(x => x.GetAll()).Returns(parkingSlots);
 
             //Act
             var result = _service.GetAll();
 
             //Assert
-            Assert.IsAssignableFrom<IEnumerable<ParkingSlots>>(result);
+            Assert.IsAssignableFrom<IEnumerable<ParkingSlot>>(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
         }
 
@@ -93,7 +93,7 @@ namespace ParkingSlotsTest.Services
 
             //Assert
             Assert.NotNull(result);
-            var model = Assert.IsType<ParkingSlots>(result);
+            var model = Assert.IsType<ParkingSlot>(result);
             _repository.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(_ParkingSlotsTest), JsonSerializer.Serialize(model));
         }

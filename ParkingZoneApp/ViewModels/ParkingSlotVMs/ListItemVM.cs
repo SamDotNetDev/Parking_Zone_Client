@@ -20,7 +20,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
 
         public ListItemVM() { }
 
-        public ListItemVM(ParkingSlots parkingSlots)
+        public ListItemVM(ParkingSlot parkingSlots)
         {
             Id = parkingSlots.Id;
             Number = parkingSlots.Number;
