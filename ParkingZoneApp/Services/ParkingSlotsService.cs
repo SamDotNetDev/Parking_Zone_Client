@@ -7,5 +7,12 @@ namespace ParkingZoneApp.Services
     {
         public ParkingSlotsService(IParkingSlotsRepository repository)
         :base(repository){ }
+
+        public IEnumerable<ParkingSlots> GetByParkingZoneId(int parkingZoneId)
+        {
+            var ParkingSlots = _repository
+                .GetAll().Where(x=>x.ParkingZoneId == parkingZoneId);
+            return ParkingSlots;
+        }
     }
 }

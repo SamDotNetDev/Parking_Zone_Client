@@ -1,4 +1,5 @@
-﻿using ParkingZoneApp.Models;
+﻿using ParkingZoneApp.Enums;
+using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
@@ -9,16 +10,16 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
         public int Id { get; set; }
 
         [Required]
-        public int? Number { get; set; }
+        public int Number { get; set; }
 
         [Required]
         public bool IsAvilableForBooking { get; set; }
 
         [Required]
-        public string Category { get; set; }
+        public SlotCategoryEnum Category { get; set; }
 
         [Required]
-        public string FeePerHour { get; set; }
+        public ParkingZone ParkingZone { get; set; }
 
         public ListItemVM() { }
 
@@ -28,8 +29,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
             Number = parkingSlots.Number;
             IsAvilableForBooking = parkingSlots.IsAvilableForBooking;
             Category = parkingSlots.Category;
-            FeePerHour = parkingSlots.FeePerHour;
-
+            ParkingZone = parkingSlots.ParkingZone;
         }
     }
 }

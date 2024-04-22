@@ -10,7 +10,7 @@ namespace ParkingZoneTest.ModelTests
             {
                 new object[] { 2, null, "2TestAddress", DateTime.Now, false },
                 new object[] { 3, "3TestName", null, DateTime.Now, false },
-                new object[] { 4, "4TestName", "4TestAddress", DateTime.Now, true },
+                new object[] { 4, "4TestName", "4TestAddress", DateTime.Now, true }
             };
 
         [Theory]

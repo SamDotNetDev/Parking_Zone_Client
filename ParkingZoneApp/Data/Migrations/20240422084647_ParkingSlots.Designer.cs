@@ -12,7 +12,7 @@ using ParkingZoneApp.Data;
 namespace ParkingZoneApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240420172624_ParkingSlots")]
+    [Migration("20240422084647_ParkingSlots")]
     partial class ParkingSlots
     {
         /// <inheritdoc />
@@ -235,13 +235,8 @@ namespace ParkingZoneApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FeePerHour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsAvilableForBooking")
                         .HasColumnType("bit");
@@ -254,7 +249,9 @@ namespace ParkingZoneApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PartkingSlots");
+                    b.HasIndex("ParkingZoneId");
+
+                    b.ToTable("ParkingSlots");
                 });
 
             modelBuilder.Entity("ParkingZoneApp.Models.ParkingZone", b =>
@@ -330,6 +327,17 @@ namespace ParkingZoneApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ParkingZoneApp.Models.ParkingSlots", b =>
+                {
+                    b.HasOne("ParkingZoneApp.Models.ParkingZone", "ParkingZone")
+                        .WithMany()
+                        .HasForeignKey("ParkingZoneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParkingZone");
                 });
 #pragma warning restore 612, 618
         }

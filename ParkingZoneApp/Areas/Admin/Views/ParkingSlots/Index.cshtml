@@ -65,18 +65,17 @@
     }
 </style>
 
-<h1>Admin Control Panel</h1>
+<h1>Slots for @ViewData["Name"]</h1>
 
 <button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
 <button class="button-34" onclick="location.href='@Url.Action("Create","ParkingSlots")'">Create New</button>
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Number</th>
-            <th>Available</th>
-            <th>Category</th>
-            <th>Fee per hour</th>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.Number)</th>
+            <th>@Html.DisplayNameFor(model => model.IsAvilableForBooking)</th>
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
             <th></th>
         </tr>
     </thead>
@@ -96,9 +95,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FeePerHour)
                 </td>
                 <td>
                     <div>

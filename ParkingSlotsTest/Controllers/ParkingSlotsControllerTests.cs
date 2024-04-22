@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ParkingZoneApp.Areas.Admin;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
@@ -23,9 +24,8 @@ namespace ParkingSlotsTest.Controllers
             {
                 Id = Id,
                 Number = 1,
-                Category = "Standart",
+                Category = SlotCategoryEnum.Econom,
                 IsAvilableForBooking = true,
-                FeePerHour = "1000",
                 ParkingZoneId = 1
             };
         }
@@ -37,14 +37,14 @@ namespace ParkingSlotsTest.Controllers
             var expectedVMs = new List<ListItemVM>() { new(_parkingSlotsTest) };
             var expectedParkingSlots = new List<ParkingSlots>() { _parkingSlotsTest };
 
-            _service.Setup(x => x.GetAll()).Returns(expectedParkingSlots);
+            _service.Setup(x => x.GetByParkingZoneId(Id)).Returns(expectedParkingSlots);
 
             //Act
             var result = _controller.Index(Id);
 
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
-            _service.Verify(x => x.GetAll(), Times.Once);
+            _service.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(expectedVMs), JsonSerializer.Serialize(model));
             Assert.NotNull(result);
         }

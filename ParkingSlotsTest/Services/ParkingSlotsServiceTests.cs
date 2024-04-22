@@ -1,5 +1,5 @@
 ﻿using Moq;
-using ParkingZoneApp.Enums.ParkingSlotCategories;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
@@ -23,8 +23,7 @@ namespace ParkingSlotsTest.Services
                 Id = 1,
                 Number = 1,
                 IsAvilableForBooking = true,
-                Category = Categories.Econom.ToString(),
-                FeePerHour = "1",
+                Category = SlotCategoryEnum.Econom,
                 ParkingZoneId = 1
             };
         }
