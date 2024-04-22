@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingZoneApp.Data;
 
@@ -11,9 +12,11 @@ using ParkingZoneApp.Data;
 namespace ParkingZoneApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240422084647_ParkingSlots")]
+    partial class ParkingSlots
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,7 +227,7 @@ namespace ParkingZoneApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ParkingZoneApp.Models.ParkingSlot", b =>
+            modelBuilder.Entity("ParkingZoneApp.Models.ParkingSlots", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -326,20 +329,15 @@ namespace ParkingZoneApp.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ParkingZoneApp.Models.ParkingSlot", b =>
+            modelBuilder.Entity("ParkingZoneApp.Models.ParkingSlots", b =>
                 {
                     b.HasOne("ParkingZoneApp.Models.ParkingZone", "ParkingZone")
-                        .WithMany("ParkingSlots")
+                        .WithMany()
                         .HasForeignKey("ParkingZoneId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParkingZone");
-                });
-
-            modelBuilder.Entity("ParkingZoneApp.Models.ParkingZone", b =>
-                {
-                    b.Navigation("ParkingSlots");
                 });
 #pragma warning restore 612, 618
         }

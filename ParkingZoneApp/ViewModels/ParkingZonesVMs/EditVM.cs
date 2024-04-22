@@ -1,9 +1,9 @@
 ﻿using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneApp.ViewModels.ParkingZones
+namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
 {
-    public class DetailsVM
+    public class EditVM
     {
 
         [Required]
@@ -15,17 +15,20 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
         [Required]
         public string Address { get; set; }
 
-        [Required]
-        public DateTime DateOfEstablishment { get; set; }
+        public EditVM(){ }
 
-        public DetailsVM() { }
-
-        public DetailsVM (ParkingZone parkingZone)
+        public EditVM(ParkingZone parkingZone)
         {
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
-            DateOfEstablishment = parkingZone.DateOfEstablishment;
+        }
+
+        public ParkingZone MapToModel(ParkingZone parkingZone)
+        {
+            parkingZone.Name = Name;
+            parkingZone.Address = Address;
+            return parkingZone;
         }
     }
 }

@@ -24,7 +24,9 @@ namespace ParkingZoneApp
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
+            builder.Services.AddScoped<IParkingSlotsRepository, ParkingSlotsRepository>();
             builder.Services.AddScoped<IParkingZoneService, ParkingZoneService>();
+            builder.Services.AddScoped<IParkingSlotService, ParkingSlotService>();
 
             var app = builder.Build();
 
@@ -46,6 +48,10 @@ namespace ParkingZoneApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "Admin",
+                pattern: "{area:exists}/{controller=ParkingSlots}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "Admin",

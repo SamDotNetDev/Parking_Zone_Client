@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkingZoneApp.Services;
-using ParkingZoneApp.ViewModels.ParkingZones;
+using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 
 namespace ParkingZoneApp.Areas.Admin
 {

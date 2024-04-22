@@ -1,10 +1,11 @@
 ﻿using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneApp.ViewModels.ParkingZones
+namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
 {
-    public class ListItemVM
+    public class DetailsVM
     {
+
         [Required]
         public int Id { get; set; }
 
@@ -14,13 +15,17 @@ namespace ParkingZoneApp.ViewModels.ParkingZones
         [Required]
         public string Address { get; set; }
 
-        public ListItemVM() { }
+        [Required]
+        public DateTime DateOfEstablishment { get; set; }
 
-        public ListItemVM(ParkingZone parkingZone)
+        public DetailsVM() { }
+
+        public DetailsVM (ParkingZone parkingZone)
         {
             Id = parkingZone.Id;
             Name = parkingZone.Name;
             Address = parkingZone.Address;
+            DateOfEstablishment = parkingZone.DateOfEstablishment;
         }
     }
 }
