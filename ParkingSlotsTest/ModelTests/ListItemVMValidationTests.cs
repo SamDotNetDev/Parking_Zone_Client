@@ -1,5 +1,4 @@
 ﻿using ParkingZoneApp.Enums;
-using ParkingZoneApp.Models;
 using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +9,7 @@ namespace ParkingSlotsTest.ModelTests
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
-                new object[] {3, 2, true, SlotCategoryEnum.Econom, true},
+                new object[] {3, 2, true, SlotCategoryEnum.Standart, true},
                 new object[] {3, 2, false, SlotCategoryEnum.Business, true}
             };
 
@@ -22,7 +21,7 @@ namespace ParkingSlotsTest.ModelTests
             {
                 Id = Id,
                 Number = Number,
-                IsAvilableForBooking = IsAvailableForBooking,
+                IsAvailableForBooking = IsAvailableForBooking,
                 Category = Category
             };
 

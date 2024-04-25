@@ -1,7 +1,6 @@
 ﻿using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 
 namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
 {
@@ -27,7 +26,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
             return new ParkingSlot
             {
                 Number = Number,
-                IsAvilableForBooking = IsAvailableForBooking,
+                IsAvailableForBooking = IsAvailableForBooking,
                 Category = Category,
                 ParkingZoneId = ParkingZoneId
             };

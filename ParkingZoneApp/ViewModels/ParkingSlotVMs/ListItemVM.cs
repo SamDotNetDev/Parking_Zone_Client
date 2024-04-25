@@ -13,7 +13,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
         public int Number { get; set; }
 
         [Required]
-        public bool IsAvilableForBooking { get; set; }
+        public bool IsAvailableForBooking { get; set; }
 
         [Required]
         public SlotCategoryEnum Category { get; set; }
@@ -24,7 +24,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
         {
             Id = parkingSlots.Id;
             Number = parkingSlots.Number;
-            IsAvilableForBooking = parkingSlots.IsAvilableForBooking;
+            IsAvailableForBooking = parkingSlots.IsAvailableForBooking;
             Category = parkingSlots.Category;
         }
     }

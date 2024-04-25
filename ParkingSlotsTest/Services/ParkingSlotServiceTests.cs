@@ -4,6 +4,7 @@ using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
 using System.Text.Json;
+using Xunit.Sdk;
 
 namespace ParkingSlotsTest.Services
 {
@@ -20,10 +21,10 @@ namespace ParkingSlotsTest.Services
             _service = new ParkingSlotService(_repository.Object);
             _ParkingSlotsTest = new()
             {
-                Id = 1,
+                Id = Id,
                 Number = 1,
-                IsAvilableForBooking = true,
-                Category = SlotCategoryEnum.Econom,
+                IsAvailableForBooking = true,
+                Category = SlotCategoryEnum.Standart,
                 ParkingZoneId = 1
             };
         }
@@ -96,6 +97,46 @@ namespace ParkingSlotsTest.Services
             var model = Assert.IsType<ParkingSlot>(result);
             _repository.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(_ParkingSlotsTest), JsonSerializer.Serialize(model));
+        }
+
+        [Fact]
+        public void GivenParkingZoneId_WhenGetByParkingZoneIdIsCalled_ThenReturnsParkingSlots()
+        {
+            var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest };
+            _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
+
+            var result = _service.GetByParkingZoneId(Id);
+
+            Assert.NotNull(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<ParkingSlot>>(result);
+            _repository.Verify(x => x.GetAll(), Times.Once);
+            Assert.Equal(JsonSerializer.Serialize(ParkingSlots), JsonSerializer.Serialize(model));
+        }
+
+        [Fact]
+        public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsTrue()
+        {
+            var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest};
+            _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
+
+            var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
+
+            Assert.IsType<Boolean>(result);
+            Assert.True(result);
+            _repository.Verify(x => x.GetAll(), Times.Once);
+        }
+        
+        [Fact]
+        public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsFalse()
+        {
+            var ParkingSlots = new List<ParkingSlot>();
+            _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
+
+            var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
+
+            Assert.IsType<Boolean>(result);
+            Assert.False(result);
+            _repository.Verify(x => x.GetAll(), Times.Once);
         }
     }
 }
