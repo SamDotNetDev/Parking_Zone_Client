@@ -1,11 +1,6 @@
 ﻿using ParkingZoneApp.Enums;
-using ParkingZoneApp.ViewModels.ParkingSlotVMs;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
 namespace ParkingSlotsTest.ModelTests
 {

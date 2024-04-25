@@ -1,10 +1,9 @@
 ﻿using Moq;
+using System.Text.Json;
 using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
-using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
-using System.Text.Json;
-using Xunit.Sdk;
+using ParkingZoneApp.Repositories;
 
 namespace ParkingSlotsTest.Services
 {

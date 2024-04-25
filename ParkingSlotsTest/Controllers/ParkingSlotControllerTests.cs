@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
-using ParkingZoneApp.Areas.Admin;
+﻿using Moq;
+using System.Text.Json;
 using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
-using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
+using Microsoft.AspNetCore.Mvc;
+using ParkingZoneApp.Areas.Admin;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
-using System.Text.Json;
+using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
 
 namespace ParkingSlotsTest.Controllers
 {
