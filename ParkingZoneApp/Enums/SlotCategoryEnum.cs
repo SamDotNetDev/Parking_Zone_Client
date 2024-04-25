@@ -2,7 +2,7 @@
 {
     public enum SlotCategoryEnum
     {
-        Econom,
+        Standart,
         Business
     }
 }
