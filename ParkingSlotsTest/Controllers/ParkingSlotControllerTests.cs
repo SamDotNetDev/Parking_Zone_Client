@@ -6,7 +6,6 @@ using ParkingZoneApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using ParkingZoneApp.Areas.Admin;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
-using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
 
 namespace ParkingSlotsTest.Controllers
 {
@@ -74,7 +73,7 @@ namespace ParkingSlotsTest.Controllers
         }
 
         [Fact]
-        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsVM()
+        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
             CreateVM createVM = new();
@@ -91,7 +90,7 @@ namespace ParkingSlotsTest.Controllers
         }
 
         [Fact]
-        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenNumberIsNegativeAndModelStateIsFalseAndReturnsVM()
+        public void GivenCreateVM_WhenCreateIsCalledToPost_ThenNumberIsNegativeAndModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
             CreateVM createVM = new() { ParkingZoneId = 1, Number = -1};
@@ -150,6 +149,139 @@ namespace ParkingSlotsTest.Controllers
             Assert.True(_controller.ModelState.IsValid);
             _slotService.Verify(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number), Times.Once);
             _slotService.Verify(x => x.Insert(It.IsAny<ParkingSlot>()), Times.Once);
+        }
+        #endregion
+
+        #region Edit
+        [Fact]
+        public void GivenParkingSlotId_WhenEditIsCalled_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.Edit(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+        }
+        
+        [Fact]
+        public void GivenParkingSlotId_WhenEditIsCalled_ThenReturnsViewResult()
+        {
+            //Arrange
+            EditVM editVM = new()
+            {
+                Id = Id,
+                Number = 1,
+                Category = SlotCategoryEnum.Standart,
+                IsAvailableForBooking = true,
+                ParkingZoneId = 1
+            };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+
+            //Act
+            var result = _controller.Edit(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+        }
+        
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            EditVM editVM = new() { Id = 2 };
+
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+        }
+        
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            EditVM editVM = new() { Id = Id };
+            _controller.ModelState.AddModelError("field", "property is required");
+
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.False(_controller.ModelState.IsValid);
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+        }
+        
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenNumberIsNegativeAndModelStateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            EditVM editVM = new() { Id = Id, Number = -1, ParkingZoneId = 1 };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.False(_controller.ModelState.IsValid);
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+        }
+
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotExistsAndNumerIsNotSameAndModelStateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            EditVM editVM = new() { Id = Id, Number = 2, ParkingZoneId = 1 };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(true);
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.False(_controller.ModelState.IsValid);
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+        }
+        
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotModelStateIsTrueAndReturnsRedirectToAction()
+        {
+            //Arrange
+            EditVM editVM = new() { Id = Id, Number = 1, ParkingZoneId = 1 };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            _slotService.Setup(x => x.Update(_parkingSlotsTest));
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.True(_controller.ModelState.IsValid);
+            Assert.NotNull(result);
+            var action = Assert.IsType<RedirectToActionResult>(result).ActionName;
+            Assert.Equal("Index", action);
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+            _slotService.Verify(x => x.Update(_parkingSlotsTest));
         }
         #endregion
     }

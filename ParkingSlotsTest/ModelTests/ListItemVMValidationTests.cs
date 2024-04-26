@@ -1,6 +1,6 @@
 ﻿using ParkingZoneApp.Enums;
 using System.ComponentModel.DataAnnotations;
-using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
+using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
 namespace ParkingSlotsTest.ModelTests
 {
