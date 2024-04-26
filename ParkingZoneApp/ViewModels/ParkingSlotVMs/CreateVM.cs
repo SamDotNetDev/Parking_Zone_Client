@@ -12,7 +12,6 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
         [Required]
         public bool IsAvailableForBooking { get; set; }
 
-
         [Required]
         public SlotCategoryEnum Category { get; set; }
 

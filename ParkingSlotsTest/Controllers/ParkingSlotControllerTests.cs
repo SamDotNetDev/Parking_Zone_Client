@@ -62,7 +62,7 @@ namespace ParkingSlotsTest.Controllers
         public void GivenParkingZoneId_WhenCreateIsCalled_ThenReturnsViewResult()
         {
             //Arrange
-            
+            var createVM = new CreateVM() { ParkingZoneId = Id };
             //Act
             var result = _controller.Create(Id);
 
@@ -70,6 +70,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.NotNull(result);
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<CreateVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(createVM), JsonSerializer.Serialize(model));
         }
 
         [Fact]

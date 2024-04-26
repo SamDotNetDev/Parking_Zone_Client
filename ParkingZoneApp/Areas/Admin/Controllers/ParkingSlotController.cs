@@ -44,14 +44,9 @@ namespace ParkingZoneApp.Areas.Admin
             if (ModelState.IsValid)
             {
                 var ParkingSlotExists = _slotService.ParkingSlotExits(VM.ParkingZoneId, VM.Number);
-                if(VM.Number <= 0)
+                if(VM.Number <= 0 || ParkingSlotExists == true)
                 {
-                    ModelState.AddModelError("Number", "Number can not be 0 or negative");
-                    return View(VM);
-                }
-                else if (ParkingSlotExists == true)
-                {
-                    ModelState.AddModelError("Number", "Parking Slot Exists");
+                    ModelState.AddModelError("Number", "Parking Slot exists or Number is not valid");
                     return View(VM);
                 }
                 var parkingSlot = VM.MapToModel();
