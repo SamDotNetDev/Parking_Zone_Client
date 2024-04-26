@@ -1,11 +1,7 @@
 using Moq;
-using Microsoft.AspNetCore.Mvc.Testing;
-using ParkingZoneApp;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Text.Json;
 
 namespace ParkingZoneTest.Services
