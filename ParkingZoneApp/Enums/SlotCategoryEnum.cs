@@ -2,7 +2,8 @@
 {
     public enum SlotCategoryEnum
     {
-        Econom,
-        Business
+        Standart,
+        Business,
+        VIP
     }
 }

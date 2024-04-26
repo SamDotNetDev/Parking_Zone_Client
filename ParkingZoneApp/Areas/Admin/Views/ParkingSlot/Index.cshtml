@@ -68,13 +68,13 @@
 <h1>Slots for @ViewData["Name"]</h1>
 
 <button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
-<button class="button-34" onclick="location.href='@Url.Action("Create","ParkingSlot")'">Create New</button>
+<button class="button-34" onclick="location.href='@Url.Action("Create", "ParkingSlot", new { parkingZoneId = ViewData["ParkingZoneId"] })'">Create New</button>
 <table class="table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>@Html.DisplayNameFor(model => model.Number)</th>
-            <th>@Html.DisplayNameFor(model => model.IsAvilableForBooking)</th>
+            <th>@Html.DisplayNameFor(model => model.IsAvailableForBooking)</th>
             <th>@Html.DisplayNameFor(model => model.Category)</th>
             <th></th>
         </tr>
@@ -91,7 +91,7 @@
                     @Html.DisplayFor(modelItem => item.Number)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsAvilableForBooking)
+                    @Html.DisplayFor(modelItem => item.IsAvailableForBooking)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category)

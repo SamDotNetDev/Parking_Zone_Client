@@ -14,5 +14,13 @@ namespace ParkingZoneApp.Services
                 .GetAll().Where(x => x.ParkingZoneId == parkingZoneId);
             return ParkingSlots;
         }
+
+        public bool ParkingSlotExits(int ParkingZoneId, int ParkingSlotNumber)
+        {
+            var ParkingSlots = _repository.GetAll()
+                .Where(x => x.ParkingZoneId == ParkingZoneId &&
+                x.Number == ParkingSlotNumber);
+            return ParkingSlots.Count() == 0 ? false : true;
+        }
     }
 }

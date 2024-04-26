@@ -1,7 +1,6 @@
 ﻿using ParkingZoneApp.Enums;
-using ParkingZoneApp.Models;
-using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
 using System.ComponentModel.DataAnnotations;
+using ParkingZoneApp.ViewModels.ParkingSlotsVMs;
 
 namespace ParkingSlotsTest.ModelTests
 {
@@ -10,7 +9,7 @@ namespace ParkingSlotsTest.ModelTests
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
-                new object[] {3, 2, true, SlotCategoryEnum.Econom, true},
+                new object[] {3, 2, true, SlotCategoryEnum.Standart, true},
                 new object[] {3, 2, false, SlotCategoryEnum.Business, true}
             };
 
@@ -18,11 +17,12 @@ namespace ParkingSlotsTest.ModelTests
         [MemberData(nameof(TestData))]
         public void GivenItemToBeValidated_WhenCreatingListItemVM_ThenValidationIsPerformed(int Id, int Number, bool IsAvailableForBooking, SlotCategoryEnum Category, bool expectedValidation)
         {
+            //Arrange
             ListItemVM listItemVM = new()
             {
                 Id = Id,
                 Number = Number,
-                IsAvilableForBooking = IsAvailableForBooking,
+                IsAvailableForBooking = IsAvailableForBooking,
                 Category = Category
             };
 
