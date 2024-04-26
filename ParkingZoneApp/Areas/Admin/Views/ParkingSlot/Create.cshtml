@@ -1,5 +1,6 @@
 ﻿@model ParkingZoneApp.ViewModels.ParkingSlotVMs.CreateVM
 @using Microsoft.AspNetCore.Identity
+@using ParkingZoneApp.Enums
 @inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Create";
@@ -31,8 +32,10 @@
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
                 <select asp-for="Category" class="form-control">
-                    <option value="1">Business</option>
-                    <option value="0">Standart</option>
+                    @foreach (var category in Enum.GetValues(typeof(SlotCategoryEnum)))
+                    {
+                        <option value="@((int)category)">@category.ToString()</option>
+                    }
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>

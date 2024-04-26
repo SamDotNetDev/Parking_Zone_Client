@@ -17,6 +17,7 @@ namespace ParkingSlotsTest.ModelTests
         [MemberData(nameof(TestData))]
         public void GivenItemToBeValidated_WhenCreatingListItemVM_ThenValidationIsPerformed(int Id, int Number, bool IsAvailableForBooking, SlotCategoryEnum Category, bool expectedValidation)
         {
+            //Arrange
             ListItemVM listItemVM = new()
             {
                 Id = Id,

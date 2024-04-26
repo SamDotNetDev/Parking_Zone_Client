@@ -144,7 +144,8 @@ namespace ParkingSlotsTest.Controllers
             var result = _controller.Create(createVM);
 
             //Assert
-            Assert.IsType<RedirectToActionResult>(result);
+            var action = Assert.IsType<RedirectToActionResult>(result).ActionName;
+            Assert.Equal("Index", action);
             Assert.NotNull(result);
             Assert.True(_controller.ModelState.IsValid);
             _slotService.Verify(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number), Times.Once);

@@ -20,7 +20,8 @@ namespace ParkingZoneApp.Services
             var ParkingSlots = _repository.GetAll()
                 .Where(x => x.ParkingZoneId == ParkingZoneId &&
                 x.Number == ParkingSlotNumber);
-            return ParkingSlots.Count() == 0 ? false : true;
+            if (ParkingSlots.Count() == 0) { return false; }
+            return true;
         }
     }
 }

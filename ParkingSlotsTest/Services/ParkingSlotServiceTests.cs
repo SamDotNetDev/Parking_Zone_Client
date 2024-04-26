@@ -101,11 +101,14 @@ namespace ParkingSlotsTest.Services
         [Fact]
         public void GivenParkingZoneId_WhenGetByParkingZoneIdIsCalled_ThenReturnsParkingSlots()
         {
+            //Arrange
             var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest };
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
+            //Act
             var result = _service.GetByParkingZoneId(Id);
 
+            //Assert
             Assert.NotNull(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ParkingSlot>>(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
@@ -115,11 +118,14 @@ namespace ParkingSlotsTest.Services
         [Fact]
         public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsTrue()
         {
+            //Arrange
             var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest};
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
+            //Act
             var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
+            //Assert
             Assert.IsType<Boolean>(result);
             Assert.True(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
@@ -128,11 +134,14 @@ namespace ParkingSlotsTest.Services
         [Fact]
         public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsFalse()
         {
+            //Arrange
             var ParkingSlots = new List<ParkingSlot>();
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
+            //Act
             var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
+            //Assert
             Assert.IsType<Boolean>(result);
             Assert.False(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
