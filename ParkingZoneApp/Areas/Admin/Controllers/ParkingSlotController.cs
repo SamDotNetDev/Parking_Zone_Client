@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
