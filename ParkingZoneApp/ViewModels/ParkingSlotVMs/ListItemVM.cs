@@ -2,7 +2,7 @@
 using ParkingZoneApp.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneApp.ViewModels.ParkingSlotsVMs
+namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
 {
     public class ListItemVM
     {
