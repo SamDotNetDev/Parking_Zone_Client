@@ -92,5 +92,16 @@ namespace ParkingZoneApp.Areas.Admin
             }
             return View(VM);
         }
+
+        public IActionResult Details(int? id)
+        {
+            var parkingSlot = _slotService.GetById(id);
+            if (parkingSlot is null)
+            {
+                return NotFound();
+            }
+            var VM = new DetailsVM(parkingSlot);
+            return View(VM);
+        }
     }
 }
