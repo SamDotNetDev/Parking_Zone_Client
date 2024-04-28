@@ -285,7 +285,7 @@ namespace ParkingSlotsTest.Controllers
         }
         #endregion
 
-        #region Delete
+        #region Details
         [Fact]
         public void GivenParkingSlotId_WhenDetailsIsCalled_ThenReturnsNotFoundResult()
         {
