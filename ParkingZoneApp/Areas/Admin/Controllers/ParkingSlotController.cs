@@ -21,7 +21,8 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index(int ParkingZoneId)
         {
             var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
-                .Select(x => new ListItemVM(x));
+                .Select(x => new ListItemVM(x))
+                .OrderBy(x => x.Number);
             ViewData["Name"] = _zoneService.GetById(ParkingZoneId).Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
             return View(VMs);
@@ -102,6 +103,30 @@ namespace ParkingZoneApp.Areas.Admin
             }
             var VM = new DetailsVM(parkingSlot);
             return View(VM);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            var parkingSlot = _slotService.GetById(id);
+            if (parkingSlot is null)
+            {
+                return NotFound();
+            }
+            return View(parkingSlot);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            var existingParkingSlot = _slotService.GetById(id);
+            if (existingParkingSlot is null)
+            {
+                return NotFound();
+            }
+
+            _slotService.Delete(existingParkingSlot);
+            return RedirectToAction(nameof(Index), new {ParkingZoneId = existingParkingSlot.ParkingZoneId});
         }
     }
 }

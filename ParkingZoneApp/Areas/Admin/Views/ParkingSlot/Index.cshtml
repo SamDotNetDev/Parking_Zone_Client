@@ -72,7 +72,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>@Html.DisplayNameFor(model => model.Number)</th>
             <th>@Html.DisplayNameFor(model => model.IsAvailableForBooking)</th>
             <th>@Html.DisplayNameFor(model => model.Category)</th>
@@ -84,9 +83,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Number)
                 </td>

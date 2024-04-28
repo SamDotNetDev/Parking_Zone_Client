@@ -285,7 +285,7 @@ namespace ParkingSlotsTest.Controllers
         }
         #endregion
 
-        #region
+        #region Details
         [Fact]
         public void GivenParkingSlotId_WhenDetailsIsCalled_ThenReturnsNotFoundResult()
         {
@@ -323,6 +323,73 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<DetailsVM>(model);
             Assert.Equal(JsonSerializer.Serialize(detailsVM), JsonSerializer.Serialize(model));
             _slotService.Verify(x => x.GetById(Id), Times.Once);
+        }
+        #endregion
+
+        #region Delete
+        [Fact]
+        public void GivenParkingSlotId_WhenDeleteIsCalled_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result  = _controller.Delete(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+        }
+
+        [Fact]
+        public void GivenParkingSlotId_WhenDeleteIsCalled_ThenReturnsViewResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+
+            //Act
+            var result = _controller.Delete(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<ParkingSlot>(model);
+            Assert.Equal(JsonSerializer.Serialize(_parkingSlotsTest), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+        }
+
+        [Fact]
+        public void GivenParkingSlotId_WhenDeleteConfirmetIsCalled_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.DeleteConfirmed(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+        }
+
+        [Fact]
+        public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsRedirectToAction()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+            _slotService.Setup(x => x.Delete(_parkingSlotsTest));
+
+            //Act
+            var result = _controller.DeleteConfirmed(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var action = Assert.IsType<RedirectToActionResult>(result).ActionName;
+            Assert.Equal("Index", action);
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.Delete(_parkingSlotsTest), Times.Once);
         }
         #endregion
     }
