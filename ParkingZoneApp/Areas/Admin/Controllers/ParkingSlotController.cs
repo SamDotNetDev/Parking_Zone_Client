@@ -21,7 +21,8 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index(int ParkingZoneId)
         {
             var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
-                .Select(x => new ListItemVM(x));
+                .Select(x => new ListItemVM(x))
+                .OrderBy(x => x.Number);
             ViewData["Name"] = _zoneService.GetById(ParkingZoneId).Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
             return View(VMs);
@@ -90,6 +91,17 @@ namespace ParkingZoneApp.Areas.Admin
                 _slotService.Update(parkingSlot);
                 return RedirectToAction(nameof(Index), new { ParkingZoneId = parkingSlot.ParkingZoneId });
             }
+            return View(VM);
+        }
+
+        public IActionResult Details(int? id)
+        {
+            var parkingSlot = _slotService.GetById(id);
+            if (parkingSlot is null)
+            {
+                return NotFound();
+            }
+            var VM = new DetailsVM(parkingSlot);
             return View(VM);
         }
     }

@@ -284,5 +284,46 @@ namespace ParkingSlotsTest.Controllers
             _slotService.Verify(x => x.Update(_parkingSlotsTest));
         }
         #endregion
+
+        #region Details
+        [Fact]
+        public void GivenParkingSlotId_WhenDetailsIsCalled_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.Details(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _slotService.Verify(x => x.GetById(Id), Times.Once);
+        }
+
+        [Fact]
+        public void GivenParkingSlotId_WhenDetailsIsCalled_ThenReturnsViewResult()
+        {
+            //Arrange
+            DetailsVM detailsVM = new()
+            {
+                Id = Id,
+                Number = 1,
+                IsAvailableForBooking = true,
+                Category = SlotCategoryEnum.Standart
+            };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+
+            //Act
+            var result = _controller.Details(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<DetailsVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(detailsVM), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once);
+        }
+        #endregion
     }
 }
