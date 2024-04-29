@@ -104,5 +104,29 @@ namespace ParkingZoneApp.Areas.Admin
             var VM = new DetailsVM(parkingSlot);
             return View(VM);
         }
+
+        public IActionResult Delete(int? id)
+        {
+            var parkingSlot = _slotService.GetById(id);
+            if (parkingSlot is null)
+            {
+                return NotFound();
+            }
+            return View(parkingSlot);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            var existingParkingSlot = _slotService.GetById(id);
+            if (existingParkingSlot is null)
+            {
+                return NotFound();
+            }
+
+            _slotService.Delete(existingParkingSlot);
+            return RedirectToAction(nameof(Index), new {ParkingZoneId = existingParkingSlot.ParkingZoneId});
+        }
     }
 }
