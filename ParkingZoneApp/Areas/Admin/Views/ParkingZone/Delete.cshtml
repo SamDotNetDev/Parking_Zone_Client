@@ -1,6 +1,4 @@
 ﻿@model ParkingZoneApp.Models.ParkingZone
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
 
 @{
     ViewData["Title"] = "Delete";
@@ -15,19 +13,25 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-12">
-            <label>Name</label>
+            <label>
+                @Html.DisplayNameFor(model => model.Name)
+            </label>
         </dt>
         <dd class="col-sm-12">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-12">
-            <label>Address</label>
+            <label>
+                @Html.DisplayNameFor(model => model.Address)
+            </label>
         </dt>
         <dd class="col-sm-12">
             @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class="col-sm-12">
-            <label>Creation time</label>
+            <label>
+                @Html.DisplayNameFor(model => model.DateOfEstablishment)
+            </label>
         </dt>
         <dd class="col-sm-12">
             @Html.DisplayFor(model => model.DateOfEstablishment)
