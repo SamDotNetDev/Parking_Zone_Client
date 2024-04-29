@@ -102,6 +102,7 @@ namespace ParkingZoneApp.Areas.Admin
                 return NotFound();
             }
             var VM = new DetailsVM(parkingSlot);
+            ViewData["ParkingZoneId"] = parkingSlot.ParkingZoneId;
             return View(VM);
         }
 
