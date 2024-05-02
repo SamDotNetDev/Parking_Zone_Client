@@ -9,6 +9,7 @@ namespace ParkingZoneTest.ModelTests
         new List<object[]>
         {
             new object[] { "Test2", null, false },
+            new object[] { null, "Test2", false },
             new object[] { "Test3", "Test Address3", true }
         };
 
