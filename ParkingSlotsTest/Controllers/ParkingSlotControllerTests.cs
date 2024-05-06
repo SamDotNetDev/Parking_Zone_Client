@@ -94,7 +94,7 @@ namespace ParkingSlotsTest.Controllers
         {
             //Arrange
             CreateVM createVM = new() { ParkingZoneId = 1, Number = -1};
-            _slotService.Setup(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number)).Returns(false);
+            _slotService.Setup(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number)).Returns(false);
 
             //Act
             var result = _controller.Create(createVM);
@@ -104,7 +104,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<CreateVM>(model);
             Assert.NotNull(result);
             Assert.False(_controller.ModelState.IsValid);
-            _slotService.Verify(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number), Times.Once);
         }
         
         [Fact]
@@ -112,7 +112,7 @@ namespace ParkingSlotsTest.Controllers
         {
             //Arrange
             CreateVM createVM = new() { ParkingZoneId = 1, Number = 1};
-            _slotService.Setup(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number)).Returns(true);
+            _slotService.Setup(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number)).Returns(true);
 
             //Act
             var result = _controller.Create(createVM);
@@ -122,7 +122,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<CreateVM>(model);
             Assert.NotNull(result);
             Assert.False(_controller.ModelState.IsValid);
-            _slotService.Verify(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number), Times.Once);
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace ParkingSlotsTest.Controllers
                 IsAvailableForBooking = true,
                 ParkingZoneId = 1
             };
-            _slotService.Setup(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number)).Returns(false);
+            _slotService.Setup(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number)).Returns(false);
             _slotService.Setup(x => x.Insert(It.IsAny<ParkingSlot>()));
 
             //Act
@@ -147,7 +147,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.Equal("Index", action);
             Assert.NotNull(result);
             Assert.True(_controller.ModelState.IsValid);
-            _slotService.Verify(x => x.ParkingSlotExits(createVM.ParkingZoneId, createVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number), Times.Once);
             _slotService.Verify(x => x.Insert(It.IsAny<ParkingSlot>()), Times.Once);
         }
         #endregion
@@ -229,7 +229,7 @@ namespace ParkingSlotsTest.Controllers
             //Arrange
             EditVM editVM = new() { Id = Id, Number = -1, ParkingZoneId = 1 };
             _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
-            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
             //Act
             var result = _controller.Edit(Id, editVM);
 
@@ -240,7 +240,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
             _slotService.Verify(x => x.GetById(Id), Times.Once());
-            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
 
         [Fact]
@@ -249,7 +249,7 @@ namespace ParkingSlotsTest.Controllers
             //Arrange
             EditVM editVM = new() { Id = Id, Number = 2, ParkingZoneId = 1 };
             _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
-            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(true);
+            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(true);
             //Act
             var result = _controller.Edit(Id, editVM);
 
@@ -260,7 +260,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
             _slotService.Verify(x => x.GetById(Id), Times.Once());
-            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
         
         [Fact]
@@ -269,7 +269,7 @@ namespace ParkingSlotsTest.Controllers
             //Arrange
             EditVM editVM = new() { Id = Id, Number = 1, ParkingZoneId = 1 };
             _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
-            _slotService.Setup(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
             _slotService.Setup(x => x.Update(_parkingSlotsTest));
             //Act
             var result = _controller.Edit(Id, editVM);
@@ -280,7 +280,7 @@ namespace ParkingSlotsTest.Controllers
             var action = Assert.IsType<RedirectToActionResult>(result).ActionName;
             Assert.Equal("Index", action);
             _slotService.Verify(x => x.GetById(Id), Times.Once());
-            _slotService.Verify(x => x.ParkingSlotExits(editVM.ParkingZoneId, editVM.Number), Times.Once);
+            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
             _slotService.Verify(x => x.Update(_parkingSlotsTest));
         }
         #endregion

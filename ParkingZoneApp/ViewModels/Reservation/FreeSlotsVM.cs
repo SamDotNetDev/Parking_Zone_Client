@@ -17,10 +17,8 @@ namespace ParkingZoneApp.ViewModels.Reservation
         [Required]
         public int ParkingZoneId { get; set; }
 
-        [Required]
         public SelectList ParkingZones { get; set; }
 
-        [Required]
         public IEnumerable<ListItemVM> ParkingSlots { get; set; }
 
         public FreeSlotsVM(IEnumerable<ParkingZone> zones)

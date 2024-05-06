@@ -31,7 +31,8 @@ namespace ParkingZoneApp.Controllers
         [HttpPost]
         public IActionResult FreeSlots(FreeSlotsVM freeSlotsVM)
         {
-            ViewData["ParkingZoneName"] = _zoneService.GetById(freeSlotsVM.ParkingZoneId).Name;
+            var zone = _zoneService.GetById(freeSlotsVM.ParkingZoneId);
+            ViewData["ParkingZoneName"] = zone.Name;
             freeSlotsVM.ParkingSlots = _slotService
                 .GetFreeByParkingZoneIdAndPeriod(freeSlotsVM.ParkingZoneId, freeSlotsVM.StartTime, freeSlotsVM.Duration)
                 .Select(x => new ListItemVM(x));

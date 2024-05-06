@@ -16,7 +16,7 @@ namespace ParkingZoneApp.Services
             return ParkingSlots;
         }
 
-        public bool ParkingSlotExits(int parkingZoneId, int parkingSlotNumber)
+        public bool ParkingSlotExists(int parkingZoneId, int parkingSlotNumber)
         {
             var ParkingSlots = _repository.GetAll()
                 .Where(x => x.ParkingZoneId == parkingZoneId &&
