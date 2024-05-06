@@ -1,4 +1,5 @@
-﻿using ParkingZoneApp.Models;
+﻿using ParkingZoneApp.Data.Migrations;
+using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 
 namespace ParkingZoneApp.Services
@@ -15,12 +16,29 @@ namespace ParkingZoneApp.Services
             return ParkingSlots;
         }
 
-        public bool ParkingSlotExits(int ParkingZoneId, int ParkingSlotNumber)
+        public bool ParkingSlotExits(int parkingZoneId, int parkingSlotNumber)
         {
             var ParkingSlots = _repository.GetAll()
-                .Where(x => x.ParkingZoneId == ParkingZoneId &&
-                x.Number == ParkingSlotNumber);
+                .Where(x => x.ParkingZoneId == parkingZoneId &&
+                x.Number == parkingSlotNumber);
             return ParkingSlots.Count() == 0 ? false : true;
+        }
+
+        public IEnumerable<ParkingSlot> GetFreeByParkingZoneIdAndPeriod(int parkingZoneId, DateTime startTime, int duration)
+        {
+            var slots = _repository.GetAll()
+                .Where(x => x.ParkingZoneId == parkingZoneId && x.IsAvailableForBooking);
+            return slots;
+        }
+
+        public bool SlotFree(ParkingSlot slot, DateTime startTime, int duration)
+        {
+            DateTime endTime = startTime.AddHours(duration);
+
+            return !slot.Reservations.Any(r =>
+                (startTime >= r.StartTime && startTime < r.StartTime.AddHours(r.Duration)) ||
+                (endTime > r.StartTime && endTime <= r.StartTime.AddHours(r.Duration)) ||
+                (startTime <= r.StartTime && endTime >= r.StartTime.AddHours(r.Duration)));
         }
     }
 }

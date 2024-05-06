@@ -11,7 +11,12 @@ namespace ParkingZoneApp.Data
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
         public DbSet<ParkingZone> ParkingZone { get; set; }
         public DbSet<ParkingSlot> ParkingSlots { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

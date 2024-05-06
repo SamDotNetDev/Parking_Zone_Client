@@ -1,0 +1,142 @@
+﻿@using ParkingZoneApp.ViewModels.Reservation
+@model FreeSlotsVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    }
+
+        .table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3
+            }
+
+            .table tbody tr:last-of-type {
+                border-bottom: #009879;
+            }
+
+    .button-34 {
+        background: #006879;
+        border-radius: 999px;
+        box-shadow: #009879 0 10px 20px -10px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        opacity: 1;
+        outline: 0 solid transparent;
+        padding: 8px 18px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: fit-content;
+        word-break: break-word;
+        border: 0;
+    }
+</style>
+
+<h4>Reserve Parking Slot</h4>
+@if(Model.ParkingSlots is null)
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ParkingZoneId" class="control-label"></label>
+                    <select asp-for="ParkingZoneId" class="form-select" asp-items="@Model.ParkingZones">
+                        <option label=" "></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartTime" class="control-label"></label>
+                    <input asp-for="StartTime" class="form-control" value="@DateTime.Now.ToString("MM/dd/yyyy HH:mm")" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label asp-for="Duration" class="control-label">Duration</label>
+                    <input asp-for="Duration" class="form-control">
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@if(Model.ParkingSlots is not null && Model.ParkingSlots.Count() > 0)
+{
+    <h1>Free Slots in @ViewData["ParkingZoneName"]</h1>
+    <hr />
+    <button class="button-34" onclick="location.href='@Url.Action("FreeSlots","Reservation")'">Back</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Category</th>
+                <th width="150px"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ParkingSlots)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        <div>
+                            <a asp-controller="Reservation" asp-action="Reserve" class="btn btn-primary">Reserve</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
