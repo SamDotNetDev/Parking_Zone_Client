@@ -47,7 +47,8 @@ namespace ReservationTests.Controller
         public void GivenFreeSlotsVM_WhenFreeSlotsIsCalled_ThenReturnsViewResult()
         {
             //Arrange
-            ParkingZone zone = new() {Id = Id, Name = "Test" };
+            ParkingZone zoneTest = new();
+            List<ParkingZone> zones = new() { zoneTest };
             FreeSlotsVM vm = new() 
             { 
                 ParkingZoneId = Id, 
@@ -55,7 +56,7 @@ namespace ReservationTests.Controller
                 Duration = 2 
             };
             List<ParkingSlot> slots = new();
-            _zoneService.Setup(x => x.GetById(vm.ParkingZoneId)).Returns(zone);
+            _zoneService.Setup(x => x.GetAll()).Returns(zones);
             _slotService.Setup(x => x.GetFreeByParkingZoneIdAndPeriod(vm.ParkingZoneId, vm.StartTime, vm.Duration)).Returns(slots);
 
             //Act
@@ -65,7 +66,7 @@ namespace ReservationTests.Controller
             Assert.NotNull(result);
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<FreeSlotsVM>(model);
-            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetAll(), Times.Once);
             _slotService.Verify(x => x.GetFreeByParkingZoneIdAndPeriod(vm.ParkingZoneId, vm.StartTime, vm.Duration), Times.Once);
         }
         #endregion

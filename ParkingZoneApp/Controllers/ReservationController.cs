@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 using ParkingZoneApp.ViewModels.Reservation;
@@ -31,8 +32,8 @@ namespace ParkingZoneApp.Controllers
         [HttpPost]
         public IActionResult FreeSlots(FreeSlotsVM freeSlotsVM)
         {
-            var zone = _zoneService.GetById(freeSlotsVM.ParkingZoneId);
-            ViewData["ParkingZoneName"] = zone.Name;
+            var zones = _zoneService.GetAll();
+            freeSlotsVM.ParkingZones = new SelectList(zones, "Id", "Name");
             freeSlotsVM.ParkingSlots = _slotService
                 .GetFreeByParkingZoneIdAndPeriod(freeSlotsVM.ParkingZoneId, freeSlotsVM.StartTime, freeSlotsVM.Duration)
                 .Select(x => new ListItemVM(x));

@@ -1,4 +1,4 @@
-﻿using ParkingZoneApp.Data.Migrations;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingZoneApp.Models
@@ -7,7 +7,7 @@ namespace ParkingZoneApp.Models
     {
         [Key]
         [Required]
-        public int ReservationId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public DateTime StartTime { get; set; }
@@ -20,6 +20,9 @@ namespace ParkingZoneApp.Models
 
         [Required]
         public virtual ParkingSlot ParkingSlot { get; set; }
+
+        [Required]
+        public int UserId { get; set; }
 
         [Required]
         public virtual ApplicationUser User { get; set; }

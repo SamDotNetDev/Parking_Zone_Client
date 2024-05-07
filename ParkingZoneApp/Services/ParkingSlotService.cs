@@ -27,11 +27,13 @@ namespace ParkingZoneApp.Services
         public IEnumerable<ParkingSlot> GetFreeByParkingZoneIdAndPeriod(int parkingZoneId, DateTime startTime, int duration)
         {
             var slots = _repository.GetAll()
-                .Where(x => x.ParkingZoneId == parkingZoneId && x.IsAvailableForBooking);
+                .Where(x => x.ParkingZoneId == parkingZoneId 
+                && x.IsAvailableForBooking
+                && IsSlotFreeForReservation(x, startTime, duration));
             return slots;
         }
 
-        public bool SlotFree(ParkingSlot slot, DateTime startTime, int duration)
+        public bool IsSlotFreeForReservation(ParkingSlot slot, DateTime startTime, int duration)
         {
             DateTime endTime = startTime.AddHours(duration);
 
