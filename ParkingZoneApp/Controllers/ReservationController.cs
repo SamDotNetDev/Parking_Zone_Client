@@ -19,7 +19,6 @@ namespace ParkingZoneApp.Controllers
             _reservationService = reservationService;
             _slotService = slotService;
             _zoneService = zoneService;
-
         }
 
         public IActionResult FreeSlots()

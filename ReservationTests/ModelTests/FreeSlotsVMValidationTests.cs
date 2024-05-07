@@ -15,7 +15,7 @@ namespace ReservationTests.ModelTests
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenItemToBeValidated_WhenCreatingCreateVM_ThenValidationIsPerformed(DateTime StartTime, int Duration, int ParkingZoneId, SelectList ParkingZones, IEnumerable<ListItemVM> ParkingSlots, bool expectedValidationResult)
+        public void GivenItemToBeValidated_WhenCreatingFreeSlorsVM_ThenValidationIsPerformed(DateTime StartTime, int Duration, int ParkingZoneId, SelectList ParkingZones, IEnumerable<ListItemVM> ParkingSlots, bool expectedValidationResult)
         {
             //Arrange
             FreeSlotsVM freeSlotsVM = new()
