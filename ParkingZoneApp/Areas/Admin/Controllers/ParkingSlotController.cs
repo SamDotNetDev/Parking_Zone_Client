@@ -41,7 +41,7 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateVM VM)
         {
-            var ParkingSlotExists = _slotService.ParkingSlotExits(VM.ParkingZoneId, VM.Number);
+            var ParkingSlotExists = _slotService.ParkingSlotExists(VM.ParkingZoneId, VM.Number);
             if (VM.Number <= 0 || ParkingSlotExists == true)
             {
                 ModelState.AddModelError("Number", "Parking Slot exists or Number is not valid");
@@ -78,7 +78,7 @@ namespace ParkingZoneApp.Areas.Admin
             }
 
             var parkingSlot = _slotService.GetById(id);
-            var ParkingSlotExists = _slotService.ParkingSlotExits(VM.ParkingZoneId, VM.Number);
+            var ParkingSlotExists = _slotService.ParkingSlotExists(VM.ParkingZoneId, VM.Number);
             if (VM.Number <= 0 || ParkingSlotExists == true && VM.Number != parkingSlot.Number)
             {
                 ModelState.AddModelError("Number", "Parking Slot exists or Number is not valid");

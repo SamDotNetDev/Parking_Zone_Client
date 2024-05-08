@@ -25,6 +25,8 @@ namespace ParkingZoneApp
 
             builder.Services.AddScoped<IParkingZoneRepository, ParkingZoneRepository>();
             builder.Services.AddScoped<IParkingSlotsRepository, ParkingSlotsRepository>();
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+            builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IParkingZoneService, ParkingZoneService>();
             builder.Services.AddScoped<IParkingSlotService, ParkingSlotService>();
 
@@ -60,7 +62,11 @@ namespace ParkingZoneApp
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Reservation}/{action=FreeSlots}/{id?}");
+
             app.MapRazorPages();
 
             app.Run();

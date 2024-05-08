@@ -20,7 +20,7 @@ namespace ParkingZoneApp.Models
         public DateTime DateOfEstablishment { get; set; }
 
         [Required]
-        public ICollection<ParkingSlot> ParkingSlots { get; set; }
+        public virtual ICollection<ParkingSlot> ParkingSlots { get; set; }
 
     }
 }

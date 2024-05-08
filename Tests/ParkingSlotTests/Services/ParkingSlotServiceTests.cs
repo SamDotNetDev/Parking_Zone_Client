@@ -123,7 +123,7 @@ namespace ParkingSlotsTest.Services
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
             //Act
-            var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
+            var result = _service.ParkingSlotExists(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
             //Assert
             Assert.IsType<Boolean>(result);
@@ -139,7 +139,7 @@ namespace ParkingSlotsTest.Services
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
             //Act
-            var result = _service.ParkingSlotExits(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
+            var result = _service.ParkingSlotExists(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
             //Assert
             Assert.IsType<Boolean>(result);
