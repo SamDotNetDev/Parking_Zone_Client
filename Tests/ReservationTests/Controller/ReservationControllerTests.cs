@@ -4,6 +4,7 @@ using ParkingZoneApp.Controllers;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.Reservation;
+using System.Text.Json;
 
 namespace ReservationTests.Controller
 {
@@ -66,6 +67,7 @@ namespace ReservationTests.Controller
             Assert.NotNull(result);
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<FreeSlotsVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(vm), JsonSerializer.Serialize(model));
             _zoneService.Verify(x => x.GetAll(), Times.Once);
             _slotService.Verify(x => x.GetFreeByParkingZoneIdAndPeriod(vm.ParkingZoneId, vm.StartTime, vm.Duration), Times.Once);
         }
