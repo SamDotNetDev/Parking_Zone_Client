@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
-using ParkingZoneApp.ViewModels.Reservation;
+using ParkingZoneApp.ViewModels.ReservationVMs;
 using System.ComponentModel.DataAnnotations;
 
 namespace ReservationTests.ModelTests

@@ -1,4 +1,4 @@
-﻿
+﻿using ParkingZoneApp.ViewModels.ReservationVMs;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingZoneApp.Models
@@ -22,7 +22,10 @@ namespace ParkingZoneApp.Models
         public virtual ParkingSlot ParkingSlot { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string VehicleNumber { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
 
         [Required]
         public virtual ApplicationUser User { get; set; }

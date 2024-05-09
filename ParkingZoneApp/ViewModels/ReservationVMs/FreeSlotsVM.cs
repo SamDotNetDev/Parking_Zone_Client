@@ -3,7 +3,7 @@ using ParkingZoneApp.Models;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneApp.ViewModels.Reservation
+namespace ParkingZoneApp.ViewModels.ReservationVMs
 {
     public class FreeSlotsVM
     {
