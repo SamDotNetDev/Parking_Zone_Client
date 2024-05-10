@@ -167,7 +167,7 @@ namespace ReservationTests.Controller
         }
         
         [Fact]
-        public void GivenReserveViewModel_WhenReserveIsCalledToPost_ThenModelStateIsTrueAndReturnsViewResult()
+        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenModelStateIsTrueAndReturnsViewResult()
         {
             //Arrange
             ParkingZone zone = new();
