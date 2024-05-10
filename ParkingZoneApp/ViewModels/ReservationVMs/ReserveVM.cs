@@ -43,7 +43,7 @@ namespace ParkingZoneApp.ViewModels.ReservationVMs
                 StartTime = this.StartTime,
                 Duration = this.Duration,
                 ParkingSlotId = this.ParkingSlotId,
-                VehicleNumber = this.VehicleNumber,
+                VehicleNumber = this.VehicleNumber
             };
         }
 
