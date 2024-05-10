@@ -118,7 +118,7 @@ namespace ReservationTests.Controller
         }
 
         [Fact]
-        public void GivenReserveViewModel_WhenReserveIsCalledToPost_ThenReturnsNotFound()
+        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenReturnsNotFound()
         {
             //Arrange
             ReserveVM vm = new ReserveVM() { ParkingSlotId = Id };
@@ -134,7 +134,7 @@ namespace ReservationTests.Controller
         }
 
         [Fact]
-        public void GivenReserveViewModel_WhenReserveIsCalledToPost_ThenModelStateIsFalseAndReturnsViewResult()
+        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
             ParkingZone zone = new();

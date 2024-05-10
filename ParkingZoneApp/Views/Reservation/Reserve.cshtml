@@ -8,21 +8,17 @@
         <div class="col-md-4">
             <form asp-action="Reserve">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                 <input type="hidden" asp-for="ParkingSlotId" />
-
                 <div class="form-group">
                     <label asp-for="StartTime" class="control-label"></label>
                     <input asp-for="StartTime" class="form-control" value="@Model.StartTime.ToString("yyyy-MM-ddTHH:mm")" />
                     <span asp-validation-for="StartTime" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="Duration" class="control-label"></label>
                     <input asp-for="Duration" type="number" class="form-control" />
                     <span asp-validation-for="Duration" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="VehicleNumber" class="control-label"></label>
                     <input asp-for="VehicleNumber" type="text" class="form-control" />
