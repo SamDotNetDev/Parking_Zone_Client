@@ -1,0 +1,54 @@
+﻿@model ParkingZoneApp.ViewModels.ReservationVMs.ReserveVM
+@if (string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="row">
+        <h2>@Model.ParkingZoneName , @Model.ParkingZoneAddress</h2>
+        <h6>Slot Number: @Model.ParkingSlotNumber</h6>
+        <hr />
+        <div class="col-md-4">
+            <form asp-action="Reserve">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ParkingSlotId" />
+                <div class="form-group">
+                    <label asp-for="StartTime" class="control-label"></label>
+                    <input asp-for="StartTime" class="form-control" value="@Model.StartTime.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Duration" class="control-label"></label>
+                    <input asp-for="Duration" type="number" class="form-control" />
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VehicleNumber" class="control-label"></label>
+                    <input asp-for="VehicleNumber" type="text" class="form-control" />
+                    <span asp-validation-for="VehicleNumber" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Reserve" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}else
+{
+    <div id="successMessage" class="alert alert-success">@ViewBag.SuccessMessage</div>
+
+    <script>
+        // Hide success message after 3 seconds
+        setTimeout(function () {
+            document.getElementById("successMessage").style.display = "none";
+        }, 3000);
+
+        // Redirect after 3 seconds
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Home")';
+        }, 3000);
+    </script>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
