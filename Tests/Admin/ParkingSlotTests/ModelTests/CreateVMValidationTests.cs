@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
-namespace ParkingSlotsTest.ModelTests
+namespace Tests.Admin.ParkingSlotTests.ModelTests
 {
     public class CreateVMValidationTests
     {
@@ -15,7 +15,7 @@ namespace ParkingSlotsTest.ModelTests
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenItemToBeValidated_WhenCreatingCreateVM_ThenValidationIsPerformed(int Number, bool IsAvailableForBooking, SlotCategoryEnum Category,int ParkingZoneId, bool expectedValidation)
+        public void GivenItemToBeValidated_WhenCreatingCreateVM_ThenValidationIsPerformed(int Number, bool IsAvailableForBooking, SlotCategoryEnum Category, int ParkingZoneId, bool expectedValidation)
         {
             //Arrange
             CreateVM createVM = new()

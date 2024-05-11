@@ -5,7 +5,7 @@ using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
 namespace ParkingZoneApp.Areas.Admin
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ParkingSlotController : Controller
     {
@@ -79,9 +79,9 @@ namespace ParkingZoneApp.Areas.Admin
 
             var parkingSlot = _slotService.GetById(id);
             var ParkingSlotExists = _slotService.ParkingSlotExists(VM.ParkingZoneId, VM.Number);
-            if (VM.Number <= 0 || ParkingSlotExists == true && VM.Number != parkingSlot.Number)
+            if (ParkingSlotExists == true && VM.Number != parkingSlot.Number)
             {
-                ModelState.AddModelError("Number", "Parking Slot exists or Number is not valid");
+                ModelState.AddModelError("Number", "Parking Slot exists");
                 return View(VM);
             }
 

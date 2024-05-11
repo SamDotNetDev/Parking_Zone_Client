@@ -6,7 +6,7 @@ using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 
 namespace ParkingZoneApp.Areas.Admin
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ParkingZoneController : Controller
     {

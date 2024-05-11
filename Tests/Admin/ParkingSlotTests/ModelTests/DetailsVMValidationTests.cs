@@ -2,7 +2,7 @@
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingSlotsTest.ModelTests
+namespace Tests.Admin.ParkingSlotTests.ModelTests
 {
     public class DetailsVMValidationTests
     {

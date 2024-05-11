@@ -4,7 +4,7 @@ using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Models;
 using System.Text.Json;
 
-namespace ParkingZoneTest.Services
+namespace Tests.Admin.ParkingZoneTests.Services
 {
     public class ParkingZoneServiceTests
     {
@@ -19,10 +19,10 @@ namespace ParkingZoneTest.Services
             _service = new ParkingZoneService(_repository.Object);
             _ParkingZoneTest = new()
             {
-                Id = 1, 
-                Name = "Test", 
-                Address = "Test Address", 
-                DateOfEstablishment = DateTime.Now 
+                Id = 1,
+                Name = "Test",
+                Address = "Test Address",
+                DateOfEstablishment = DateTime.Now
             };
         }
 

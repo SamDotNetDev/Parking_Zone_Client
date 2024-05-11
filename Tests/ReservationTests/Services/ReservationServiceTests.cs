@@ -88,5 +88,47 @@ namespace ReservationTests.Services
             _repository.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(_ReservationTest), JsonSerializer.Serialize(model));
         }
+
+        [Fact]
+        public void GivenUserId_WhenReservationByUserIdIsCalled_ThenRepositoyGetAllIsCalled()
+        {
+            //Arrange
+            string userId = "asfad-ab4ra-avwe4grvf-dsg423";
+            var reservation = new List<Reservation>();
+            _repository.Setup(x => x.GetAll()).Returns(reservation);
+
+            //Act
+            var result = _service.ReservationsByUserId(userId);
+
+            //Assert
+            Assert.IsAssignableFrom<IEnumerable<Reservation>>(result);
+            _repository.Verify(x => x.GetAll(), Times.Once());
+        }
+
+        [Fact]
+        public void GivenDate_WhenIsDateInvalid_ThenDateIsCheckedAndReturnsTrue()
+        {
+            //Arrange
+            DateTime dateTime = DateTime.Now.AddMinutes(-1);
+
+            //Act
+            var result = _service.IsDateInvalid(dateTime);
+
+            //Assert
+            Assert.True(result);
+        }
+        
+        [Fact]
+        public void GivenDate_WhenIsDateInvalid_ThenDateIsCheckedAndReturnsFalse()
+        {
+            //Arrange
+            DateTime dateTime = DateTime.Now;
+
+            //Act
+            var result = _service.IsDateInvalid(dateTime);
+
+            //Assert
+            Assert.False(result);
+        }
     }
 }

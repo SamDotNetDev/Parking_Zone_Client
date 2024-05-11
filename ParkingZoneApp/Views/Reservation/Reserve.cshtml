@@ -31,11 +31,28 @@
             </form>
         </div>
     </div>
-}else
+}
+else
 {
     <div id="successMessage" class="alert alert-success">@ViewBag.SuccessMessage</div>
 
-    <script>
+    if (User.IsInRole("User"))
+    {
+        <script>
+            // Hide success message after 3 seconds
+            setTimeout(function () {
+            document.getElementById("successMessage").style.display = "none";
+            }, 3000);
+
+            // Redirect after 3 seconds
+            setTimeout(function () {
+                window.location.href = '@Url.Action("Index", "Reservation", new { area = "User" })';
+            }, 3000);
+        </script>
+    }
+    else
+    {
+        <script>
         // Hide success message after 3 seconds
         setTimeout(function () {
             document.getElementById("successMessage").style.display = "none";
@@ -46,6 +63,7 @@
             window.location.href = '@Url.Action("Index", "Home")';
         }, 3000);
     </script>
+    }
 }
 @section Scripts {
     @{
