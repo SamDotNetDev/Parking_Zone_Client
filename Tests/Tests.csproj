@@ -27,8 +27,4 @@
     <ProjectReference Include="..\ParkingZoneApp\ParkingZoneApp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="User\ReservationTests\Model\" />
-  </ItemGroup>
-
 </Project>
