@@ -9,13 +9,13 @@ namespace Tests.Admin.ParkingSlotTests.ModelTests
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
-                new object[] {1, 1, true, SlotCategoryEnum.Standart, 1, true},
-                new object[] {2, 2, false, SlotCategoryEnum.Business, 2, true}
+                new object[] {1, 1, true, SlotCategoryEnum.Standart, 1, true, true},
+                new object[] {2, 2, false, SlotCategoryEnum.Business, 2, false, true}
             };
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenItemToBeValidated_WhenCreatingCreateVM_ThenValidationIsPerformed(int Id, int Number, bool IsAvailableForBooking, SlotCategoryEnum Category, int ParkingZoneId, bool expectedValidation)
+        public void GivenItemToBeValidated_WhenCreatingCreateVM_ThenValidationIsPerformed(int Id, int Number, bool IsAvailableForBooking, SlotCategoryEnum Category, int ParkingZoneId, bool isInUse, bool expectedValidation)
         {
             //Arrange
             EditVM editVM = new()
@@ -24,7 +24,8 @@ namespace Tests.Admin.ParkingSlotTests.ModelTests
                 Number = Number,
                 IsAvailableForBooking = IsAvailableForBooking,
                 Category = Category,
-                ParkingZoneId = ParkingZoneId
+                ParkingZoneId = ParkingZoneId,
+                IsInUse = isInUse
             };
 
             var validationContext = new ValidationContext(editVM, null, null);

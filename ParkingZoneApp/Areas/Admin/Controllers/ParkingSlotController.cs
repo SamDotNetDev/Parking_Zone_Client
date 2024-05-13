@@ -85,6 +85,11 @@ namespace ParkingZoneApp.Areas.Admin
                 return View(VM);
             }
 
+            if (parkingSlot.IsInUse)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (ModelState.IsValid) 
             {
                 parkingSlot = VM.MapToModel(parkingSlot);
