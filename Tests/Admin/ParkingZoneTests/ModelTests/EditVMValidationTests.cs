@@ -1,7 +1,7 @@
 ﻿using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneTest.ModelTests
+namespace Tests.Admin.ParkingZoneTests.ModelTests
 {
     public class EditVMValidationTests
     {
@@ -21,7 +21,7 @@ namespace ParkingZoneTest.ModelTests
             EditVM editVM = new()
             {
                 Id = Id,
-                Name = Name, 
+                Name = Name,
                 Address = Address
             };
 

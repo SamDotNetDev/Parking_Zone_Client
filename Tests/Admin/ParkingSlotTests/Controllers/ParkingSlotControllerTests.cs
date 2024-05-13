@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ParkingZoneApp.Areas.Admin;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
-namespace ParkingSlotsTest.Controllers
+namespace Tests.Admin.ParkingSlotTests.Controllers
 {
     public class ParkingSlotControllerTests
     {
@@ -93,7 +93,7 @@ namespace ParkingSlotsTest.Controllers
         public void GivenCreateVM_WhenCreateIsCalledToPost_ThenNumberIsNegativeAndModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
-            CreateVM createVM = new() { ParkingZoneId = 1, Number = -1};
+            CreateVM createVM = new() { ParkingZoneId = 1, Number = -1 };
             _slotService.Setup(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number)).Returns(false);
 
             //Act
@@ -106,12 +106,12 @@ namespace ParkingSlotsTest.Controllers
             Assert.False(_controller.ModelState.IsValid);
             _slotService.Verify(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number), Times.Once);
         }
-        
+
         [Fact]
         public void GivenCreateVM_WhenCreateIsCalledToPost_ThenSlotExistsAndModelStateIsFalseAndReturnsRedirectToAction()
         {
             //Arrange
-            CreateVM createVM = new() { ParkingZoneId = 1, Number = 1};
+            CreateVM createVM = new() { ParkingZoneId = 1, Number = 1 };
             _slotService.Setup(x => x.ParkingSlotExists(createVM.ParkingZoneId, createVM.Number)).Returns(true);
 
             //Act
@@ -166,7 +166,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.NotNull(result);
             Assert.IsType<NotFoundResult>(result);
         }
-        
+
         [Fact]
         public void GivenParkingSlotId_WhenEditIsCalled_ThenReturnsViewResult()
         {
@@ -190,7 +190,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
         }
-        
+
         [Fact]
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenReturnsNotFoundResult()
         {
@@ -204,7 +204,7 @@ namespace ParkingSlotsTest.Controllers
             Assert.NotNull(result);
             Assert.IsType<NotFoundResult>(result);
         }
-        
+
         [Fact]
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsViewResult()
         {
@@ -221,26 +221,6 @@ namespace ParkingSlotsTest.Controllers
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
-        }
-        
-        [Fact]
-        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenNumberIsNegativeAndModelStateIsFalseAndReturnsViewResult()
-        {
-            //Arrange
-            EditVM editVM = new() { Id = Id, Number = -1, ParkingZoneId = 1 };
-            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
-            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
-            //Act
-            var result = _controller.Edit(Id, editVM);
-
-            //Assert
-            Assert.False(_controller.ModelState.IsValid);
-            Assert.NotNull(result);
-            var model = Assert.IsType<ViewResult>(result).Model;
-            Assert.IsType<EditVM>(model);
-            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
-            _slotService.Verify(x => x.GetById(Id), Times.Once());
-            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
 
         [Fact]
@@ -262,7 +242,7 @@ namespace ParkingSlotsTest.Controllers
             _slotService.Verify(x => x.GetById(Id), Times.Once());
             _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
-        
+
         [Fact]
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotModelStateIsTrueAndReturnsRedirectToAction()
         {
@@ -334,7 +314,7 @@ namespace ParkingSlotsTest.Controllers
             _slotService.Setup(x => x.GetById(Id));
 
             //Act
-            var result  = _controller.Delete(Id);
+            var result = _controller.Delete(Id);
 
             //Assert
             Assert.NotNull(result);

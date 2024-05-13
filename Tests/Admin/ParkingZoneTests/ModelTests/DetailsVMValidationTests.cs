@@ -1,7 +1,7 @@
 ﻿using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingZoneTest.ModelTests
+namespace Tests.Admin.ParkingZoneTests.ModelTests
 {
     public class DetailsVMValidationTests
     {
@@ -30,7 +30,7 @@ namespace ParkingZoneTest.ModelTests
             var validationResult = new List<ValidationResult>();
 
             //Act
-            var result = Validator.TryValidateObject(detailsVM, validationContext,validationResult);
+            var result = Validator.TryValidateObject(detailsVM, validationContext, validationResult);
 
             //Assert
             Assert.Equal(expectedValidation, result);

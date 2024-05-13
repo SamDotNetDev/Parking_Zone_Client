@@ -5,7 +5,7 @@ using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.Repositories;
 
-namespace ParkingSlotsTest.Services
+namespace Tests.Admin.ParkingSlotTests.Services
 {
     public class ParkingSlotServiceTests
     {
@@ -38,7 +38,7 @@ namespace ParkingSlotsTest.Services
             _service.Insert(_ParkingSlotsTest);
 
             //Assert
-            _repository.Verify(x=>x.Insert(_ParkingSlotsTest), Times.Once);
+            _repository.Verify(x => x.Insert(_ParkingSlotsTest), Times.Once);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace ParkingSlotsTest.Services
             _service.Update(_ParkingSlotsTest);
 
             //Assert
-            _repository.Verify(x=>x.Update(_ParkingSlotsTest), Times.Once);
+            _repository.Verify(x => x.Update(_ParkingSlotsTest), Times.Once);
         }
 
         [Fact]
@@ -119,18 +119,18 @@ namespace ParkingSlotsTest.Services
         public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsTrue()
         {
             //Arrange
-            var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest};
+            var ParkingSlots = new List<ParkingSlot>() { _ParkingSlotsTest };
             _repository.Setup(x => x.GetAll()).Returns(ParkingSlots);
 
             //Act
             var result = _service.ParkingSlotExists(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
             //Assert
-            Assert.IsType<Boolean>(result);
+            Assert.IsType<bool>(result);
             Assert.True(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
         }
-        
+
         [Fact]
         public void GivenParkingZoneIdAndParkingSlotNumber_WhenParkingSlotExistsIsCalled_ThenReturnsFalse()
         {
@@ -142,7 +142,7 @@ namespace ParkingSlotsTest.Services
             var result = _service.ParkingSlotExists(_ParkingSlotsTest.ParkingZoneId, _ParkingSlotsTest.Number);
 
             //Assert
-            Assert.IsType<Boolean>(result);
+            Assert.IsType<bool>(result);
             Assert.False(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
         }

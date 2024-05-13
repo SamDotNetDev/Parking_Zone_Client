@@ -36,9 +36,17 @@ namespace ParkingZoneApp.Controllers
         {
             var zones = _zoneService.GetAll();
             freeSlotsVM.ParkingZones = new SelectList(zones, "Id", "Name");
+
+            if (_reservationService.IsDateInvalid(freeSlotsVM.StartTime))
+            {
+                ModelState.AddModelError("StartTime", "Start time cannot be in the past.");
+                return View(freeSlotsVM);
+            }
+
             freeSlotsVM.ParkingSlots = _slotService
                 .GetFreeByParkingZoneIdAndPeriod(freeSlotsVM.ParkingZoneId, freeSlotsVM.StartTime, freeSlotsVM.Duration)
                 .Select(x => new ListItemVM(x));
+
             return View(freeSlotsVM);
         }
 
@@ -50,6 +58,7 @@ namespace ParkingZoneApp.Controllers
                 return NotFound();
 
             ReserveVM reserveVM = new(parkingSlot, startTime, duration);
+
             return View(reserveVM);
         }
 
@@ -71,6 +80,11 @@ namespace ParkingZoneApp.Controllers
             {
                 ModelState.AddModelError("StartTime", "Slot is not available for selected period");
                 ModelState.AddModelError("Duration", "Slot is not available for selected period");
+                return View(reserveVM);
+            }
+            if (_reservationService.IsDateInvalid(reserveVM.StartTime))
+            {
+                ModelState.AddModelError("StartTime", "Start time cannot be in the past.");
                 return View(reserveVM);
             }
 

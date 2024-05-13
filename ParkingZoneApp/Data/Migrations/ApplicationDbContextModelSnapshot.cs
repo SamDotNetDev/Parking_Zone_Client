@@ -255,7 +255,7 @@ namespace ParkingZoneApp.Data.Migrations
 
                     b.HasIndex("ParkingZoneId");
 
-                    b.ToTable("ParkingSlots");
+                    b.ToTable("ParkingSlots", (string)null);
                 });
 
             modelBuilder.Entity("ParkingZoneApp.Models.ParkingZone", b =>
@@ -279,7 +279,7 @@ namespace ParkingZoneApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ParkingZone");
+                    b.ToTable("ParkingZone", (string)null);
                 });
 
             modelBuilder.Entity("ParkingZoneApp.Models.Reservation", b =>
@@ -313,7 +313,7 @@ namespace ParkingZoneApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

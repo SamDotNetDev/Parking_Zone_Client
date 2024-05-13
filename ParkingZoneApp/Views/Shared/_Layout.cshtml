@@ -29,7 +29,12 @@
                         <li>
                             <a class="nav-link text-dark" href="/Reservation/FreeSlots">Reservation</a>
                         </li>
-
+                        <li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-area="User" asp-controller="Reservation" asp-action="Index">My Reservations</a>
+                            }
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

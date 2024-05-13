@@ -50,7 +50,7 @@ namespace ReservationTests.Controller
         }
 
         [Fact]
-        public void GivenFreeSlotsVM_WhenFreeSlotsIsCalled_ThenReturnsViewResult()
+        public void GivenFreeSlotsVM_WhenFreeSlotsIsCalled_ThenModelStateIsTrueAndReturnsViewResult()
         {
             //Arrange
             ParkingZone zoneTest = new();
@@ -64,6 +64,7 @@ namespace ReservationTests.Controller
             List<ParkingSlot> slots = new();
             _zoneService.Setup(x => x.GetAll()).Returns(zones);
             _slotService.Setup(x => x.GetFreeByParkingZoneIdAndPeriod(vm.ParkingZoneId, vm.StartTime, vm.Duration)).Returns(slots);
+            _reservationService.Setup(x => x.IsDateInvalid(vm.StartTime)).Returns(false);
 
             //Act
             var result = _controller.FreeSlots(vm);
@@ -73,8 +74,39 @@ namespace ReservationTests.Controller
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<FreeSlotsVM>(model);
             Assert.Equal(JsonSerializer.Serialize(vm), JsonSerializer.Serialize(model));
+            Assert.True(_controller.ModelState.IsValid);
             _zoneService.Verify(x => x.GetAll(), Times.Once);
             _slotService.Verify(x => x.GetFreeByParkingZoneIdAndPeriod(vm.ParkingZoneId, vm.StartTime, vm.Duration), Times.Once);
+            _reservationService.Verify(x => x.IsDateInvalid(vm.StartTime), Times.Once);
+        }
+
+        [Fact]
+        public void GivenFreeSlotsVM_WhenFreeSlotsIsCalled_ThenModelStateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            ParkingZone zoneTest = new();
+            List<ParkingZone> zones = new() { zoneTest };
+            FreeSlotsVM vm = new()
+            {
+                ParkingZoneId = Id,
+                StartTime = DateTime.Now.AddMinutes(-1),
+                Duration = 2
+            };
+            _controller.ModelState.AddModelError("StartTime", "Start time cannot be in the past.");
+            List<ParkingSlot> slots = new();
+            _zoneService.Setup(x => x.GetAll()).Returns(zones);
+            _reservationService.Setup(x => x.IsDateInvalid(vm.StartTime)).Returns(true);
+            //Act
+            var result = _controller.FreeSlots(vm);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<FreeSlotsVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(vm), JsonSerializer.Serialize(model));
+            Assert.False(_controller.ModelState.IsValid);
+            _zoneService.Verify(x => x.GetAll(), Times.Once);
+            _reservationService.Verify(x => x.IsDateInvalid(vm.StartTime), Times.Once);
         }
         #endregion
 
@@ -134,7 +166,7 @@ namespace ReservationTests.Controller
         }
 
         [Fact]
-        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenModelStateIsFalseAndReturnsViewResult()
+        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenSlotIsNotFreeModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
             ParkingZone zone = new();
@@ -165,7 +197,41 @@ namespace ReservationTests.Controller
             _slotService.Verify(x => x.GetById(vm.ParkingSlotId), Times.Once);
             _slotService.Verify(x => x.IsSlotFreeForReservation(slot, vm.StartTime, vm.Duration), Times.Once);
         }
-        
+
+        [Fact]
+        public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenStartTimeIsInvalidAndModelStateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            ParkingZone zone = new();
+            ParkingSlot slot = new()
+            {
+                Id = Id,
+                ParkingZone = zone,
+                Number = 1
+            };
+            ReserveVM vm = new()
+            {
+                StartTime = DateTime.Now.AddMinutes(-1),
+                Duration = 1,
+                ParkingSlotId = Id
+            };
+            _slotService.Setup(x => x.GetById(vm.ParkingSlotId)).Returns(slot);
+            _slotService.Setup(x => x.IsSlotFreeForReservation(slot, vm.StartTime, vm.Duration)).Returns(true);
+            _reservationService.Setup(x => x.IsDateInvalid(vm.StartTime)).Returns(true);
+            //Act
+            var result = _controller.Reserve(vm);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<ReserveVM>(model);
+            Assert.False(_controller.ModelState.IsValid);
+            Assert.Equal(JsonSerializer.Serialize(vm), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(vm.ParkingSlotId), Times.Once);
+            _slotService.Verify(x => x.IsSlotFreeForReservation(slot, vm.StartTime, vm.Duration), Times.Once);
+            _reservationService.Verify(x => x.IsDateInvalid(vm.StartTime) ,Times.Once);
+        }
+
         [Fact]
         public void GivenReserveViewModel_WhenPostReserveIsCalled_ThenModelStateIsTrueAndReturnsViewResult()
         {
@@ -195,6 +261,7 @@ namespace ReservationTests.Controller
 
             _slotService.Setup(x => x.GetById(vm.ParkingSlotId)).Returns(slot);
             _slotService.Setup(x => x.IsSlotFreeForReservation(slot, vm.StartTime, vm.Duration)).Returns(true);
+            _reservationService.Setup(x => x.IsDateInvalid(vm.StartTime)).Returns(false);
             _reservationService.Setup(x => x.Insert(It.IsAny<Reservation>()));
 
             //Act
@@ -209,6 +276,7 @@ namespace ReservationTests.Controller
             Assert.Equal(_controller.ViewBag.SuccessMessage, "Reservation successful.");
             _slotService.Verify(x => x.GetById(vm.ParkingSlotId), Times.Once);
             _slotService.Verify(x => x.IsSlotFreeForReservation(slot, vm.StartTime, vm.Duration), Times.Once);
+            _reservationService.Verify(x => x.IsDateInvalid(vm.StartTime), Times.Once);
             _reservationService.Verify(x => x.Insert(It.IsAny<Reservation>()), Times.Once);
         }
 
