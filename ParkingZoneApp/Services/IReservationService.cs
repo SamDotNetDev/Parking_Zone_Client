@@ -7,5 +7,7 @@ namespace ParkingZoneApp.Services
         public IEnumerable<Reservation> ReservationsByUserId(string userId);
 
         public bool IsDateInvalid(DateTime date);
+
+        public void ProlongReservation(Reservation reservation, int addHours);
     }
 }

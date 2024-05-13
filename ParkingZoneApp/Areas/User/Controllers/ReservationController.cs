@@ -30,5 +30,35 @@ namespace ParkingZoneApp.Areas.User.Controllers
                 .OrderByDescending(x => x.StartTime);
             return View(reservationsHistoryVMs);
         }
+
+        public IActionResult Prolong(int reservationId)
+        {
+            var reservation = _reservationService.GetById(reservationId);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            ProlongVM prolongVM = new(reservation);
+            return View(prolongVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Prolong(ProlongVM prolongVM)
+        {
+            var reservation = _reservationService.GetById(prolongVM.ReservationId);
+            var isFree = _slotService.IsSlotFreeForReservation(reservation.ParkingSlot, prolongVM.EndTime, prolongVM.AddHours);
+            if (!isFree)
+            {
+                ModelState.AddModelError("AddHours", "Slot is not free for chosen time period");
+                return View(prolongVM);
+            }
+
+            _reservationService.ProlongReservation(reservation, prolongVM.AddHours);
+
+            return RedirectToAction("Index");
+        }
     }
 }

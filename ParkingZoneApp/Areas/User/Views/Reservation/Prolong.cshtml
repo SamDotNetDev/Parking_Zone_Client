@@ -1,0 +1,61 @@
+﻿@model ProlongVM
+@using ParkingZoneApp.ViewModels.ReservationVMs
+@{
+    ViewData["Title"] = "Prolong";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Prolong</h1>
+
+<h4>Reservation</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Prolong">
+            <input type="hidden" value="@Model.ReservationId" asp-for="ReservationId" />
+            <input type="hidden" value="@Model.EndTime" asp-for="EndTime" />
+            <input type="hidden" value="@Model.ParkingSlotNumber" asp-for="ParkingSlotNumber" />
+            <input type="hidden" value="@Model.ParkingZoneAddress" asp-for="ParkingZoneAddress" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <dl class="row">
+                <dt class="col-sm-12">
+                    <label asp-for="ParkingSlotNumber" class="control-label"></label>
+                </dt>
+                <dd class="col-sm-12">
+                    @Html.DisplayFor(model => model.ParkingSlotNumber)
+                </dd>
+                <dt class="col-sm-12">
+                    <label asp-for="ParkingZoneAddress" class="control-label"></label>
+                </dt>
+                <dd class="col-sm-12">
+                    @Html.DisplayFor(model => model.ParkingZoneAddress)
+                </dd>
+                <dt class="col-sm-12">
+                    <label asp-for="EndTime" class="control-label"></label>
+                </dt>
+                <dd class="col-sm-12">
+                    @Html.DisplayFor(model => model.EndTime)
+                </dd>
+            </dl>
+            <br />
+            <div class="form-group">
+                <label asp-for="AddHours" class="control-label"></label>
+                <input asp-for="AddHours" class="form-control" />
+                <span asp-validation-for="AddHours" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Prolong" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+        {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

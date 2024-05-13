@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using Moq;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Services;
@@ -106,7 +107,7 @@ namespace ReservationTests.Services
         }
 
         [Fact]
-        public void GivenDate_WhenIsDateInvalid_ThenDateIsCheckedAndReturnsTrue()
+        public void GivenDate_WhenIsDateInvalidIsCalled_ThenDateIsCheckedAndReturnsTrue()
         {
             //Arrange
             DateTime dateTime = DateTime.Now.AddMinutes(-1);
@@ -119,7 +120,7 @@ namespace ReservationTests.Services
         }
         
         [Fact]
-        public void GivenDate_WhenIsDateInvalid_ThenDateIsCheckedAndReturnsFalse()
+        public void GivenDate_WhenIsDateInvalidIsCalled_ThenDateIsCheckedAndReturnsFalse()
         {
             //Arrange
             DateTime dateTime = DateTime.Now;
@@ -129,6 +130,20 @@ namespace ReservationTests.Services
 
             //Assert
             Assert.False(result);
+        }
+
+        [Fact]
+        public void GivenReservationModelAndHours_WhenProlongReservationIsCalled_ThenRepositoryUpdateIsCalled()
+        {
+            //Arrange
+            int addHours = 1;
+            _repository.Setup(x => x.Update(It.IsAny<Reservation>()));
+
+            //Act
+            _service.ProlongReservation(_ReservationTest, addHours);
+
+            //Assert
+            _repository.Verify(x => x.Update(_ReservationTest), Times.Once());
         }
     }
 }
