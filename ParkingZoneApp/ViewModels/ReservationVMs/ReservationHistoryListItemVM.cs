@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ParkingZoneApp.ViewModels.ReservationVMs
 {
-    public class ReservationHistoryListVM
+    public class ReservationHistoryListItemVM
     {        
         [Required]
         public int Id { get; set; }
@@ -29,7 +29,7 @@ namespace ParkingZoneApp.ViewModels.ReservationVMs
         [Required]
         public bool IsActive { get; set; }
 
-        public ReservationHistoryListVM(Reservation reservation)
+        public ReservationHistoryListItemVM(Reservation reservation)
         {
             Id = reservation.Id;
             UserId = reservation.UserId;
@@ -41,6 +41,6 @@ namespace ParkingZoneApp.ViewModels.ReservationVMs
             IsActive = reservation.IsActive;
         }
 
-        public ReservationHistoryListVM() { }
+        public ReservationHistoryListItemVM() { }
     }
 }

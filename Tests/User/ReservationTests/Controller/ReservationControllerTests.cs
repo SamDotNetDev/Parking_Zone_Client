@@ -37,7 +37,7 @@ namespace Tests.User.ReservationTests.Controller
         public void GivenNothing_WhenIndexIsCalled_ThenReturnsViewResult()
         {
             //Arrange
-            var reservationsHistoryVMs = new List<ReservationHistoryListVM>();
+            var reservationsHistoryVMs = new List<ReservationHistoryListItemVM>();
             var reservations = new List<Reservation>();
             string userId = "asgfsev-ert634g35-erfbge-4gbedfbdr-g54ebsv";
 
@@ -58,7 +58,7 @@ namespace Tests.User.ReservationTests.Controller
 
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
-            Assert.IsAssignableFrom<IOrderedEnumerable<ReservationHistoryListVM>>(model);
+            Assert.IsAssignableFrom<IOrderedEnumerable<ReservationHistoryListItemVM>>(model);
             Assert.NotNull(result);
             Assert.Equal(JsonSerializer.Serialize(reservationsHistoryVMs), JsonSerializer.Serialize(model));
             _reservationService.Verify(x => x.ReservationsByUserId(userId), Times.Once());

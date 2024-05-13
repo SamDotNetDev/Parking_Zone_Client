@@ -26,7 +26,7 @@ namespace ParkingZoneApp.Areas.User.Controllers
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservations = _reservationService.ReservationsByUserId(UserId);
             var reservationsHistoryVMs = reservations
-                .Select(x => new ReservationHistoryListVM(x))
+                .Select(x => new ReservationHistoryListItemVM(x))
                 .OrderByDescending(x => x.StartTime);
             return View(reservationsHistoryVMs);
         }

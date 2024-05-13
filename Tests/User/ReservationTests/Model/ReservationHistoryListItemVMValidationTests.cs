@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Tests.User.ReservationTests.Model
 {
-    public class ReservationHistoryListVMValidationTests
+    public class ReservationHistoryListItemVMValidationTests
     {
         public static IEnumerable<object[]> TestData =>
             new List<object[]>
@@ -16,10 +16,10 @@ namespace Tests.User.ReservationTests.Model
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GivenItemToBeValidated_WhenCreatingReservationHistoryListVM_ThenValidationIsPerformed(int id, DateTime startTime, int duration, string zoneAddress, int slotNumber, string vehicleNumber, string userId, bool isActive, bool expectedValidation)
+        public void GivenItemToBeValidated_WhenCreatingReservationHistoryListItemVM_ThenValidationIsPerformed(int id, DateTime startTime, int duration, string zoneAddress, int slotNumber, string vehicleNumber, string userId, bool isActive, bool expectedValidation)
         {
             //Arrange
-            ReservationHistoryListVM reservationHistoryVM = new()
+            ReservationHistoryListItemVM reservationHistoryVM = new()
             {
                 Id = id,
                 StartTime = startTime,

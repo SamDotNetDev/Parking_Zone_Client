@@ -6,6 +6,7 @@ using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 namespace ParkingZoneApp.Areas.Admin
 {
     [Area("Admin")]
+    [Authorize]
     public class ParkingSlotController : Controller
     {
         private readonly IParkingSlotService _slotService;
