@@ -30,7 +30,7 @@
                             <a class="nav-link text-dark" href="/Reservation/FreeSlots">Reservation</a>
                         </li>
                         <li>
-                            @if (User.IsInRole("User"))
+                            @if (User.Identity.IsAuthenticated)
                             {
                                 <a class="nav-link text-dark" asp-area="User" asp-controller="Reservation" asp-action="Index">My Reservations</a>
                             }

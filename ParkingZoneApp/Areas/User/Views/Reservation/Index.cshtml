@@ -79,7 +79,6 @@ else
                 <th>@Html.DisplayNameFor(model => model.ParkingZoneAddress)</th>
                 <th>@Html.DisplayNameFor(model => model.ParkingSlotNumber)</th>
                 <th>@Html.DisplayNameFor(model => model.VehicleNumber)</th>
-                <th></th>
             </tr>
         </thead>
 
@@ -101,14 +100,6 @@ else
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.VehicleNumber)
-                    </td>
-                    <td>
-                        <div>
-                            @if(item.IsActive)
-                            {
-                                <a asp-action="Prolong" asp-route-id="@item.Id" class="btn btn-outline-dark"> Prolong </a>
-                            }
-                        </div>
                     </td>
                 </tr>
             }
