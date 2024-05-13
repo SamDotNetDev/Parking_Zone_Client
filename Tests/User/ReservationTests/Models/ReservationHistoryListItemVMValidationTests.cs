@@ -1,7 +1,7 @@
 ﻿using ParkingZoneApp.ViewModels.ReservationVMs;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tests.User.ReservationTests.Model
+namespace Tests.User.ReservationTests.Models
 {
     public class ReservationHistoryListItemVMValidationTests
     {

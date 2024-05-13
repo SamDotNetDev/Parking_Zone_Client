@@ -19,5 +19,11 @@ namespace ParkingZoneApp.Services
             string NowDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
             return date < DateTime.Parse(NowDate);
         }
+
+        public void ProlongReservation(Reservation reservation, int addHours)
+        {
+            reservation.Duration += addHours;
+            Update(reservation);
+        }
     }
 }
