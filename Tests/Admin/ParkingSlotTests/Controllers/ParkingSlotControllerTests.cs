@@ -370,7 +370,22 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         }
 
         [Fact]
-        public void GivenParkingSlotId_WhenDeleteConfirmetIsCalled_ThenReturnsNotFoundResult()
+        public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsNotFoundResult()
+        {
+            //Arrange
+            _slotService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.DeleteConfirmed(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+        }
+
+        [Fact]
+        public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsNotFoundResult()
         {
             //Arrange
             _slotService.Setup(x => x.GetById(Id));
