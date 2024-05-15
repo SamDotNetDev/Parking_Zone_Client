@@ -385,10 +385,12 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         }
 
         [Fact]
-        public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsNotFoundResult()
+        public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenIsInUseIsFalseAndReturnsNotFoundResult()
         {
             //Arrange
-            _slotService.Setup(x => x.GetById(Id));
+            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(1) };
+            ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
+            _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
 
             //Act
             var result = _controller.DeleteConfirmed(Id);
@@ -403,8 +405,10 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsRedirectToAction()
         {
             //Arrange
-            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
-            _slotService.Setup(x => x.Delete(_parkingSlotsTest));
+            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(-1) };
+            ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
+            _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
+            _slotService.Setup(x => x.Delete(parkingSlot));
 
             //Act
             var result = _controller.DeleteConfirmed(Id);
@@ -414,7 +418,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             var action = Assert.IsType<RedirectToActionResult>(result).ActionName;
             Assert.Equal("Index", action);
             _slotService.Verify(x => x.GetById(Id), Times.Once());
-            _slotService.Verify(x => x.Delete(_parkingSlotsTest), Times.Once);
+            _slotService.Verify(x => x.Delete(parkingSlot), Times.Once);
         }
         #endregion
     }

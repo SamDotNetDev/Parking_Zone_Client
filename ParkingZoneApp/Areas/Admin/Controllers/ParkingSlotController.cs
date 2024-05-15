@@ -128,14 +128,9 @@ namespace ParkingZoneApp.Areas.Admin
         {
             var existingParkingSlot = _slotService.GetById(id);
 
-            if (existingParkingSlot is null)
+            if (existingParkingSlot is null || existingParkingSlot.IsInUse)
             {
                 return NotFound();
-            }
-
-            if (existingParkingSlot.IsInUse)
-            {
-                ModelState.AddModelError("Category", "Slot is in use cannot be modified");
             }
 
             _slotService.Delete(existingParkingSlot);
