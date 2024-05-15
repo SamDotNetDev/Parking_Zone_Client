@@ -11,6 +11,7 @@ namespace Tests.Admin.ParkingSlotTests.Services
     {
         private readonly Mock<IParkingSlotsRepository> _repository;
         private readonly IParkingSlotService _service;
+        private readonly Reservation _reservationTest;
         private readonly ParkingSlot _ParkingSlotsTest;
         private readonly int Id = 1;
 
@@ -18,13 +19,15 @@ namespace Tests.Admin.ParkingSlotTests.Services
         {
             _repository = new Mock<IParkingSlotsRepository>();
             _service = new ParkingSlotService(_repository.Object);
+            _reservationTest = new Reservation() { StartTime = DateTime.Now.AddHours(-1) };
             _ParkingSlotsTest = new()
             {
                 Id = Id,
                 Number = 1,
                 IsAvailableForBooking = true,
                 Category = SlotCategoryEnum.Standart,
-                ParkingZoneId = 1
+                ParkingZoneId = 1,
+                Reservations = new[] { _reservationTest }
             };
         }
 

@@ -14,6 +14,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         private readonly Mock<IParkingZoneService> _zoneService;
         private readonly Mock<IParkingSlotService> _slotService;
         private readonly ParkingSlotController _controller;
+        private readonly Reservation _reservationTest;
         private readonly ParkingSlot _parkingSlotsTest;
         private readonly int Id = 1;
 
@@ -22,13 +23,15 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             _zoneService = new Mock<IParkingZoneService>();
             _slotService = new Mock<IParkingSlotService>();
             _controller = new ParkingSlotController(_slotService.Object, _zoneService.Object);
+            _reservationTest = new() { StartTime = DateTime.Now.AddHours(-2) };
             _parkingSlotsTest = new()
             {
                 Id = Id,
                 Number = 1,
                 Category = SlotCategoryEnum.Standart,
                 IsAvailableForBooking = true,
-                ParkingZoneId = 1
+                ParkingZoneId = 1,
+                Reservations = new[] {_reservationTest}
             };
         }
 
@@ -177,7 +180,8 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
                 Number = 1,
                 Category = SlotCategoryEnum.Standart,
                 IsAvailableForBooking = true,
-                ParkingZoneId = 1
+                ParkingZoneId = 1,
+                IsInUse = false
             };
             _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
 
@@ -195,7 +199,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenReturnsNotFoundResult()
         {
             //Arrange
-            EditVM editVM = new() { Id = 2 };
+            EditVM editVM = new() { Id = 2, IsInUse = false };
 
             //Act
             var result = _controller.Edit(Id, editVM);
@@ -209,7 +213,9 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsFalseAndReturnsViewResult()
         {
             //Arrange
-            EditVM editVM = new() { Id = Id };
+            EditVM editVM = new() { Id = Id, Number = 2, IsInUse = false };
+            _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
+            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(true);
             _controller.ModelState.AddModelError("field", "property is required");
 
             //Act
@@ -221,6 +227,30 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number));
+        }
+
+        [Fact]
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotIsInUseIsFalseAndModelstateIsFalseAndReturnsViewResult()
+        {
+            //Arrange
+            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(1) };
+            ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
+            EditVM editVM = new() { Id = Id, Number = 2, ParkingZoneId = 1 };
+            _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
+            _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            _controller.ModelState.AddModelError("Category", "Slot is in use, category cannot be modified");
+            //Act
+            var result = _controller.Edit(Id, editVM);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
+            _slotService.Verify(x => x.GetById(Id), Times.Once());
+            _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
 
         [Fact]
@@ -247,7 +277,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotModelStateIsTrueAndReturnsRedirectToAction()
         {
             //Arrange
-            EditVM editVM = new() { Id = Id, Number = 1, ParkingZoneId = 1 };
+            EditVM editVM = new() { Id = Id, Number = 1, ParkingZoneId = 1, IsInUse = false };
             _slotService.Setup(x => x.GetById(Id)).Returns(_parkingSlotsTest);
             _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
             _slotService.Setup(x => x.Update(_parkingSlotsTest));

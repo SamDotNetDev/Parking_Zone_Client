@@ -22,6 +22,9 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
         [Required]
         public int ParkingZoneId { get; set; }
 
+        [Required]
+        public bool IsInUse { get; set; }
+
         public EditVM() { }
 
         public EditVM(ParkingSlot parkingSlot)
@@ -31,6 +34,7 @@ namespace ParkingZoneApp.ViewModels.ParkingSlotVMs
             IsAvailableForBooking = parkingSlot.IsAvailableForBooking;
             Category = parkingSlot.Category;
             ParkingZoneId = parkingSlot.ParkingZoneId;
+            IsInUse = parkingSlot.IsInUse;
         }
 
         public ParkingSlot MapToModel(ParkingSlot parkingslot)
