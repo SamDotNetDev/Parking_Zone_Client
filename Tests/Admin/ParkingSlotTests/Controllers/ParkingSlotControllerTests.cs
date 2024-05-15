@@ -232,7 +232,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         }
 
         [Fact]
-        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotIsInUseAndReturnsBadRequest()
+        public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotIsInUseIsFalseAndModelstateIsFalseAndReturnsViewResult()
         {
             //Arrange
             Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(1) };
@@ -240,12 +240,15 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             EditVM editVM = new() { Id = Id, Number = 2, ParkingZoneId = 1 };
             _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
             _slotService.Setup(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number)).Returns(false);
+            _controller.ModelState.AddModelError("Category", "Slot is in use, category cannot be modified");
             //Act
             var result = _controller.Edit(Id, editVM);
 
             //Assert
             Assert.NotNull(result);
-            Assert.IsType<BadRequestObjectResult>(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsType<EditVM>(model);
+            Assert.Equal(JsonSerializer.Serialize(editVM), JsonSerializer.Serialize(model));
             _slotService.Verify(x => x.GetById(Id), Times.Once());
             _slotService.Verify(x => x.ParkingSlotExists(editVM.ParkingZoneId, editVM.Number), Times.Once);
         }
