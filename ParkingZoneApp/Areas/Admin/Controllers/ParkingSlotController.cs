@@ -85,7 +85,7 @@ namespace ParkingZoneApp.Areas.Admin
                 return View(VM);
             }
 
-            if (parkingSlot.IsInUse)
+            if (parkingSlot.IsInUse && parkingSlot.Category != VM.Category)
             {
                 ModelState.AddModelError("Category", "Slot is in use, category cannot be modified");
                 return View(VM);
