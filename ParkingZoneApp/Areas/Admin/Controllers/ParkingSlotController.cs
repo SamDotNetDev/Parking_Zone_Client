@@ -127,7 +127,8 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult DeleteConfirmed(int? id)
         {
             var existingParkingSlot = _slotService.GetById(id);
-            if (existingParkingSlot is null)
+
+            if (existingParkingSlot is null || existingParkingSlot.IsInUse)
             {
                 return NotFound();
             }
