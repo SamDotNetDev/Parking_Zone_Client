@@ -16,6 +16,16 @@ namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
 
         public ICollection<ParkingSlot> ParkingSlots { get; set; }
 
+        public int FreeSlots
+        {
+            get => FreeSlot();
+        }
+
+        public int SlotsInUse
+        {
+            get => SlotInUse();
+        }
+
         public ListItemVM() { }
 
         public ListItemVM(ParkingZone parkingZone)
@@ -24,6 +34,24 @@ namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
             Name = parkingZone.Name;
             Address = parkingZone.Address;
             ParkingSlots = parkingZone.ParkingSlots;
+        }
+        private int SlotInUse()
+        {
+            int Number = 0;
+            foreach (var slot in ParkingSlots)
+            {
+                if (slot.IsInUse) Number++;
+            }
+            return Number;
+        }
+        private int FreeSlot()
+        {
+            int Number = 0;
+            foreach (var slot in ParkingSlots)
+            {
+                if (!slot.IsInUse) Number++;
+            }
+            return Number;
         }
     }
 }

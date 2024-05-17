@@ -5,64 +5,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="~/css/style.css" />
 
-<h1>Admin Control Panel</h1>
-<h4>Parking Zones</h4>
-
+<h1 class="col-12 text-center mt-4">Admin Control Panel</h1>
 <button class="button-34" onclick="location.href='@Url.Action("Create","ParkingZone")'">Create New</button>
+<hr />
 
-<div class="card-container">
-    @foreach (var item in Model)
-    {
-        <div class="card">
-            <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-            <h5>@Html.DisplayFor(modelItem => item.Address)</h5>
-            <h6>Total slots: @item.ParkingSlots.Count()</h6>
-            <h6>Total in use slots: </h6>
-            <h6>Total free slots: </h6>
-            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"> Edit </a>
-            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
-            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-            <a href="@Url.Action("Index", "ParkingSlot", new { ParkingZoneId = item.Id })" class="btn btn-secondary">Slots</a>
-        </div>
-    }
-</div>
-
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Address)</th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
+<div style="margin-top: 30px" class="container">
+    <div class="row d-flex justify-content-center">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"> Edit </a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a> 
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                        <a href="@Url.Action("Index", "ParkingSlot", new { ParkingZoneId = item.Id })" class="btn btn-secondary">Slots</a>
+            <div class="col-md-6 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item" style="margin-left: 10px; margin-bottom: 10px">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left: 10px;">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" tabindex="-1" aria-disabled="true">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left: 10px;">
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" tabindex="-1" aria-disabled="true">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </td>
-            </tr>
+                    <div class="card-body" style="text-align: left;">
+                        <h4 style="text-align: center;">Parking Zone: @item.Name </h4>
+                        <hr />
+                        <h6>
+                            <strong>Address:</strong> @item.Address <br />
+                            <strong>Number of total slots:</strong> @item.ParkingSlots.Count() <br>
+                            <strong>Number of slots currently in use:</strong> @item.SlotsInUse <br>
+                            <strong>Number of free slots:</strong> @item.FreeSlots
+                        </h6>
+                        <a href="@Url.Action("Index", "ParkingSlot", new { ParkingZoneId = item.Id })" class=" btn btn-outline-success slot" tabindex="-1" aria-disabled="true">&laquo; Go to slots &raquo;</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table> *@
+    </div>
+</div>
