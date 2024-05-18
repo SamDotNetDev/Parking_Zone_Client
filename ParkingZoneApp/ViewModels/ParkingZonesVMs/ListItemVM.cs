@@ -18,12 +18,12 @@ namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
 
         public int FreeSlots
         {
-            get => FreeSlot();
+            get => CountFreeSlot();
         }
 
         public int SlotsInUse
         {
-            get => SlotInUse();
+            get => CountSlotInUse();
         }
 
         public ListItemVM() { }
@@ -35,7 +35,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
             Address = parkingZone.Address;
             ParkingSlots = parkingZone.ParkingSlots;
         }
-        private int SlotInUse()
+        private int CountSlotInUse()
         {
             int Number = 0;
             foreach (var slot in ParkingSlots)
@@ -44,7 +44,7 @@ namespace ParkingZoneApp.ViewModels.ParkingZonesVMs
             }
             return Number;
         }
-        private int FreeSlot()
+        private int CountFreeSlot()
         {
             int Number = 0;
             foreach (var slot in ParkingSlots)
