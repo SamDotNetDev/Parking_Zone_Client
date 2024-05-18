@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
@@ -11,7 +12,7 @@ namespace ParkingZoneApp.Areas.Admin
     {
         private readonly IParkingSlotService _slotService;
         private readonly IParkingZoneService _zoneService;
-
+        
         public ParkingSlotController(IParkingSlotService slotService, IParkingZoneService zoneService)
         {
             _slotService = slotService;
@@ -23,14 +24,29 @@ namespace ParkingZoneApp.Areas.Admin
             var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
                 .Select(x => new ListItemVM(x))
                 .OrderBy(x => x.Number);
-            if(!VMs.Any())
-            {
-                return NotFound();
-            }
-
             ViewData["Name"] = _zoneService.GetById(ParkingZoneId).Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
             return View(VMs);
+        }
+
+        [HttpPost]
+        public IActionResult Index(int ParkingZoneId, SlotCategoryEnum? category = null, bool? isSlotFree = null)
+        {
+            var slotsQuery = _slotService.GetByParkingZoneId(ParkingZoneId).AsQueryable();
+
+            if (category.HasValue)
+            {
+                slotsQuery = slotsQuery.Where(x => x.Category == category.Value);
+            }
+
+            if (isSlotFree.HasValue)
+            {
+                slotsQuery = slotsQuery.Where(x => !x.IsInUse == isSlotFree.Value);
+            }
+
+            var VMs = slotsQuery.Select(x => new ListItemVM(x)).OrderBy(x => x.Number).ToList();
+
+            return PartialView("_FilteredSlotsPartial", VMs);
         }
 
         public IActionResult Create(int ParkingZoneId)
