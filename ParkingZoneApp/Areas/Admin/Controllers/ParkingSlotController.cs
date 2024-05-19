@@ -24,6 +24,12 @@ namespace ParkingZoneApp.Areas.Admin
             var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
                 .Select(x => new ListItemVM(x))
                 .OrderBy(x => x.Number);
+
+            if (!VMs.Any())
+            {
+                return NotFound();
+            }
+
             ViewData["Name"] = _zoneService.GetById(ParkingZoneId).Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
             return View(VMs);
