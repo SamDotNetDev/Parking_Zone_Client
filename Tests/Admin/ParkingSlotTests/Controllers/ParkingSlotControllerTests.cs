@@ -31,7 +31,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
                 Category = SlotCategoryEnum.Standart,
                 IsAvailableForBooking = true,
                 ParkingZoneId = 1,
-                Reservations = new[] {_reservationTest}
+                Reservations = new[] { _reservationTest }
             };
         }
 
