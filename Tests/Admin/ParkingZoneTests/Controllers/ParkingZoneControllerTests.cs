@@ -13,17 +13,22 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         private readonly Mock<IParkingZoneService> _service;
         private readonly ParkingZoneController _controller;
         private readonly ParkingZone _parkingZoneTest;
+        private readonly Reservation _reservationTest;
+        private readonly ParkingSlot _parkingSlotTest;
         private readonly int Id = 1;
 
         public ParkingZoneControllerTests()
         {
             _service = new Mock<IParkingZoneService>();
             _controller = new ParkingZoneController(_service.Object);
+            _reservationTest = new Reservation();
+            _parkingSlotTest = new() { Reservations = new[] { _reservationTest } };
             _parkingZoneTest = new()
             {
                 Id = Id,
                 Name = "Test",
                 Address = "Test Address",
+                ParkingSlots = new[] { _parkingSlotTest }
             };
         }
 

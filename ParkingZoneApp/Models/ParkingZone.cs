@@ -21,6 +21,5 @@ namespace ParkingZoneApp.Models
 
         [Required]
         public virtual ICollection<ParkingSlot> ParkingSlots { get; set; }
-
     }
 }

@@ -37,6 +37,25 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
 
         #region Index
         [Fact]
+        public void GivenParkingZoneId_WhenIndexIsCalled_ThenReturnsNotFound()
+        {
+            //Arrange
+            var expectedParkingSlots = new List<ParkingSlot>() { _parkingSlotsTest };
+
+            _zoneService.Setup(x => x.GetById(Id));
+            _slotService.Setup(x => x.GetByParkingZoneId(Id));
+
+            //Act
+            var result = _controller.Index(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _slotService.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+        }
+
+        [Fact]
         public void GivenParkingZoneId_WhenIndexIsCalled_ThenReturnsViewResult()
         {
             //Arrange
@@ -235,7 +254,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotIdAndEditVM_WhenEditIsCalledToPost_ThenParkingSlotIsInUseIsFalseAndModelstateIsFalseAndReturnsViewResult()
         {
             //Arrange
-            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(1) };
+            Reservation reservation = new() { StartTime = DateTime.Now.AddHours(1) };
             ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
             EditVM editVM = new() { Id = Id, Number = 2, ParkingZoneId = 1 };
             _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
@@ -388,7 +407,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenIsInUseIsFalseAndReturnsNotFoundResult()
         {
             //Arrange
-            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(1) };
+            Reservation reservation = new() { StartTime = DateTime.Now.AddHours(1) };
             ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
             _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
 
@@ -405,7 +424,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
         public void GivenParkingSlotId_WhenDeleteConfirmedIsCalled_ThenReturnsRedirectToAction()
         {
             //Arrange
-            Reservation reservation = new Reservation() { StartTime = DateTime.Now.AddHours(-1) };
+            Reservation reservation = new() { StartTime = DateTime.Now.AddHours(-1) };
             ParkingSlot parkingSlot = new() { Reservations = new[] { reservation } };
             _slotService.Setup(x => x.GetById(Id)).Returns(parkingSlot);
             _slotService.Setup(x => x.Delete(parkingSlot));

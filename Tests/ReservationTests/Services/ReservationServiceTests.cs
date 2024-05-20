@@ -110,7 +110,7 @@ namespace ReservationTests.Services
         public void GivenDate_WhenIsDateInvalidIsCalled_ThenDateIsCheckedAndReturnsTrue()
         {
             //Arrange
-            DateTime dateTime = DateTime.Now.AddMinutes(-1);
+            DateTime dateTime = DateTime.Now.AddMinutes(-3);
 
             //Act
             var result = _service.IsDateInvalid(dateTime);

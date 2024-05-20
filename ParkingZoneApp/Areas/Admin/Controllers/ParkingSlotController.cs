@@ -20,10 +20,17 @@ namespace ParkingZoneApp.Areas.Admin
 
         public IActionResult Index(int ParkingZoneId)
         {
+            var zone = _zoneService.GetById(ParkingZoneId);
             var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
                 .Select(x => new ListItemVM(x))
                 .OrderBy(x => x.Number);
-            ViewData["Name"] = _zoneService.GetById(ParkingZoneId).Name;
+
+            if (zone is null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Name"] = zone.Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
             return View(VMs);
         }

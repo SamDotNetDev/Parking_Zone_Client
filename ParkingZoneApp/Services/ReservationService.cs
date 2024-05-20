@@ -17,7 +17,7 @@ namespace ParkingZoneApp.Services
         public bool IsDateInvalid(DateTime date)
         {
             string NowDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
-            return date < DateTime.Parse(NowDate);
+            return date  < DateTime.Parse(NowDate).AddMinutes(-2);
         }
 
         public void ProlongReservation(Reservation reservation, int addHours)
