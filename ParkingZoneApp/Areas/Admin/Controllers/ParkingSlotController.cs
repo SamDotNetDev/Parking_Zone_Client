@@ -12,7 +12,7 @@ namespace ParkingZoneApp.Areas.Admin
     {
         private readonly IParkingSlotService _slotService;
         private readonly IParkingZoneService _zoneService;
-        
+
         public ParkingSlotController(IParkingSlotService slotService, IParkingZoneService zoneService)
         {
             _slotService = slotService;
