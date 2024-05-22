@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.ListItemVM>
+﻿﻿@using ParkingZoneApp.Enums
+@model IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.ListItemVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,29 +17,29 @@
         box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
 
-    .table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-    }
+        .table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
 
-    .table th,
-    .table td {
-        padding: 12px 15px;
-    }
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
 
-    .table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
 
-    .table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3
-    }
+            .table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3
+            }
 
-    .table tbody tr:last-of-type {
-        border-bottom: #009879;
-    }
+            .table tbody tr:last-of-type {
+                border-bottom: #009879;
+            }
 
     .button-34 {
         background: #006879;
@@ -67,17 +68,39 @@
 
 <button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
 <button class="button-34" onclick="location.href='@Url.Action("Create", "ParkingSlot", new { parkingZoneId = ViewData["ParkingZoneId"] })'">Create New</button>
+
+<div style="margin-top: 30px;">
+    <div style="display: inline-block;">
+        @Html.Label("categoryFilter", "Category:")
+        <select id="categoryFilter" class="form-select" asp-items="Html.GetEnumSelectList<SlotCategoryEnum>()">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div style="display: inline-block; margin-left: 50px;">
+        @Html.Label("isSlotFreeFilter", "Is Slot Free:")
+        <select id="isSlotFreeFilter" class="form-select">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <div style="display: inline-block; margin-left: 50px;">
+        <button id="filterButton" class="button-34">Filter</button>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Number)</th>
             <th>@Html.DisplayNameFor(model => model.IsAvailableForBooking)</th>
             <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.IsSlotFree)</th>
             <th></th>
         </tr>
     </thead>
 
-    <tbody>
+    <tbody id="slotTableBody">
         @foreach (var item in Model)
         {
             <tr>
@@ -91,6 +114,9 @@
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.IsSlotFree)
+                </td>
+                <td>
                     <div>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"> Edit </a>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
@@ -101,3 +127,43 @@
         }
     </tbody>
 </table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Filter button click event
+        $('#filterButton').click(function () {
+            var category = $('#categoryFilter').val();
+            var isSlotFree = $('#isSlotFreeFilter').val();
+
+            var model = {
+                ParkingZoneId: @ViewData["ParkingZoneId"],
+                Category: category,
+                IsSlotFree: isSlotFree
+            }
+
+            // AJAX request
+            $.ajax({
+                url: '@Url.Action("Index", "ParkingSlot")',
+                type: 'POST',
+                data: model,
+                success: function (data) {
+                    if (data.startsWith("No slots found")) {
+                        // Handle case where no slots are found
+                        // For example, display a message to the user
+                        $('#slotTableBody').empty(); // Clear existing slots
+                        $('#noSlotsMessage').text(data);
+                    } else {
+                        // Replace table body with filtered data
+                        $('#noSlotsMessage').empty(); // Clear no slots message if present
+                        $('#slotTableBody').html(data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    // Handle error
+                }
+            });
+        });
+    });
+</script>

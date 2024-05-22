@@ -35,6 +35,19 @@ namespace ParkingZoneApp.Areas.Admin
             return View(VMs);
         }
 
+        [HttpPost]
+        public IActionResult Index(FilterSlotVM VM)
+        {
+            var slotsQuery = _slotService.GetByParkingZoneId(VM.ParkingZoneId).AsQueryable();
+
+            slotsQuery = _slotService.FilterParkingSlot(slotsQuery, VM.Category, VM.IsSlotFree);
+
+            var VMs = slotsQuery.Select(x => new ListItemVM(x)).OrderBy(x => x.Number).ToList();
+
+            return PartialView("_FilteredSlotsPartial", VMs);
+        }
+
+
         public IActionResult Create(int ParkingZoneId)
         {
             CreateVM createVM = new()

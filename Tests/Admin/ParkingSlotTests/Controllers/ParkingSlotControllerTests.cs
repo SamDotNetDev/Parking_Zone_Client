@@ -31,7 +31,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
                 Category = SlotCategoryEnum.Standart,
                 IsAvailableForBooking = true,
                 ParkingZoneId = 1,
-                Reservations = new[] {_reservationTest}
+                Reservations = new[] { _reservationTest }
             };
         }
 
@@ -76,6 +76,35 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             Assert.Equal(JsonSerializer.Serialize(expectedVMs), JsonSerializer.Serialize(model));
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public void GivenParkingZoneIdAndCategoryAndIsSlotFree_WhenPostIndexIsCalled_ThenFilterDataAndReturnsPartialViewResult()
+        {
+            //Arrange
+            var query = new List<ParkingSlot>() { _parkingSlotsTest }.AsQueryable();
+            FilterSlotVM filterVM = new() 
+            {
+                ParkingZoneId = Id,
+                Category = SlotCategoryEnum.VIP,
+                IsSlotFree = true
+            };
+            _slotService.Setup(x => x.GetByParkingZoneId(filterVM.ParkingZoneId)).Returns(query);
+            _slotService.Setup(x => x.FilterParkingSlot(query, filterVM.Category, filterVM.IsSlotFree)).Returns(query);
+
+            //Act
+            var result = _controller.Index(filterVM);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<PartialViewResult>(result).Model;
+            var viewName = Assert.IsType<PartialViewResult>(result).ViewName;
+            Assert.IsAssignableFrom<List<ListItemVM>>(model);
+            Assert.Equal("_FilteredSlotsPartial", viewName);
+
+            _slotService.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
+            _slotService.Verify(x => x.FilterParkingSlot(query, filterVM.Category, filterVM.IsSlotFree), Times.Once);
+        }
+
         #endregion
 
         #region Create
