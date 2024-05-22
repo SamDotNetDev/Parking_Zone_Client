@@ -21,15 +21,14 @@ namespace ParkingZoneApp.Areas.Admin
         public IActionResult Index(int ParkingZoneId)
         {
             var zone = _zoneService.GetById(ParkingZoneId);
+            var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
+                .Select(x => new ListItemVM(x))
+                .OrderBy(x => x.Number);
 
             if (zone is null)
             {
                 return NotFound();
             }
-
-            var VMs = _slotService.GetByParkingZoneId(ParkingZoneId)
-                .Select(x => new ListItemVM(x))
-                .OrderBy(x => x.Number);
 
             ViewData["Name"] = zone.Name;
             ViewData["ParkingZoneId"] = ParkingZoneId;
