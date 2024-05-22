@@ -1,4 +1,4 @@
-﻿@using ParkingZoneApp.Enums
+﻿﻿@using ParkingZoneApp.Enums
 @model IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.ListItemVM>
 
 @{
@@ -17,29 +17,29 @@
         box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
 
-    .table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-    }
+        .table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
 
-    .table th,
-    .table td {
-        padding: 12px 15px;
-    }
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
 
-    .table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
 
-    .table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3
-    }
+            .table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3
+            }
 
-    .table tbody tr:last-of-type {
-        border-bottom: #009879;
-    }
+            .table tbody tr:last-of-type {
+                border-bottom: #009879;
+            }
 
     .button-34 {
         background: #006879;
@@ -136,15 +136,17 @@
             var category = $('#categoryFilter').val();
             var isSlotFree = $('#isSlotFreeFilter').val();
 
+            var model = {
+                ParkingZoneId: @ViewData["ParkingZoneId"],
+                Category: category,
+                IsSlotFree: isSlotFree
+            }
+
             // AJAX request
             $.ajax({
                 url: '@Url.Action("Index", "ParkingSlot")',
                 type: 'POST',
-                data: {
-                    ParkingZoneId: @ViewData["ParkingZoneId"],
-                    category: category,
-                    isSlotFree: isSlotFree
-                },
+                data: model,
                 success: function (data) {
                     if (data.startsWith("No slots found")) {
                         // Handle case where no slots are found

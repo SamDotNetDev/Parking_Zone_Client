@@ -1,4 +1,5 @@
 ﻿using ParkingZoneApp.Data.Migrations;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 
@@ -41,6 +42,24 @@ namespace ParkingZoneApp.Services
                 (startTime >= r.StartTime && startTime < r.StartTime.AddHours(r.Duration)) ||
                 (endTime > r.StartTime && endTime <= r.StartTime.AddHours(r.Duration)) ||
                 (startTime <= r.StartTime && endTime >= r.StartTime.AddHours(r.Duration)));
+        }
+
+        public IQueryable<ParkingSlot> FilterByCategory(IQueryable<ParkingSlot> query, SlotCategoryEnum? category)
+        {
+            if (category.HasValue)
+            {
+                query = query.Where(x => x.Category == category.Value);
+            }
+            return query;
+        }
+
+        public IQueryable<ParkingSlot> FilterByFreeSlot(IQueryable<ParkingSlot> query, bool? isSlotFree)
+        {
+            if (isSlotFree.HasValue)
+            {
+                query = query.Where(x => !x.IsInUse == isSlotFree.Value);
+            }
+            return query;
         }
     }
 }

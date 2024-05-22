@@ -4,6 +4,7 @@ using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.Repositories;
+using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
 namespace Tests.Admin.ParkingSlotTests.Services
 {
@@ -148,6 +149,36 @@ namespace Tests.Admin.ParkingSlotTests.Services
             Assert.IsType<bool>(result);
             Assert.False(result);
             _repository.Verify(x => x.GetAll(), Times.Once);
+        }
+
+        [Fact]
+        public void GivenParkingZoneIdAndCategory_WhenFilterByCategoryIsCalled_ThenReturnsFilteredSlots()
+        {
+            //Arrange
+            var Category = SlotCategoryEnum.VIP;
+            IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable(); 
+
+            //Act
+            var result = _service.FilterByCategory(Query, Category);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsAssignableFrom<IQueryable<ParkingSlot>>(result);
+        }
+        
+        [Fact]
+        public void GivenParkingZoneIdAndIsSlotFree_WhenFilterByFreeSlotIsCalled_ThenReturnsFilteredSlots()
+        {
+            //Arrange
+            bool IsSlotFree = true;
+            IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable();
+
+            //Act
+            var result = _service.FilterByFreeSlot(Query, IsSlotFree);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsAssignableFrom<IQueryable<ParkingSlot>>(result);
         }
     }
 }

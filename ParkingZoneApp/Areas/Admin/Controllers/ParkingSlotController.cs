@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ParkingZoneApp.Enums;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingSlotVMs;
 
@@ -38,24 +37,25 @@ namespace ParkingZoneApp.Areas.Admin
         }
 
         [HttpPost]
-        public IActionResult Index(int ParkingZoneId, SlotCategoryEnum? category = null, bool? isSlotFree = null)
+        public IActionResult Index(FilterSlotVM VM)
         {
-            var slotsQuery = _slotService.GetByParkingZoneId(ParkingZoneId).AsQueryable();
+            var slotsQuery = _slotService.GetByParkingZoneId(VM.ParkingZoneId).AsQueryable();
 
-            if (category.HasValue)
+            if (VM.Category.HasValue)
             {
-                slotsQuery = slotsQuery.Where(x => x.Category == category.Value);
+                slotsQuery = _slotService.FilterByCategory(slotsQuery, VM.Category);
             }
 
-            if (isSlotFree.HasValue)
+            if (VM.IsSlotFree.HasValue)
             {
-                slotsQuery = slotsQuery.Where(x => !x.IsInUse == isSlotFree.Value);
+                slotsQuery = _slotService.FilterByFreeSlot(slotsQuery, VM.IsSlotFree);
             }
 
             var VMs = slotsQuery.Select(x => new ListItemVM(x)).OrderBy(x => x.Number).ToList();
 
             return PartialView("_FilteredSlotsPartial", VMs);
         }
+
 
         public IActionResult Create(int ParkingZoneId)
         {
