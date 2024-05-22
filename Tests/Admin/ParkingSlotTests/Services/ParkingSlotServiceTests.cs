@@ -152,29 +152,15 @@ namespace Tests.Admin.ParkingSlotTests.Services
         }
 
         [Fact]
-        public void GivenParkingZoneIdAndCategory_WhenFilterByCategoryIsCalled_ThenReturnsFilteredSlots()
+        public void GivenParkingZoneIdAndCategoryAndIsSlotFree_WhenFilterByCategoryIsCalled_ThenReturnsFilteredSlots()
         {
             //Arrange
             var Category = SlotCategoryEnum.VIP;
+            bool IsSlotFree = true;
             IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable(); 
 
             //Act
-            var result = _service.FilterByCategory(Query, Category);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<IQueryable<ParkingSlot>>(result);
-        }
-        
-        [Fact]
-        public void GivenParkingZoneIdAndIsSlotFree_WhenFilterByFreeSlotIsCalled_ThenReturnsFilteredSlots()
-        {
-            //Arrange
-            bool IsSlotFree = true;
-            IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable();
-
-            //Act
-            var result = _service.FilterByFreeSlot(Query, IsSlotFree);
+            var result = _service.FilterParkingSlot(Query, Category, IsSlotFree);
 
             //Assert
             Assert.NotNull(result);

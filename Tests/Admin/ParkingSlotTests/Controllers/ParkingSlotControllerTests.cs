@@ -89,8 +89,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
                 IsSlotFree = true
             };
             _slotService.Setup(x => x.GetByParkingZoneId(filterVM.ParkingZoneId)).Returns(query);
-            _slotService.Setup(x => x.FilterByCategory(query, filterVM.Category)).Returns(query);
-            _slotService.Setup(x => x.FilterByFreeSlot(query, filterVM.IsSlotFree)).Returns(query);
+            _slotService.Setup(x => x.FilterParkingSlot(query, filterVM.Category, filterVM.IsSlotFree)).Returns(query);
 
             //Act
             var result = _controller.Index(filterVM);
@@ -103,8 +102,7 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             Assert.Equal("_FilteredSlotsPartial", viewName);
 
             _slotService.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
-            _slotService.Verify(x => x.FilterByCategory(query, filterVM.Category), Times.Once);
-            _slotService.Verify(x => x.FilterByFreeSlot(query, filterVM.IsSlotFree), Times.Once);
+            _slotService.Verify(x => x.FilterParkingSlot(query, filterVM.Category, filterVM.IsSlotFree), Times.Once);
         }
 
         #endregion

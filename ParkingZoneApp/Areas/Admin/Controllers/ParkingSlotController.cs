@@ -40,15 +40,7 @@ namespace ParkingZoneApp.Areas.Admin
         {
             var slotsQuery = _slotService.GetByParkingZoneId(VM.ParkingZoneId).AsQueryable();
 
-            if (VM.Category.HasValue)
-            {
-                slotsQuery = _slotService.FilterByCategory(slotsQuery, VM.Category);
-            }
-
-            if (VM.IsSlotFree.HasValue)
-            {
-                slotsQuery = _slotService.FilterByFreeSlot(slotsQuery, VM.IsSlotFree);
-            }
+            slotsQuery = _slotService.FilterParkingSlot(slotsQuery, VM.Category, VM.IsSlotFree);
 
             var VMs = slotsQuery.Select(x => new ListItemVM(x)).OrderBy(x => x.Number).ToList();
 

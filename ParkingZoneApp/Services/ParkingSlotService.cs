@@ -44,19 +44,19 @@ namespace ParkingZoneApp.Services
                 (startTime <= r.StartTime && endTime >= r.StartTime.AddHours(r.Duration)));
         }
 
-        public IQueryable<ParkingSlot> FilterByCategory(IQueryable<ParkingSlot> query, SlotCategoryEnum? category)
+        public IQueryable<ParkingSlot> FilterParkingSlot(IQueryable<ParkingSlot> query, SlotCategoryEnum? category, bool? isSlotFree)
         {
-            if (category.HasValue)
+            if (category.HasValue && isSlotFree is null)
             {
                 query = query.Where(x => x.Category == category.Value);
             }
-            return query;
-        }
-
-        public IQueryable<ParkingSlot> FilterByFreeSlot(IQueryable<ParkingSlot> query, bool? isSlotFree)
-        {
-            if (isSlotFree.HasValue)
+            else if (isSlotFree.HasValue && category is null)
             {
+                query = query.Where(x => !x.IsInUse == isSlotFree.Value);
+            }
+            else if(isSlotFree.HasValue && category.HasValue)
+            {
+                query = query.Where(x => x.Category == category.Value);
                 query = query.Where(x => !x.IsInUse == isSlotFree.Value);
             }
             return query;
