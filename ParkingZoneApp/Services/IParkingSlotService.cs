@@ -10,5 +10,6 @@ namespace ParkingZoneApp.Services
         public bool IsSlotFreeForReservation(ParkingSlot slot, DateTime starTime, int duration);
         public IEnumerable<ParkingSlot> GetFreeByParkingZoneIdAndPeriod(int parkingZoneId, DateTime startTime, int duration);
         public IQueryable<ParkingSlot> FilterParkingSlot(IQueryable<ParkingSlot> query, SlotCategoryEnum? category, bool? IsSlotFree);
+        public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId);
     }
 }

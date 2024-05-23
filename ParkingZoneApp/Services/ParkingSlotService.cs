@@ -1,5 +1,4 @@
-﻿using ParkingZoneApp.Data.Migrations;
-using ParkingZoneApp.Enums;
+﻿using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 
@@ -60,6 +59,23 @@ namespace ParkingZoneApp.Services
                 query = query.Where(x => !x.IsInUse == isSlotFree.Value);
             }
             return query;
+        }
+
+        public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId)
+        {
+            var slots = GetAll().Where(x => x.ParkingZoneId == parkingZoneId);
+            List<Reservation> reservations = new List<Reservation>();
+            foreach (var slot in slots)
+            {
+                foreach (var reservation in slot.Reservations)
+                {
+                    if (reservation.IsActive)
+                    {
+                        reservations.Add(reservation);
+                    }
+                }
+            }
+            return reservations;
         }
     }
 }
