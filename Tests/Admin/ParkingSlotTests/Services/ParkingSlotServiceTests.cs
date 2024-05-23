@@ -168,7 +168,7 @@ namespace Tests.Admin.ParkingSlotTests.Services
         }
 
         [Fact]
-        public void GivenParkingZoneId_WhenGetAllReservationsByParkingZoneIdIsCalled_ThenRepositoryGetAllIsCalledAndReturnsReservations()
+        public void GivenParkingZoneId_WhenGetAllReservationsByParkingZoneIdIsCalled_ThenReturnsReservations()
         {
             //Arrange
             List<ParkingSlot> parkingSlots = new();

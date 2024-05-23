@@ -63,18 +63,10 @@ namespace ParkingZoneApp.Services
 
         public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId)
         {
-            var slots = _repository.GetAll().Where(x => x.ParkingZoneId == parkingZoneId);
-            List<Reservation> reservations = new List<Reservation>();
-            foreach (var slot in slots)
-            {
-                foreach (var reservation in slot.Reservations)
-                {
-                    if (reservation.IsActive)
-                    {
-                        reservations.Add(reservation);
-                    }
-                }
-            }
+            var reservations = _repository.GetAll()
+                .Where(x => x.ParkingZoneId == parkingZoneId)
+                .SelectMany(slot => slot.Reservations)
+                .Where(reservation => reservation.IsActive);
             return reservations;
         }
     }
