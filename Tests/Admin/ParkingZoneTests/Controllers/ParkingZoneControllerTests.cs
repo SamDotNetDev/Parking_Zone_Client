@@ -10,7 +10,8 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
 {
     public class ParkingZoneControllerTests
     {
-        private readonly Mock<IParkingZoneService> _service;
+        private readonly Mock<IParkingZoneService> _zoneService;
+        private readonly Mock<IParkingSlotService> _slotService;
         private readonly ParkingZoneController _controller;
         private readonly ParkingZone _parkingZoneTest;
         private readonly Reservation _reservationTest;
@@ -19,8 +20,9 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
 
         public ParkingZoneControllerTests()
         {
-            _service = new Mock<IParkingZoneService>();
-            _controller = new ParkingZoneController(_service.Object);
+            _zoneService = new Mock<IParkingZoneService>();
+            _slotService = new Mock<IParkingSlotService>();
+            _controller = new ParkingZoneController(_zoneService.Object, _slotService.Object);
             _reservationTest = new Reservation();
             _parkingSlotTest = new() { Reservations = new[] { _reservationTest } };
             _parkingZoneTest = new()
@@ -40,14 +42,14 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             var expectedVMs = new List<ListItemVM>() { new(_parkingZoneTest) };
             var expectedParkingZones = new List<ParkingZone>() { _parkingZoneTest };
 
-            _service.Setup(x => x.GetAll()).Returns(expectedParkingZones);
+            _zoneService.Setup(x => x.GetAll()).Returns(expectedParkingZones);
 
             //Act
             var result = _controller.Index();
 
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
-            _service.Verify(x => x.GetAll(), Times.Once);
+            _zoneService.Verify(x => x.GetAll(), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(expectedVMs), JsonSerializer.Serialize(model));
             Assert.NotNull(result);
         }
@@ -64,7 +66,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
                 Name = "Test",
                 Address = "Test Address",
             };
-            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
 
             //Act
             var viewresult = _controller.Details(Id);
@@ -73,7 +75,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             var model = Assert.IsType<ViewResult>(viewresult).Model;
             Assert.NotNull(viewresult);
             Assert.IsType<DetailsVM>(model);
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
             Assert.Equal(JsonSerializer.Serialize(ExpectedVM), JsonSerializer.Serialize(model));
         }
 
@@ -81,7 +83,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         public void GivenParkingZoneId_WhenDetailsIsCalled_ThenReturnsNotFound()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id));
+            _zoneService.Setup(x => x.GetById(Id));
 
             //Act
             var result = _controller.Details(Id);
@@ -89,7 +91,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             //Assert
             Assert.NotNull(result);
             Assert.IsType<NotFoundResult>(result);
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
         #endregion
 
@@ -128,7 +130,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         {
             //Arrange
             CreateVM createVM = new();
-            _service.Setup(x => x.Insert(It.IsAny<ParkingZone>()));
+            _zoneService.Setup(x => x.Insert(It.IsAny<ParkingZone>()));
 
             //Act
             var redirectResult = _controller.Create(createVM);
@@ -136,7 +138,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             //Assert
             var result = Assert.IsType<RedirectToActionResult>(redirectResult);
             Assert.True(_controller.ModelState.IsValid);
-            _service.Verify(x => x.Insert(It.IsAny<ParkingZone>()), Times.Once);
+            _zoneService.Verify(x => x.Insert(It.IsAny<ParkingZone>()), Times.Once);
         }
         #endregion
 
@@ -145,14 +147,14 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         public void GivenParkingZoneId_WhenEditIsCalled_ThenReturnsNotFound()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id));
+            _zoneService.Setup(x => x.GetById(Id));
 
             //Act
             var result = _controller.Edit(Id);
 
             //Assert
             Assert.IsType<NotFoundResult>(result);
-            _service.Verify(x => x.GetById(Id));
+            _zoneService.Verify(x => x.GetById(Id));
         }
 
         [Fact]
@@ -165,7 +167,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
                 Name = "Test",
                 Address = "Test Address"
             };
-            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
 
             //Act
             var result = _controller.Edit(Id);
@@ -174,7 +176,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsType<EditVM>(model);
             Assert.Equal(JsonSerializer.Serialize(ExpectedVM), JsonSerializer.Serialize(model));
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]
@@ -194,7 +196,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         public void GivenIdAndEditVM_WhenEditIsCalledToPost_ThenModelStateIsTrueAndReturnsRedirectToAction()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
 
             EditVM editVM = new()
             {
@@ -209,7 +211,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             //Assert
             Assert.IsType<RedirectToActionResult>(result);
             Assert.True(_controller.ModelState.IsValid);
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]
@@ -233,21 +235,21 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         public void GivenId_WhenDeleteIsCalled_ThenReturnsNotFound()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id));
+            _zoneService.Setup(x => x.GetById(Id));
 
             //Act
             var result = _controller.Delete(Id);
 
             //Assert
             Assert.IsType<NotFoundResult>(result);
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]
         public void GivenId_WhenDeleteIsCalled_ThenReturnsView()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
 
             //Act
             var result = _controller.Delete(Id);
@@ -255,37 +257,72 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             //Assert
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.Equal(JsonSerializer.Serialize(_parkingZoneTest), JsonSerializer.Serialize(model));
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]
         public void GivenId_WhenDeleteConfirmedIsCalled_ThenReturnsNotFound()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id));
+            _zoneService.Setup(x => x.GetById(Id));
 
             //Act
             var result = _controller.DeleteConfirmed(Id);
 
             //Assert
             Assert.IsType<NotFoundResult>(result);
-            _service.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
         [Fact]
         public void GivenId_WhenDeleteConfirmedIsCalled_ThenReturnsRedirectToAction()
         {
             //Arrange
-            _service.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
-            _service.Setup(x => x.Delete(_parkingZoneTest));
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.Delete(_parkingZoneTest));
 
             //Act
             var result = _controller.DeleteConfirmed(Id);
 
             //Assert
             Assert.IsType<RedirectToActionResult>(result);
-            _service.Verify(x => x.GetById(Id), Times.Once);
-            _service.Verify(x => x.Delete(_parkingZoneTest), Times.Once);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.Delete(_parkingZoneTest), Times.Once);
+        }
+        #endregion
+
+        #region Current Cars
+        [Fact]
+        public void GivenId_WhenCurrentCarsIsCalled_ThenReturnsNotFound()
+        {
+            //Arrange
+            _zoneService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.CurrentCars(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+        }
+
+        [Fact]
+        public void GivenId_WhenCurrentCarsIsCalled_ThenReturnsViewResult()
+        {
+            List<Reservation> reservations = new();
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _slotService.Setup(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id)).Returns(reservations);
+
+            //Act
+            var result = _controller.CurrentCars(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<ViewResult>(result).Model;
+            Assert.IsAssignableFrom<IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.CurrentCarsVM>>(model);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+            _slotService.Verify(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id), Times.Once);
         }
         #endregion
     }

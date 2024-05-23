@@ -63,29 +63,36 @@
     }
 </style>
 
-<h1>Current cars in @ViewData["ParkingZoneName"]</h1>
+@if(Model.Count() is 0)
+{
+    <h1 class="text-danger">There are not any cars in the ParkingZone: @ViewData["ParkingZoneName"]</h1>
+}
+else
+{
+    <h1>Current cars in the @ViewData["ParkingZoneName"]</h1>
 
-<button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
+    <button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.SlotNumber)</th>
-            <th>@Html.DisplayNameFor(model => model.VehicleNumber)</th>
-        </tr>
-    </thead>
-
-    <tbody >
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SlotNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleNumber)
-                </td>
+                <th>@Html.DisplayNameFor(model => model.SlotNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.VehicleNumber)</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SlotNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehicleNumber)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

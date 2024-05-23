@@ -63,7 +63,7 @@ namespace ParkingZoneApp.Services
 
         public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId)
         {
-            var slots = GetAll().Where(x => x.ParkingZoneId == parkingZoneId);
+            var slots = _repository.GetAll().Where(x => x.ParkingZoneId == parkingZoneId);
             List<Reservation> reservations = new List<Reservation>();
             foreach (var slot in slots)
             {
