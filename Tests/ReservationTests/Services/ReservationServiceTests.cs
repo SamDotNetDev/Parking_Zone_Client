@@ -145,5 +145,21 @@ namespace ReservationTests.Services
             //Assert
             _repository.Verify(x => x.Update(_ReservationTest), Times.Once());
         }
+
+        [Fact]
+        public void GivenParkingZoneId_WhenGetAllReservationsByParkingZoneIdIsCalled_ThenReturnsReservations()
+        {
+            //Arrange
+            List<Reservation> reservations = new();
+            _repository.Setup(x => x.GetAll()).Returns(reservations);
+
+            //Act
+            var result = _service.GetAllReservationsByParkingZoneId(Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsAssignableFrom<IEnumerable<Reservation>>(result);
+            _repository.Verify(x => x.GetAll(), Times.Once());
+        }
     }
 }

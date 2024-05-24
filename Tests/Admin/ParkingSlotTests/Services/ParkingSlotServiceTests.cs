@@ -157,7 +157,7 @@ namespace Tests.Admin.ParkingSlotTests.Services
             //Arrange
             var Category = SlotCategoryEnum.VIP;
             bool IsSlotFree = true;
-            IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable(); 
+            IQueryable<ParkingSlot> Query = new List<ParkingSlot>() { _ParkingSlotsTest }.AsQueryable();
 
             //Act
             var result = _service.FilterParkingSlot(Query, Category, IsSlotFree);

@@ -10,17 +10,19 @@ namespace ParkingZoneApp.Areas.Admin
     [Authorize]
     public class ParkingZoneController : Controller
     {
-        private readonly IParkingZoneService _service;
+        private readonly IParkingZoneService _zoneService;
+        private readonly IReservationService _reservationService;
 
-        public ParkingZoneController(IParkingZoneService service)
+        public ParkingZoneController(IParkingZoneService zoneService, IReservationService reservationService)
         {
-            _service = service;
+            _zoneService = zoneService;
+            _reservationService = reservationService;
         }
 
         // GET: Admin/ParkingZone
         public IActionResult Index()
         {
-            var parkingZones = _service.GetAll();
+            var parkingZones = _zoneService.GetAll();
             var Vms = parkingZones.Select(x => new ListItemVM(x));
             return View(Vms);
         }
@@ -28,7 +30,7 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Details/5
         public IActionResult Details(int? id)
         {
-            var parkingZone = _service.GetById(id);
+            var parkingZone = _zoneService.GetById(id);
             if (parkingZone is null)
             {
                 return NotFound();
@@ -50,7 +52,7 @@ namespace ParkingZoneApp.Areas.Admin
             if (ModelState.IsValid)
             {
                 var parkingZone = VM.MapToModel();
-                _service.Insert(parkingZone);
+                _zoneService.Insert(parkingZone);
                 return RedirectToAction(nameof(Index));
             }
             return View(VM);
@@ -59,7 +61,7 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Edit/5
         public IActionResult Edit(int? id)
         {
-            var parkingZone = _service.GetById(id);
+            var parkingZone = _zoneService.GetById(id);
             if (parkingZone is null)
             {
                 return NotFound();
@@ -81,9 +83,9 @@ namespace ParkingZoneApp.Areas.Admin
             {
                 try
                 {
-                    var parkingZone = _service.GetById(id);
+                    var parkingZone = _zoneService.GetById(id);
                     parkingZone = VM.MapToModel(parkingZone);
-                    _service.Update(parkingZone);
+                    _zoneService.Update(parkingZone);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -100,7 +102,7 @@ namespace ParkingZoneApp.Areas.Admin
         // GET: Admin/ParkingZone/Delete/5
         public IActionResult Delete(int? id)
         {
-            var parkingZone = _service.GetById(id);
+            var parkingZone = _zoneService.GetById(id);
             if (parkingZone is null)
             {
                 return NotFound();
@@ -113,19 +115,34 @@ namespace ParkingZoneApp.Areas.Admin
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int? id)
         {
-            var existingParkingZone = _service.GetById(id);
+            var existingParkingZone = _zoneService.GetById(id);
             if (existingParkingZone is null)
             {
                 return NotFound();
             }
 
-            _service.Delete(existingParkingZone);
+            _zoneService.Delete(existingParkingZone);
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult CurrentCars(int? id)
+        {
+            var parkingZone = _zoneService.GetById(id);
+            if(parkingZone is null)
+            {
+                return NotFound();
+            }
+
+            ViewData["ParkingZoneName"] = parkingZone.Name;
+            var reservations = _reservationService.GetAllReservationsByParkingZoneId(parkingZone.Id);
+            var VMs = reservations.Select(x => new ViewModels.ParkingSlotVMs.CurrentCarsVM(x));
+
+            return View(VMs);
         }
 
         private bool ParkingZoneExists(int? id)
         {
-            var ParkingZone = _service.GetById(id);
+            var ParkingZone = _zoneService.GetById(id);
             return ParkingZone != null;
         }
     }

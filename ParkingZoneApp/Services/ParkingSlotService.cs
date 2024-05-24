@@ -1,5 +1,4 @@
-﻿using ParkingZoneApp.Data.Migrations;
-using ParkingZoneApp.Enums;
+﻿using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Repositories;
 

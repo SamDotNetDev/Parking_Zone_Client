@@ -25,5 +25,12 @@ namespace ParkingZoneApp.Services
             reservation.Duration += addHours;
             Update(reservation);
         }
+
+        public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId)
+        {
+            var reservations = _repository.GetAll()
+                .Where(x => x.ParkingSlot.ParkingZoneId == parkingZoneId && x.IsActive);
+            return reservations;
+        }
     }
 }

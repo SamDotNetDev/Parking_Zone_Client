@@ -21,7 +21,7 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item" style="margin-left: 10px; margin-bottom: 10px">
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">
                                     <i class="fas fa-info-circle"></i> Details
                                 </a>
                             </li>
@@ -33,6 +33,11 @@
                             <li class="nav-item" style="margin-left: 10px;">
                                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" tabindex="-1" aria-disabled="true">
                                     <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left: 10px;">
+                                <a asp-action="CurrentCars" asp-route-id="@item.Id" class="btn btn-outline-success" tabindex="-1" aria-disabled="true">
+                                    <i class="fas fa-car"></i> Current Cars
                                 </a>
                             </li>
                         </ul>

@@ -43,7 +43,6 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             var expectedParkingSlots = new List<ParkingSlot>() { _parkingSlotsTest };
 
             _zoneService.Setup(x => x.GetById(Id));
-            _slotService.Setup(x => x.GetByParkingZoneId(Id));
 
             //Act
             var result = _controller.Index(Id);
@@ -51,7 +50,6 @@ namespace Tests.Admin.ParkingSlotTests.Controllers
             //Assert
             Assert.NotNull(result);
             Assert.IsType<NotFoundResult>(result);
-            _slotService.Verify(x => x.GetByParkingZoneId(Id), Times.Once);
             _zoneService.Verify(x => x.GetById(Id), Times.Once);
         }
 
