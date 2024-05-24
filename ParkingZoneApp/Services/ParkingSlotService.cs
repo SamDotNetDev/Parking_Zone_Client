@@ -60,14 +60,5 @@ namespace ParkingZoneApp.Services
             }
             return query;
         }
-
-        public IEnumerable<Reservation> GetAllReservationsByParkingZoneId(int parkingZoneId)
-        {
-            var reservations = _repository.GetAll()
-                .Where(x => x.ParkingZoneId == parkingZoneId)
-                .SelectMany(slot => slot.Reservations)
-                .Where(reservation => reservation.IsActive);
-            return reservations;
-        }
     }
 }

@@ -166,21 +166,5 @@ namespace Tests.Admin.ParkingSlotTests.Services
             Assert.NotNull(result);
             Assert.IsAssignableFrom<IQueryable<ParkingSlot>>(result);
         }
-
-        [Fact]
-        public void GivenParkingZoneId_WhenGetAllReservationsByParkingZoneIdIsCalled_ThenReturnsReservations()
-        {
-            //Arrange
-            List<ParkingSlot> parkingSlots = new();
-            _repository.Setup(x => x.GetAll()).Returns(parkingSlots);
-
-            //Act
-            var result = _service.GetAllReservationsByParkingZoneId(Id);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<IEnumerable<Reservation>>(result);
-            _repository.Verify(x => x.GetAll(), Times.Once());
-        }
     }
 }

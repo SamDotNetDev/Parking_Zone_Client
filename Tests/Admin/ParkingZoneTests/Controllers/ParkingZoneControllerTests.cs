@@ -11,7 +11,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
     public class ParkingZoneControllerTests
     {
         private readonly Mock<IParkingZoneService> _zoneService;
-        private readonly Mock<IParkingSlotService> _slotService;
+        private readonly Mock<IReservationService> _reservationService;
         private readonly ParkingZoneController _controller;
         private readonly ParkingZone _parkingZoneTest;
         private readonly Reservation _reservationTest;
@@ -21,8 +21,8 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         public ParkingZoneControllerTests()
         {
             _zoneService = new Mock<IParkingZoneService>();
-            _slotService = new Mock<IParkingSlotService>();
-            _controller = new ParkingZoneController(_zoneService.Object, _slotService.Object);
+            _reservationService = new Mock<IReservationService>();
+            _controller = new ParkingZoneController(_zoneService.Object, _reservationService.Object);
             _reservationTest = new Reservation();
             _parkingSlotTest = new() { Reservations = new[] { _reservationTest } };
             _parkingZoneTest = new()
@@ -312,7 +312,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
         {
             List<Reservation> reservations = new();
             _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
-            _slotService.Setup(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id)).Returns(reservations);
+            _reservationService.Setup(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id)).Returns(reservations);
 
             //Act
             var result = _controller.CurrentCars(Id);
@@ -322,7 +322,7 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             var model = Assert.IsType<ViewResult>(result).Model;
             Assert.IsAssignableFrom<IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.CurrentCarsVM>>(model);
             _zoneService.Verify(x => x.GetById(Id), Times.Once);
-            _slotService.Verify(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id), Times.Once);
+            _reservationService.Verify(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id), Times.Once);
         }
         #endregion
     }

@@ -11,12 +11,12 @@ namespace ParkingZoneApp.Areas.Admin
     public class ParkingZoneController : Controller
     {
         private readonly IParkingZoneService _zoneService;
-        private readonly IParkingSlotService _slotService;
+        private readonly IReservationService _reservationService;
 
-        public ParkingZoneController(IParkingZoneService zoneService, IParkingSlotService slotService)
+        public ParkingZoneController(IParkingZoneService zoneService, IReservationService reservationService)
         {
             _zoneService = zoneService;
-            _slotService = slotService;
+            _reservationService = reservationService;
         }
 
         // GET: Admin/ParkingZone
@@ -134,7 +134,7 @@ namespace ParkingZoneApp.Areas.Admin
             }
 
             ViewData["ParkingZoneName"] = parkingZone.Name;
-            var reservations = _slotService.GetAllReservationsByParkingZoneId(parkingZone.Id);
+            var reservations = _reservationService.GetAllReservationsByParkingZoneId(parkingZone.Id);
             var VMs = reservations.Select(x => new ViewModels.ParkingSlotVMs.CurrentCarsVM(x));
 
             return View(VMs);
