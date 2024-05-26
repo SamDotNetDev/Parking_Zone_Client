@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ParkingZoneApp.Areas.Admin;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Models;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingZonesVMs;
@@ -323,6 +324,43 @@ namespace Tests.Admin.ParkingZoneTests.Controllers
             Assert.IsAssignableFrom<IEnumerable<ParkingZoneApp.ViewModels.ParkingSlotVMs.CurrentCarsVM>>(model);
             _zoneService.Verify(x => x.GetById(Id), Times.Once);
             _reservationService.Verify(x => x.GetAllReservationsByParkingZoneId(_parkingZoneTest.Id), Times.Once);
+        }
+        #endregion
+
+        #region
+        [Fact]
+        public void GivenPeriodAndZoneId_WhenGetZoneFinanceDataIsCalled_ThenReturnsNotFound()
+        {
+            //Arrange
+            PeriodEnum period = PeriodEnum.AllTime;
+            _zoneService.Setup(x => x.GetById(Id));
+
+            //Act
+            var result = _controller.GetZoneFinanceData(period, Id);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public void GivenPeriodAndZoneId_WhenGetZoneFinanceDataIsCalled_ThenReturnsJsonResult()
+        {
+            //Arrange
+            ZoneFinanceData financeData = new ZoneFinanceData();
+            PeriodEnum period = PeriodEnum.AllTime;
+            _zoneService.Setup(x => x.GetById(Id)).Returns(_parkingZoneTest);
+            _zoneService.Setup(x => x.GetZoneFinanceDataByPeriod(period, _parkingZoneTest)).Returns(financeData);
+
+            //Act
+            var result = _controller.GetZoneFinanceData(period, Id);
+
+            //Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<JsonResult>(result).Value;
+            Assert.IsType<ZoneFinanceData>(model);
+            _zoneService.Verify(x => x.GetById(Id), Times.Once);
+            _zoneService.Verify(x => x.GetZoneFinanceDataByPeriod(period, _parkingZoneTest), Times.Once);
         }
         #endregion
     }
