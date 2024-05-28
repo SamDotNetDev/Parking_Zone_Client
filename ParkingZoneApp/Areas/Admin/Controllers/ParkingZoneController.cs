@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ParkingZoneApp.Enums;
 using ParkingZoneApp.Services;
 using ParkingZoneApp.ViewModels.ParkingZonesVMs;
 
@@ -25,6 +26,17 @@ namespace ParkingZoneApp.Areas.Admin
             var parkingZones = _zoneService.GetAll();
             var Vms = parkingZones.Select(x => new ListItemVM(x));
             return View(Vms);
+        }
+
+        public IActionResult GetZoneFinanceData(PeriodEnum periodOption, int zoneId)
+        {
+            var zone = _zoneService.GetById(zoneId);
+
+            if (zone is null)
+                return NotFound();
+
+            var data = _zoneService.GetZoneFinanceDataByPeriod(periodOption, zone);
+            return Json(data);
         }
 
         // GET: Admin/ParkingZone/Details/5

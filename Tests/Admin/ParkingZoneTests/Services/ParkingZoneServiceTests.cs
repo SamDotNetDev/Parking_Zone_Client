@@ -3,6 +3,8 @@ using ParkingZoneApp.Services;
 using ParkingZoneApp.Repositories;
 using ParkingZoneApp.Models;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using ParkingZoneApp.Enums;
 
 namespace Tests.Admin.ParkingZoneTests.Services
 {
@@ -12,17 +14,20 @@ namespace Tests.Admin.ParkingZoneTests.Services
         private readonly IParkingZoneService _service;
         private readonly ParkingZone _ParkingZoneTest;
         private readonly int Id = 1;
+        private readonly ICollection<ParkingSlot> _parkingSlots;
 
         public ParkingZoneServiceTests()
         {
             _repository = new Mock<IParkingZoneRepository>();
             _service = new ParkingZoneService(_repository.Object);
+            _parkingSlots = new List<ParkingSlot>();
             _ParkingZoneTest = new()
             {
                 Id = 1,
                 Name = "Test",
                 Address = "Test Address",
-                DateOfEstablishment = DateTime.Now
+                DateOfEstablishment = DateTime.Now,
+                ParkingSlots = _parkingSlots
             };
         }
 
@@ -103,6 +108,22 @@ namespace Tests.Admin.ParkingZoneTests.Services
             var model = Assert.IsType<ParkingZone>(result);
             _repository.Verify(x => x.GetById(Id), Times.Once());
             Assert.Equal(JsonSerializer.Serialize(_ParkingZoneTest), JsonSerializer.Serialize(model));
+        }
+        #endregion
+
+        #region GetZoneFinanceData
+        [Fact]
+        public void GivenPeriodAndParkingZone_WhenGetZoneFinanceDataByPeriodIsCalled_ThenReturnsFilteredZoneFinanceData()
+        {
+            //Arrange
+            PeriodEnum period = PeriodEnum.AllTime;
+
+            //Act
+            var result = _service.GetZoneFinanceDataByPeriod(period, _ParkingZoneTest);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsAssignableFrom<ZoneFinanceData>(result);
         }
         #endregion
     }

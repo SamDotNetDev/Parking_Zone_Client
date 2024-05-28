@@ -1,9 +1,17 @@
-﻿@model IEnumerable<ParkingZoneApp.ViewModels.ParkingZonesVMs.ListItemVM>
+﻿@using ParkingZoneApp.Enums
+@model IEnumerable<ParkingZoneApp.ViewModels.ParkingZonesVMs.ListItemVM>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .d-inline-block {
+        display: inline-block;
+        margin-right: 70px;
+    }
+</style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="~/css/style.css" />
@@ -45,16 +53,72 @@
                     <div class="card-body" style="text-align: left;">
                         <h4 style="text-align: center;">Parking Zone: @item.Name </h4>
                         <hr />
-                        <h6>
+                        <h6 class="d-inline-block">
                             <strong>Address:</strong> @item.Address <br />
                             <strong>Number of total slots:</strong> @item.ParkingSlots.Count() <br>
                             <strong>Number of slots currently in use:</strong> @item.SlotsInUse <br>
                             <strong>Number of free slots:</strong> @item.FreeSlots
                         </h6>
-                        <a href="@Url.Action("Index", "ParkingSlot", new { ParkingZoneId = item.Id })" class=" btn btn-outline-success slot" tabindex="-1" aria-disabled="true">&laquo; Go to slots &raquo;</a>
+                        <div style="flex: 1; margin-left: 200px;" class="d-inline-block">
+                            <div class="card-body finance-block">
+                                <h3>Finance summary </h3>
+                                <div class="zone-block" id="zone-block_@item.Id" style="display: flex; align-items: center;">
+                                    <label style="margin-right: 10px;">Period For: </label>
+                                    <select asp-items="Html.GetEnumSelectList<PeriodEnum>()" class="form-select" style="width: 200px;"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="finance-summary" style="text-align: center">
+                            @foreach (var category in Enum.GetValues(typeof(SlotCategoryEnum)))
+                            {
+                                <h6 class="d-inline-block"><b>@category</b> hours reserved: <label class="@category-placeholder"></label></h6>
+                            }
+                        </div>
+                        <br />
+                        <div>
+                            <a href="@Url.Action("Index", "ParkingSlot", new { ParkingZoneId = item.Id })" class="btn btn-outline-success slot" tabindex="-1" aria-disabled="true">&laquo; Go to slots &raquo;</a>
+                        </div>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.finance-block select').change(function () {
+            var period = $(this).val();
+            var zoneId = $(this).closest(".zone-block").attr("id").split("_")[1];
+            var $this = $(this);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetZoneFinanceData", "ParkingZone")',
+                data: { periodOption: period, zoneId: zoneId },
+                success: function (data) {
+                    console.log("Data received:", data); // Debugging
+                    if (data && data.categoryHours) {
+                        Object.keys(data.categoryHours).forEach(function (key) {
+                            var value = data.categoryHours[key];
+                            // Use key and add '-placeholder' suffix to target the correct elements
+                            var placeholderClass = "." + key + "-placeholder";
+                            var placeholderElement = $this.closest(".card").find(placeholderClass);
+                            placeholderElement.text(value);
+                        });
+                    } else {
+                        console.error("Unexpected data format:", data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+
+        // Trigger change event to load initial data
+        $('.finance-block select').trigger('change');
+    });
+</script>
