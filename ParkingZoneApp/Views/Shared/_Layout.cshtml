@@ -30,6 +30,12 @@
                             <a class="nav-link text-dark" href="/Reservation/FreeSlots">Reservation</a>
                         </li>
                         <li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="ParkingZone" asp-action="Index">Zones</a>
+                            }
+                        </li>
+                        <li>
                             @if (User.IsInRole("User"))
                             {
                                 <a class="nav-link text-dark" asp-area="User" asp-controller="Reservation" asp-action="Index">My Reservations</a>
