@@ -4,10 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<style>
+    .form-container {
+        background-color: rgba(211, 211, 211, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px; /* Adjust as needed */
+        margin: auto;
+        margin-top: 105px;
+        text-align: center;
+    }
 
-<div>
-    <h4>ParkingSlot</h4>
+        .form-container dl {
+            text-align: left; /* Align text to the left within dl elements */
+        }
+</style>
+
+<br />
+<div class="form-container">
+    <h4>Parking Slot Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-12">
@@ -24,7 +39,11 @@
             </label>
         </dt>
         <dd class="col-sm-12">
-            @Html.DisplayFor(model => model.IsAvailableForBooking)
+            @if (Model.IsAvailableForBooking)
+                @Html.DisplayName("Yes")
+
+            else
+                @Html.DisplayName("No")
         </dd>
         <dt class="col-sm-12">
             <label>
@@ -35,8 +54,8 @@
             @Html.DisplayFor(model => model.Category)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
-    <a asp-action="Index" asp-route-ParkingZoneId="@ViewData["ParkingZoneId"]" class="btn btn-outline-secondary">Back to List</a>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" asp-route-ParkingZoneId="@ViewData["ParkingZoneId"]" class="btn btn-dark">Back to List</a>
+    </div>
 </div>

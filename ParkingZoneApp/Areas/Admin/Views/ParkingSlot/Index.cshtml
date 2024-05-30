@@ -12,7 +12,7 @@
         margin: 25px 0;
         font-size: 0.9em;
         min-width: 400px;
-        border-radius: 5px 5px 0 0;
+        border-radius: 10px 10px 10px 10px;
         overflow: hidden;
         box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
@@ -64,20 +64,20 @@
     }
 </style>
 
-<h1>Slots for @ViewData["Name"]</h1>
+<h1 style="color: white">Slots for @ViewData["Name"]</h1>
 
 <button class="button-34" onclick="location.href='@Url.Action("Index","ParkingZone")'">Back</button>
 <button class="button-34" onclick="location.href='@Url.Action("Create", "ParkingSlot", new { parkingZoneId = ViewData["ParkingZoneId"] })'">Create New</button>
 
 <div style="margin-top: 30px;">
     <div style="display: inline-block;">
-        @Html.Label("categoryFilter", "Category:")
+        <b>@Html.Label("categoryFilter", "Category:")</b>
         <select id="categoryFilter" class="form-select" asp-items="Html.GetEnumSelectList<SlotCategoryEnum>()">
             <option value="">All</option>
         </select>
     </div>
     <div style="display: inline-block; margin-left: 50px;">
-        @Html.Label("isSlotFreeFilter", "Is Slot Free:")
+        <b>@Html.Label("isSlotFreeFilter", "Is Slot Free:")</b>
         <select id="isSlotFreeFilter" class="form-select">
             <option value="">All</option>
             <option value="true">Yes</option>
@@ -100,7 +100,7 @@
         </tr>
     </thead>
 
-    <tbody id="slotTableBody">
+    <tbody style="background-color: rgba(255, 255, 255)" id="slotTableBody">
         @foreach (var item in Model)
         {
             <tr>

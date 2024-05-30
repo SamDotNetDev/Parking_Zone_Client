@@ -4,10 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<style>
+    .form-container {
+        background-color: rgba(211, 211, 211, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px; /* Adjust as needed */
+        margin: auto;
+        margin-top: 105px;
+        text-align: center;
+    }
 
-<div>
-    <h4>ParkingZone</h4>
+        .form-container dl {
+            text-align: left; /* Align text to the left within dl elements */
+        }
+</style>
+
+
+<div class="form-container">
+    <h4>Parking Zone Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-12">
@@ -29,8 +44,9 @@
             @Html.DisplayFor(model => model.DateOfEstablishment)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
-    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    <br />
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-dark">Back to List</a>
+    </div>
 </div>

@@ -5,13 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Prolong</h1>
+<style>
+    .form-container {
+        background-color: rgba(211, 211, 211, 0.7);
+        padding: 12px 15px;
+        border-radius: 20px;
+        margin-top: 85px;
+    }
 
-<h4>Reservation</h4>
+    .form-content {
+        width: 100%;
+    }
+</style>
+
+<h1 style="color: white; text-align: center">Prolong Reservation</h1>
+
 <hr />
 
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-md-4 form-container">
         <form asp-action="Prolong">
             <input type="hidden" value="@Model.ReservationId" asp-for="ReservationId" />
             <input type="hidden" value="@Model.EndTime" asp-for="EndTime" />
@@ -47,7 +59,7 @@
             <br>
             <div class="form-group">
                 <input type="submit" value="Prolong" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
             </div>
         </form>
     </div>

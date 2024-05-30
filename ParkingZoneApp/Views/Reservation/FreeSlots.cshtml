@@ -11,7 +11,7 @@
         margin: 25px 0;
         font-size: 0.9em;
         min-width: 400px;
-        border-radius: 5px 5px 0 0;
+        border-radius: 10px 10px 10px 10px;
         overflow: hidden;
         box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
@@ -41,9 +41,9 @@
             }
 </style>
 
-<h4>Reserve Parking Slot</h4>
+<h4 style="color: white">Reserve Parking Slot</h4>
 <hr />
-<div class="row">
+<div style="background-color: rgba(211, 211, 211, 0.7); padding: 12px 15px; border-radius: 10px 10px 10px 10px;" class="row">
     <div class="col-md">
         <form asp-action="FreeSlots">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -65,7 +65,7 @@
                 <div style="display: inline-block; margin-left: 50px;">
                     <input type="submit" value="Select" class="btn btn-primary" />
                     <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
-                    <span style="margin-left: 20px" asp-validation-for="StartTime" class="text-danger"></span>
+                    <span style="margin-left: 20px;" asp-validation-for="StartTime" class="text-danger"></span>
                     <span style="margin-left: 20px" asp-validation-for="Duration" class="text-danger"></span>
                 </div>
             </div>
@@ -91,7 +91,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody style="background-color: rgba(255, 255, 255);">
             @foreach (var item in Model.ParkingSlots)
             {
                 <tr>
@@ -113,7 +113,16 @@
 }
 else if (Model.ParkingSlots is not null && Model.ParkingSlots.Count() == 0)
 {
-    <h1>There are not available Slots for selected time period</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <h1>There are not available Slots for selected time period</h1>
+                </th>
+            </tr>
+        </thead>
+    </table>
+    
 }
 
 @section Scripts
