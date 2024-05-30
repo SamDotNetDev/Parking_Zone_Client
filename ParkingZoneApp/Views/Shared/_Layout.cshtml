@@ -27,7 +27,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li>
-                            <a class="nav-link text-dark" href="/Reservation/FreeSlots">Reservation</a>
+                            @if (!User.IsInRole("SuperAdmin"))
+                            {
+                                <a class="nav-link text-dark" href="/Reservation/FreeSlots">Reservation</a>
+                            }
                         </li>
                         <li>
                             @if (User.IsInRole("Admin"))
@@ -39,6 +42,12 @@
                             @if (User.IsInRole("User"))
                             {
                                 <a class="nav-link text-dark" asp-area="User" asp-controller="Reservation" asp-action="Index">My Reservations</a>
+                            }
+                        </li>
+                        <li>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="SuperAdmin" asp-action="Index">Users</a>
                             }
                         </li>
                     </ul>
