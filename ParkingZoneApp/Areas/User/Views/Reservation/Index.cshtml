@@ -12,7 +12,7 @@
         margin: 25px 0;
         font-size: 0.9em;
         min-width: 400px;
-        border-radius: 5px 5px 0 0;
+        border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
@@ -31,10 +31,6 @@
 
     .table tbody tr {
         border-bottom: 1px solid #dddddd;
-    }
-
-    .table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3
     }
 
     .table tbody tr:last-of-type {
@@ -70,7 +66,7 @@
 }
 else
 {
-    <h1>Reservations</h1>
+    <h1 style="color: white">Reservations</h1>
     <table class="table">
         <thead>
             <tr>
@@ -83,7 +79,7 @@ else
             </tr>
         </thead>
 
-        <tbody>
+        <tbody style="background-color: rgba(255, 255, 255);">
             @foreach (var item in Model)
             {
                 <tr class=@((item.IsActive) ? "table-success" : "")>

@@ -11,14 +11,23 @@
     .control-label {
         font-size: 18px;
     }
+    .form-container {
+        background-color: rgba(211, 211, 211, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 105px;
+    }
+
+    .form-content {
+        width: 100%;
+    }
 </style>
 
-<h1>Create</h1>
-
-<h4>ParkingSlot</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<br />
+<div class="row justify-content-center">
+    <div class="col-md-4 form-container">
+        <h4 style="text-align: center">Create Parking Slot</h4>
+        <hr />
         <form asp-action="Create">
             <input type="hidden" value="@Model.ParkingZoneId" asp-for="ParkingZoneId"/>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -41,7 +50,7 @@
             <br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" asp-route-ParkingZoneId="@Model.ParkingZoneId" class="btn btn-outline-secondary">Back to List</a>
+                <a asp-action="Index" asp-route-ParkingZoneId="@Model.ParkingZoneId" class="btn btn-dark">Back to List</a>
             </div>
         </form>
     </div>

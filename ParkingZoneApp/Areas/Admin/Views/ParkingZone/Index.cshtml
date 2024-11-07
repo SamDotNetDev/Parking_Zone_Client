@@ -25,8 +25,8 @@
         @foreach (var item in Model)
         {
             <div class="col-md-10 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">
+                <div style="background-color: rgb(219, 219, 219, 0.7); border-radius: 20px;" class="card text-center">
+                    <div style="background-color: rgba(255,255,255, 0.7); border-radius: 20px 20px 0 0" class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item" style="margin-left: 10px; margin-bottom: 10px">
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">

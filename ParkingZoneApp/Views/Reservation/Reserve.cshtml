@@ -1,11 +1,13 @@
 ﻿@model ParkingZoneApp.ViewModels.ReservationVMs.ReserveVM
 @if (string.IsNullOrEmpty(ViewBag.SuccessMessage))
 {
-    <div class="row">
-        <h2>@Model.ParkingZoneName , @Model.ParkingZoneAddress</h2>
-        <h6>Slot Number: @Model.ParkingSlotNumber</h6>
-        <hr />
-        <div class="col-md-4">
+    <div class="row justify-content-center">
+        <h2 style="color: white; text-align: center">@Model.ParkingZoneName , @Model.ParkingZoneAddress</h2>
+        <h6 style="color: white; text-align: center">Slot Number: @Model.ParkingSlotNumber</h6>
+
+        <div style="background-color: rgba(211, 211, 211, 0.7); padding: 30px; border-radius: 10px; margin-top: 105px;" class="col-md-4">
+            <h4 style="text-align: center">ParkingSlot</h4>
+            <hr />
             <form asp-action="Reserve">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="ParkingSlotId" />

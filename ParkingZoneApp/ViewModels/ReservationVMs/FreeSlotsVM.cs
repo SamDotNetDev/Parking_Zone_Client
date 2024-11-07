@@ -8,6 +8,7 @@ namespace ParkingZoneApp.ViewModels.ReservationVMs
     public class FreeSlotsVM
     {
         [Required]
+        [Display(Name = "Start Time")]
         public DateTime StartTime { get; set; }
 
         [Required]
@@ -15,6 +16,7 @@ namespace ParkingZoneApp.ViewModels.ReservationVMs
         public int Duration { get; set; }
 
         [Required]
+        [Display(Name = "Parking Zone")]
         public int ParkingZoneId { get; set; }
 
         public SelectList ParkingZones { get; set; }
