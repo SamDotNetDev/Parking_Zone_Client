@@ -14,7 +14,6 @@ namespace ParkingZoneApp.Enums
         Last7Days,
 
         [Display(Name = "Last 30 Days")]
-        Last30Days
-
+        Last30Days 
     }
 }
